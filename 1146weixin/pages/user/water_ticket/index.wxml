@@ -1,0 +1,45 @@
+<view class="container">
+  <!-- 水票余额 -->
+  <view class="ticket-header">
+    <view class="ticket-header__label">
+      <text>我的水票（张）</text>
+    </view>
+    <view class="ticket-header__num">
+      <text>{{ balance }}</text>
+    </view>
+    <view class="ticket-header__tip">
+      <text>1 张水票可抵扣 1 桶桶装水，下单门店配送时使用</text>
+    </view>
+  </view>
+
+  <!-- 变动流水 -->
+  <view class="ticket-log">
+    <view class="ticket-log__title">
+      <text>水票明细</text>
+    </view>
+    <scroll-view bindscrolltolower="onPageDown" scroll-y style="height: {{ scrollHeight }}px">
+      <view wx:for="{{ list.data }}" wx:key="this" class="log-item dis-flex flex-x-between flex-y-center">
+        <view class="item-left flex-box">
+          <view class="log-describe">
+            <text>{{ item.describe }}</text>
+          </view>
+          <view class="log-time">
+            <text>{{ item.create_time }}</text>
+          </view>
+        </view>
+        <view class="item-right {{ item.num > 0 ? 'col-green' : 'col-6' }}">
+          <text>{{ item.num > 0 ? '+' : '' }}{{ item.num }}</text>
+        </view>
+      </view>
+      <!-- 没有记录 -->
+      <view class="yoshop-notcont" wx:if="{{ !list.data.length && !isLoading }}">
+        <text class="iconfont icon-wushuju"></text>
+        <text class="cont">亲，暂无水票明细哦</text>
+      </view>
+      <!-- 没有更多 -->
+      <view class="no-more f-24 col-9" wx:if="{{ no_more && list.data.length }}">
+        <text>没有更多了</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

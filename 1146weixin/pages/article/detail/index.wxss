@@ -1,0 +1,254 @@
+page {
+  background: #f7f7f7;
+}
+
+.container {
+  padding: 20rpx 24rpx 0;
+}
+
+.cover-card {
+  /* 封面图作为内容流顶层元素：上/左/右 抵消 .container padding 实现贴边，
+     底部间距统一交给下方正文卡片控制，避免封面与正文间出现双重边距 */
+  background: transparent;
+  margin: -20rpx -24rpx 0;
+  padding: 0;
+}
+.cover-swiper {
+  width: 100%;
+  border-radius: 0;
+  overflow: hidden;
+}
+/* swiper-item 垂直水平居中，图片高度不一致时上下居中 */
+.cover-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.cover-cell {
+  display: block;
+  width: 100%;
+}
+
+.article-detail {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  /* 封面图上下均不留边距：紧贴封面图，左右抵消 .container padding 贴边 */
+  margin: 0 -24rpx 0;
+}
+
+.article-img {
+  line-height: 0;
+  font-size: 0;
+  background: #f0f0f0;
+}
+.article-img .image {
+  width: 100%;
+  display: block;
+  vertical-align: top;
+}
+
+.article-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.4;
+}
+
+.article-info {
+  margin: 16rpx 0 24rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+.article-info text {
+  margin-right: 24rpx;
+}
+
+.article-content {
+  font-size: 28rpx;
+  color: #444;
+  line-height: 1.8;
+  /* 内容区左右各保留 3px 间距（3px ≈ 6rpx），不突破卡片 padding */
+  margin: 0 6rpx;
+  /* 兜底：裁切任何超出内容区宽度的元素（富文本图片等） */
+  overflow: hidden;
+  width: auto;
+  box-sizing: border-box;
+}
+.article-content img {
+  display: block;
+  /* 在卡片内铺满，不超过卡片宽度，避免溢出屏幕 */
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 16rpx 0;
+  border-radius: 8rpx;
+}
+.article-content rich-text {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ===== 评论区 ===== */
+.comment-block {
+  margin-top: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+.comment-head {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 16rpx;
+}
+.comment-list {
+  display: flex;
+  flex-direction: column;
+}
+.comment-item {
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.c-avatar {
+  flex: 0 0 auto;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8a8c, #ff3d3f);
+  color: #fff;
+  font-size: 30rpx;
+  text-align: center;
+  line-height: 64rpx;
+  margin-right: 18rpx;
+}
+.c-main {
+  flex: 1;
+}
+.c-name {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 600;
+}
+.c-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  margin: 8rpx 0;
+}
+.c-time {
+  font-size: 22rpx;
+  color: #bbb;
+}
+.c-more {
+  text-align: center;
+  color: #999;
+  font-size: 24rpx;
+  padding: 24rpx 0 8rpx;
+}
+.comment-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 26rpx;
+  padding: 40rpx 0;
+}
+
+.flow {
+  height: 120rpx;
+}
+
+/* ===== 底部互动栏 ===== */
+.action-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  padding: 0 20rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.04);
+  z-index: 20;
+}
+.ab-input {
+  flex: 1;
+  height: 68rpx;
+  line-height: 68rpx;
+  padding: 0 24rpx;
+  background: #f2f2f2;
+  border-radius: 34rpx;
+  color: #999;
+  font-size: 26rpx;
+}
+.ab-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 96rpx;
+  color: #666;
+  font-size: 22rpx;
+}
+.ab-ico {
+  display: block;
+  font-size: 36rpx;
+  line-height: 1;
+}
+.ab-num {
+  display: block;
+  margin-left: 8rpx;
+  font-size: 24rpx;
+  line-height: 1;
+}
+.ab-btn.liked {
+  color: #ff3d3f;
+}
+
+/* ===== 评论输入弹层 ===== */
+.comment-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 30;
+}
+.comment-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 20rpx 20rpx calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  box-sizing: border-box;
+}
+.comment-textarea {
+  flex: 1;
+  height: 160rpx;
+  padding: 16rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+.comment-send {
+  flex: 0 0 auto;
+  margin-left: 16rpx;
+  padding: 0 32rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  background: linear-gradient(135deg, #ff6a6c, #ff3d3f);
+  color: #fff;
+  border-radius: 36rpx;
+  font-size: 28rpx;
+}

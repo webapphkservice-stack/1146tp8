@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "diy-component": "/components/diy/index",
+    "capsule-menu": "/components/capsuleMenu/capsuleMenu"
+  }
+}

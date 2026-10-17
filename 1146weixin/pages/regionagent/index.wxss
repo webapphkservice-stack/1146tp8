@@ -1,0 +1,105 @@
+.container {
+  padding-bottom: 40rpx;
+}
+
+.ra-detail {
+  border-radius: 12rpx;
+  padding: 30rpx;
+}
+
+.ra-detail-head {
+  margin-bottom: 16rpx;
+}
+
+.ra-detail-title {
+  font-weight: 600;
+}
+
+.ra-detail-region {
+  margin: 10rpx 0;
+}
+
+.ra-detail-contract {
+  margin-top: 10rpx;
+}
+
+.ra-detail-money {
+  margin-top: 24rpx;
+}
+
+.ra-money-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ra-money-value {
+  font-weight: 600;
+}
+
+.ra-money-name {
+  margin-top: 8rpx;
+}
+
+.ra-fee {
+  margin-top: 24rpx;
+}
+
+.ra-fee-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ra-fee-value {
+  font-weight: 600;
+  color: #fd4a5f;
+}
+
+.ra-fee-name {
+  margin-top: 8rpx;
+}
+
+.ra-apply-btn {
+  margin-top: 36rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  text-align: center;
+  background: #fd4a5f;
+  color: #fff;
+  border-radius: 42rpx;
+  font-size: 30rpx;
+}
+
+.ra-tip {
+  padding: 30rpx;
+  text-align: center;
+}
+
+/* 区域代理状态徽标 */
+.ra-status {
+  padding: 4rpx 18rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+}
+
+.ra-status-103 {
+  background: #e8f8ec;
+  color: #36b350;
+}
+
+.ra-status-101,
+.ra-status-102 {
+  background: #fff4e5;
+  color: #ff8a00;
+}
+
+.ra-status-104 {
+  background: #fde8e8;
+  color: #e64340;
+}
+
+.ra-status-pending {
+  background: #f0f0f0;
+  color: #999;
+}

@@ -1,0 +1,22 @@
+.container { padding: 24rpx; background: #f5f5f5; min-height: 100vh; box-sizing: border-box; }
+.taxi-header { padding: 16rpx 8rpx 24rpx; }
+.taxi-title { font-size: 36rpx; font-weight: bold; color: #333; }
+.taxi-sub { font-size: 24rpx; color: #999; margin-top: 8rpx; }
+.order-card { background: #fff; border-radius: 16rpx; padding: 24rpx; margin-bottom: 24rpx; }
+.order-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16rpx; border-bottom: 1rpx solid #f0f0f0; }
+.order-no { font-size: 26rpx; color: #666; }
+.order-status { font-size: 24rpx; padding: 4rpx 14rpx; border-radius: 20rpx; color: #fff; background: #999; }
+.status-0 { background: #ff9800; }
+.status-1 { background: #2196f3; }
+.status-2 { background: #4caf50; }
+.status-3 { background: #bbb; }
+.order-row { display: flex; align-items: flex-start; padding: 12rpx 0; }
+.order-label { width: 220rpx; font-size: 26rpx; color: #999; flex-shrink: 0; }
+.order-value { flex: 1; font-size: 26rpx; color: #333; text-align: right; }
+.order-price { flex: 1; font-size: 30rpx; font-weight: bold; color: #f44; text-align: right; }
+.order-time { font-size: 24rpx; color: #bbb; margin-top: 12rpx; }
+.empty { text-align: center; color: #999; padding: 80rpx 0; font-size: 28rpx; }
+.submit-btn { margin-top: 8rpx; background: #ff9800; color: #fff; text-align: center; font-size: 30rpx; font-weight: bold; padding: 26rpx 0; border-radius: 16rpx; }
+.dispatch-card { background: #fffdf7; border: 1rpx solid #ffe0b2; border-left: 8rpx solid #ff9800; border-radius: 12rpx; padding: 20rpx 24rpx; margin-bottom: 24rpx; }
+.dc-title { font-size: 26rpx; font-weight: bold; color: #ff9800; margin-bottom: 8rpx; }
+.dc-info { font-size: 28rpx; color: #333; line-height: 1.5; word-break: break-all; }

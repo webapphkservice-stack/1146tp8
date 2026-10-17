@@ -1,0 +1,331 @@
+@import "../../wxParse/wxParse.wxss";
+
+/* 页面容器 */
+.container {
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 编辑栏 */
+.cart-edit-wrap {
+  padding: 20rpx 30rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 24rpx;
+  background: #f5f7fa;
+  border-radius: 30rpx;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:active {
+  transform: scale(0.95);
+  background: #e8ecf5;
+}
+
+.edit-btn .iconfont {
+  font-size: 28rpx;
+  color: #667eea;
+  margin-right: 8rpx;
+}
+
+.edit-btn .edit-text {
+  font-size: 28rpx;
+  color: #667eea;
+  font-weight: 500;
+}
+
+/* 完成按钮样式 */
+.edit-btn.complete {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.edit-btn.complete .iconfont,
+.edit-btn.complete .edit-text {
+  color: #667eea;
+}
+
+/* 商品列表 */
+.flow-list {
+  padding: 0 20rpx 140rpx;
+}
+
+/* 商品卡片 */
+.dish-item {
+  width: 100%;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  position: relative;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+  transition: transform 0.2s ease;
+}
+
+.dish-item:active {
+  transform: scale(0.98);
+}
+
+.dish-item-radio {
+  padding: 0;
+  margin-right: 20rpx;
+}
+
+.dish-item-radio radio {
+  transform: scale(0.9);
+}
+
+.dish-item-wrp {
+  flex-direction: row;
+  flex: 1;
+}
+
+/* 商品图片 */
+.dish-item-pic {
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #f8f8f8;
+  flex-shrink: 0;
+}
+
+.dish-item-pic image {
+  width: 180rpx;
+  height: 180rpx;
+  display: block;
+}
+
+/* 商品信息 */
+.dish-item-info {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dish-item-info .goods-name {
+  margin-bottom: 12rpx;
+}
+
+.dish-item-info .goods-name text {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.goods-attr {
+  margin-bottom: 20rpx;
+}
+
+.goods-attr text {
+  font-size: 24rpx;
+  color: #999;
+  background: #f5f5f5;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+/* 价格和数量 */
+.dish-item-info .dis-flex.flex-x-between {
+  align-items: center;
+}
+
+.dish-item-money {
+  color: #ff6b6b;
+  font-size: 36rpx;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.wx-goods_price {
+  flex-shrink: 0;
+}
+
+/* 数量选择器 */
+.select-number {
+  width: 200rpx;
+  height: 60rpx;
+  display: flex;
+  flex-direction: row;
+  background: #f8f8f8;
+  border-radius: 30rpx;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.select-number .default {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: #667eea;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.select-number .default:active {
+  background: #e8e8e8;
+}
+
+.select-number .disabled {
+  color: #ccc;
+}
+
+.select-number button:after {
+  content: none;
+  border: none;
+}
+
+.select-number input {
+  width: 80rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  min-width: 0;
+  background: transparent;
+}
+
+/* 底部操作栏 */
+.cart-tab-wrp {
+  height: 120rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1rpx solid #f0f0f0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  z-index: 100;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.cart-tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.checked-all {
+  display: flex;
+  align-items: center;
+}
+
+.checked-all radio {
+  transform: scale(0.9);
+  margin-right: 10rpx;
+}
+
+.checked-all text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.cart-item-total-price {
+  margin-left: 30rpx;
+}
+
+.cart-item-total-price text {
+  font-size: 32rpx;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+/* 结算/删除按钮 */
+.cart-tab-item_1 {
+  margin-left: 20rpx;
+}
+
+.cart-tab-item-btn {
+  min-width: 180rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  text-align: center;
+  border-radius: 40rpx;
+  font-weight: 500;
+  box-shadow: 0 8rpx 20rpx rgba(102, 126, 234, 0.3);
+  padding: 0 40rpx;
+}
+
+.cart-tab-item-btn:active {
+  transform: scale(0.95);
+}
+
+/* 空购物车 */
+.yoshop-notcont {
+  padding-top: 200rpx;
+  text-align: center;
+}
+
+.yoshop-notcont .icon-wushuju {
+  font-size: 120rpx;
+  color: #ddd;
+  display: block;
+  margin-bottom: 30rpx;
+}
+
+.yoshop-notcont .cont {
+  font-size: 28rpx;
+  color: #999;
+  display: block;
+}
+
+.flow-btn-min {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  width: 240rpx;
+  margin: 40rpx auto 0;
+  border-radius: 40rpx;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 8rpx 20rpx rgba(102, 126, 234, 0.3);
+}
+
+.flow-btn-min:active {
+  transform: scale(0.95);
+}
+
+/* 删除按钮 */
+.flow-dete {
+  position: absolute;
+  bottom: 30rpx;
+  right: 30rpx;
+}
+
+.flow-dete .icon-lajixiang {
+  color: #999;
+  font-size: 36rpx;
+}

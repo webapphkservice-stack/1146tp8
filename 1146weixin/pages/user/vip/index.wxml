@@ -1,0 +1,117 @@
+<view class="container">
+  <!-- 会员头部 -->
+  <view class="vip-header">
+    <view class="vip-header-top dis-flex flex-y-center">
+      <view class="vip-header-icon">
+        <text class="iconfont icon-vip"></text>
+      </view>
+      <view class="vip-header-name">
+        <text class="f-32 col-f">{{ isVip ? 'VIP会员' : '开通VIP会员' }}</text>
+      </view>
+      <view class="vip-header-status {{ isVip ? 'on' : '' }}">
+        <text class="f-22 col-f">{{ isVip ? '已开通' : '未开通' }}</text>
+      </view>
+    </view>
+    <view class="vip-header-expire f-24 col-f">
+      <block wx:if="{{ isVip }}">有效期至 {{ vipExpireDate }}</block>
+      <block wx:else>开通即可享会员专属权益</block>
+    </view>
+  </view>
+
+  <!-- 会员权益 -->
+  <view class="vip-benefits b-f">
+    <view class="benefits-title">
+      <text class="f-28 col-3">会员专属权益</text>
+    </view>
+    <view class="benefits-grid dis-flex">
+      <view class="benefits-item flex-box">
+        <text class="benefits-icon iconfont icon-goods"></text>
+        <text class="benefits-name f-24 col-6">会员专享商品</text>
+      </view>
+      <view class="benefits-item flex-box">
+        <text class="benefits-icon iconfont icon-doubleright"></text>
+        <text class="benefits-name f-24 col-6">会员日双倍积分</text>
+      </view>
+      <view class="benefits-item flex-box">
+        <text class="benefits-icon iconfont icon-ticket"></text>
+        <text class="benefits-name f-24 col-6">赠送运费券</text>
+      </view>
+      <view class="benefits-item flex-box">
+        <text class="benefits-icon iconfont icon-safe"></text>
+        <text class="benefits-name f-24 col-6">退货包运费</text>
+      </view>
+    </view>
+    <view wx:if="{{ setting.member_day }}" class="benefits-tip f-22 col-9">
+      每月 {{ setting.member_day }} 号为会员日，会员购物积分翻倍
+    </view>
+  </view>
+
+  <!-- 会员套餐 -->
+  <view class="vip-plans">
+    <view class="plans-title">
+      <text class="f-28 col-3">选择会员套餐</text>
+    </view>
+    <view class="plan-item b-f" wx:for="{{ plans }}" wx:key="plan_id">
+      <view class="plan-info">
+        <view class="plan-name f-30 col-3">
+          <text>{{ item.plan_name }}</text>
+        </view>
+        <view class="plan-desc f-24 col-9">
+          <text>有效期 {{ item.days }} 天</text>
+        </view>
+      </view>
+      <view class="plan-price">
+        <text class="f-24 col-m">￥</text>
+        <text class="f-40 col-m">{{ item.price }}</text>
+      </view>
+      <view class="plan-btn" catchtap="buy" data-plan-id="{{ item.plan_id }}">
+        <text class="f-26 col-f">{{ isVip ? '续费' : '立即开通' }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 支付方式 -->
+  <view class="pay-types b-f">
+    <view class="pay-types-title f-28 col-3">选择支付方式</view>
+    <view class="pay-type-list">
+      <view class="pay-type-item {{ payType == 60 ? 'active' : '' }}" catchtap="selectPayType" data-type="60">
+        <view class="pay-type-left">
+          <text class="pay-type-name">虚拟支付</text>
+          <text class="pay-type-desc">微信虚拟支付 · 道具直购</text>
+        </view>
+        <view class="pay-type-radio {{ payType == 60 ? 'checked' : '' }}"></view>
+      </view>
+      <view class="pay-type-item {{ payType == 70 ? 'active' : '' }}" catchtap="selectPayType" data-type="70">
+        <view class="pay-type-left">
+          <text class="pay-type-name">代币支付</text>
+          <text class="pay-type-desc">使用代币余额支付</text>
+        </view>
+        <view class="pay-type-radio {{ payType == 70 ? 'checked' : '' }}"></view>
+      </view>
+      <view class="pay-type-item {{ payType == 20 ? 'active' : '' }}" catchtap="selectPayType" data-type="20">
+        <view class="pay-type-left">
+          <text class="pay-type-name">微信支付</text>
+          <text class="pay-type-desc">微信安全支付</text>
+        </view>
+        <view class="pay-type-radio {{ payType == 20 ? 'checked' : '' }}"></view>
+      </view>
+      <view class="pay-type-item {{ payType == 10 ? 'active' : '' }}" catchtap="selectPayType" data-type="10">
+        <view class="pay-type-left">
+          <text class="pay-type-name">余额支付</text>
+          <text class="pay-type-desc">使用账户余额支付</text>
+        </view>
+        <view class="pay-type-radio {{ payType == 10 ? 'checked' : '' }}"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="vip-tip f-22 col-9">
+    支持虚拟支付、代币支付、微信支付与余额支付
+  </view>
+
+  <!-- 我的VIP订单 -->
+  <view class="vip-order-entry b-f" catchtap="goOrder">
+    <text class="f-28 col-3">我的VIP订单</text>
+    <text class="iconfont icon-xiangyoujiantou col-9"></text>
+  </view>
+</view>

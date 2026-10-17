@@ -1,0 +1,83 @@
+<view class="container">
+  <view class="taxi-header">
+    <view class="taxi-title">出租车预约</view>
+    <view class="taxi-sub">选择机场与车型，填写航班 / 酒店信息</view>
+  </view>
+
+  <view class="order-entry" bindtap="goOrder">我的出租车订单 ›</view>
+
+  <block wx:if="{{enable == 1}}">
+    <view class="card">
+      <view class="form-item">
+        <text class="label">抵达机场</text>
+        <picker mode="selector" range="{{airports}}" range-key="name" value="{{airportIndex}}" bindchange="onAirportChange">
+          <view class="picker-value">{{airports[airportIndex].name || '请选择机场'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="label">出租车类型</text>
+        <picker mode="selector" range="{{types}}" value="{{typeIndex}}" bindchange="onTypeChange">
+          <view class="picker-value">{{types[typeIndex]}}</view>
+        </picker>
+      </view>
+
+      <view class="price-box">
+        <text class="price-label">出租车价格</text>
+        <text class="price-value">{{currency}} {{price || '—'}}</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="form-item">
+        <text class="label">航班号</text>
+        <input class="input" placeholder="请输入航班号" value="{{flight_no}}" data-field="flight_no" bindinput="inputChange" />
+      </view>
+      <view class="form-item">
+        <text class="label">出发日期</text>
+        <picker mode="date" value="{{departure_time}}" data-field="departure_time" bindchange="inputChange" start="2020-01-01" end="2030-12-31">
+          <view class="picker-value">{{departure_time || '请选择出发日期'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">起飞时间</text>
+        <picker mode="time" value="{{takeoff_time}}" data-field="takeoff_time" bindchange="inputChange">
+          <view class="picker-value">{{takeoff_time || '请选择起飞时间'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">降落时间</text>
+        <picker mode="time" value="{{landing_time}}" data-field="landing_time" bindchange="inputChange">
+          <view class="picker-value">{{landing_time || '请选择降落时间'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <text class="label">酒店名称</text>
+        <input class="input" placeholder="请输入酒店名称" value="{{hotel_name}}" data-field="hotel_name" bindinput="inputChange" />
+      </view>
+      <view class="form-item">
+        <text class="label">酒店地址</text>
+        <input class="input" placeholder="请输入酒店地址" value="{{hotel_address}}" data-field="hotel_address" bindinput="inputChange" />
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="form-item">
+        <text class="label">联系人</text>
+        <input class="input" placeholder="请输入联系人姓名" value="{{contact_name}}" data-field="contact_name" bindinput="inputChange" />
+      </view>
+      <view class="form-item">
+        <text class="label">联系电话</text>
+        <input class="input" type="text" placeholder="请输入联系电话" value="{{contact_phone}}" data-field="contact_phone" bindinput="inputChange" />
+      </view>
+      <view class="form-item">
+        <text class="label">备注</text>
+        <input class="input" placeholder="选填，如行李件数" value="{{remark}}" data-field="remark" bindinput="inputChange" />
+      </view>
+    </view>
+
+    <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="onSubmit">{{submitting ? '提交中...' : '提交预约'}}</view>
+  </block>
+
+  <view wx:else class="empty">出租车服务暂未开启</view>
+</view>

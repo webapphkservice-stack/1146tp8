@@ -1,0 +1,130 @@
+<view class="container">
+  <view class="delivery-header">
+    <view class="delivery-title">马来西亚本地外送</view>
+    <view class="delivery-sub">仅面向收货地址国家为马来西亚的用户</view>
+  </view>
+
+  <!-- 出租车入口 -->
+  <view class="taxi-entry" bindtap="goTaxi">
+    <text class="taxi-entry-text">🚕 出租车预约</text>
+    <text class="taxi-entry-go">›</text>
+  </view>
+
+  <!-- 后台提示文案（外送设置里配置） -->
+  <view wx:if="{{settingNotice}}" class="delivery-notice">{{settingNotice}}</view>
+
+  <!-- 未登录 -->
+  <view wx:if="{{!isLogin}}" class="delivery-empty">
+    <text class="iconfont icon-user"></text>
+    <view class="cont">请先登录后查看本地外送</view>
+    <button class="btn-address" bindtap="goLogin">去登录</button>
+  </view>
+
+  <!-- 非马来西亚地址 -->
+  <view wx:elif="{{!isMalaysia}}" class="delivery-empty">
+    <text class="iconfont icon-location"></text>
+    <view class="cont">{{notice}}</view>
+    <button class="btn-address" bindtap="goAddress">去设置马来西亚收货地址</button>
+  </view>
+
+  <!-- 外送列表 -->
+  <view wx:else>
+    <!-- 我的外送订单（移到最上面） -->
+    <view class="order-section">
+      <view class="order-section-title">我的外送订单</view>
+
+      <!-- 状态筛选 -->
+      <view class="order-tabs">
+        <text wx:for="{{orderStatusTabs}}" wx:key="key"
+              class="order-tab {{orderStatus === item.key ? 'active' : ''}}"
+              data-status="{{item.key}}" bindtap="onOrderTab">{{item.name}}</text>
+      </view>
+
+      <view wx:if="{{orderLoading}}" class="order-loading">加载中...</view>
+      <view wx:elif="{{orderList.length === 0}}" class="order-empty">暂无相关订单</view>
+
+      <view wx:for="{{orderList}}" wx:key="order_id" class="order-card">
+          <view class="order-card-top">
+            <view class="order-card-title-wrap">
+              <text class="order-title">{{item.delivery_title}}</text>
+              <text wx:if="{{item.accept_order == 0}}" class="shop-badge badge-stop">暂不接单</text>
+              <text wx:elif="{{item.delivery_enabled == 0}}" class="shop-badge badge-self">仅自提</text>
+            </view>
+            <text class="order-status status-{{item.status}}">{{item.status_text}}</text>
+          </view>
+        <view class="order-row">
+          <text class="order-label">费用</text>
+          <text class="order-price">RM {{item.total_price}}</text>
+          <text class="order-fee-detail">（商品 RM {{item.goods_price}} + 配送 RM {{item.delivery_fee}}）</text>
+        </view>
+        <view class="order-row">
+          <text class="order-label">收货</text>
+          <text class="order-addr">{{item.address.name}} {{item.address.phone}}｜{{item.address.region}} {{item.address.detail}}</text>
+        </view>
+        <view wx:if="{{item.remark}}" class="order-row">
+          <text class="order-label">备注</text>
+          <text class="order-remark">{{item.remark}}</text>
+        </view>
+        <view class="order-row order-no">
+          <text class="order-label">单号</text>
+          <text class="order-no-text">{{item.order_no}}</text>
+        </view>
+        <view wx:if="{{item.status === 1}}" class="order-actions">
+          <button class="btn-confirm" data-id="{{item.order_id}}" bindtap="onConfirmReceipt">确认收货</button>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="delivery-loading">加载中...</view>
+    <view wx:elif="{{list.length === 0}}" class="delivery-empty">
+      <text class="iconfont icon-wushuju"></text>
+      <view class="cont">暂无可用店铺</view>
+    </view>
+    <view wx:else>
+      <view wx:for="{{list}}" wx:key="shop_id" class="shop-card">
+        <view class="shop-head" data-id="{{item.shop_id}}" bindtap="onShopTap">
+          <image wx:if="{{item.logo}}" class="shop-logo" src="{{item.logo}}" mode="aspectFill"></image>
+          <view class="shop-body">
+            <view class="shop-name">
+              {{item.shop_name}}
+              <text wx:if="{{item.accept_order == 0}}" class="shop-badge badge-stop">暂不接单</text>
+              <text wx:elif="{{item.delivery_enabled == 0}}" class="shop-badge badge-self">仅自提</text>
+            </view>
+            <view wx:if="{{item.description}}" class="shop-desc">{{item.description}}</view>
+            <view wx:if="{{item.address}}" class="shop-row">
+              <text class="shop-label">地址</text>
+              <text class="shop-text">{{item.address}}</text>
+            </view>
+            <view wx:if="{{item.whatsapp}}" class="shop-row">
+              <text class="shop-label">WhatsApp</text>
+              <text class="shop-text shop-wa" data-wa="{{item.whatsapp}}" catchtap="onWhatsapp">{{item.whatsapp}}</text>
+            </view>
+            <view wx:if="{{item.business_hours}}" class="shop-row">
+              <text class="shop-label">营业时间</text>
+              <text class="shop-text">{{item.business_hours}}</text>
+            </view>
+          </view>
+          <view class="shop-go">›</view>
+        </view>
+        <view class="shop-goods-head">
+          <text class="shop-goods-more" data-id="{{item.shop_id}}" bindtap="onShopTap">共 {{item.goods_count}} 件外送商品 ›</text>
+        </view>
+        <scroll-view scroll-x class="shop-goods-scroll">
+          <view wx:for="{{item.goods_preview}}" wx:for-item="g" wx:key="delivery_id"
+                class="shop-goods-item" data-id="{{g.delivery_id}}"
+                data-accept="{{item.accept_order}}" data-delivery="{{item.delivery_enabled}}"
+                bindtap="onOrder">
+            <image class="shop-goods-img" src="{{g.image_url}}" mode="aspectFill"></image>
+            <view class="shop-goods-name">{{g.title}}</view>
+            <view class="shop-goods-price">RM {{g.price}}</view>
+            <text wx:if="{{item.delivery_enabled == 0}}" class="shop-goods-tag">到店自提</text>
+          </view>
+        </scroll-view>
+        <view wx:if="{{item.goods_preview.length === 0}}" class="shop-goods-empty">该店铺暂无外送商品</view>
+      </view>
+    </view>
+
+  </view>
+</view>
+
+

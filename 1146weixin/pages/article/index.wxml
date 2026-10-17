@@ -1,0 +1,65 @@
+<view class="container p-bottom">
+
+  <!-- 分类：卡片按钮 -->
+  <view class="cate-bar">
+    <scroll-view class="cate-scroll" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
+      <view class="cate-row">
+        <view class="cate-card {{selectCategoryId == 0 ? 'active' : ''}}" data-id="0" bindtap="onSwitchTab">
+          <text>推荐</text>
+        </view>
+        <view wx:for="{{categoryList}}" wx:key="category_id"
+              class="cate-card {{selectCategoryId == item.category_id ? 'active' : ''}}"
+              data-id="{{item.category_id}}" bindtap="onSwitchTab">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 双排瀑布流 -->
+  <view class="waterfall" wx:if="{{leftList.length || rightList.length}}">
+    <view class="wf-col">
+      <block wx:for="{{leftList}}" wx:key="article_id">
+        <navigator class="article-card" hover-class="none" url="/pages/article/detail/index?article_id={{item.article_id}}">
+          <view class="card-cover">
+            <image class="image" src="{{item.cover}}" mode="widthFix"></image>
+          </view>
+          <view class="card-body">
+            <view class="card-title">{{item.article_title}}</view>
+            <view class="card-desc">{{item.summary}}</view>
+            <view class="card-foot">
+              <text class="views">{{item.show_views}} 浏览</text>
+            </view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+    <view class="wf-col">
+      <block wx:for="{{rightList}}" wx:key="article_id">
+        <navigator class="article-card" hover-class="none" url="/pages/article/detail/index?article_id={{item.article_id}}">
+          <view class="card-cover">
+            <image class="image" src="{{item.cover}}" mode="widthFix"></image>
+          </view>
+          <view class="card-body">
+            <view class="card-title">{{item.article_title}}</view>
+            <view class="card-desc">{{item.summary}}</view>
+            <view class="card-foot">
+              <text class="views">{{item.show_views}} 浏览</text>
+            </view>
+          </view>
+        </navigator>
+      </block>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{isLoading}}" class="loading">加载中...</view>
+  <!-- 无数据 -->
+  <view wx:elif="{{!leftList.length && !rightList.length}}" class="null">
+    <text>暂无种草内容</text>
+  </view>
+  <!-- 没有更多 -->
+  <view wx:if="{{no_more && (leftList.length || rightList.length)}}" class="no-more">没有更多了</view>
+
+  <view class="flow"></view>
+</view>

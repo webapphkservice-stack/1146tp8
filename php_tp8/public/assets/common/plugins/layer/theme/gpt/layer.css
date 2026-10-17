@@ -1,0 +1,351 @@
+/* ====================================================================
+ * Layer 液态玻璃风格皮肤
+ * 覆盖 layer 默认样式，匹配 TP8 后台整体设计语言
+ * ==================================================================== */
+
+/* 遮罩层 */
+.layui-layer-shade {
+    background: rgba(15, 23, 42, 0.55) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: opacity 0.25s ease;
+}
+
+/* 弹窗主体 */
+.layui-layer {
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow:
+        0 24px 60px -16px rgba(15, 23, 42, 0.35),
+        0 8px 20px -8px rgba(15, 23, 42, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    /* 注意：不要 overflow:hidden —— 会把内部绝对定位元素的阴影/动画裁掉 */
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: gpt-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes gpt-pop {
+    0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 标题栏 */
+.layui-layer-title {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.06)) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06) !important;
+    padding: 16px 20px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    letter-spacing: 0.2px;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif !important;
+}
+
+/* 关闭按钮 */
+.layui-layer-setwin { top: 14px !important; right: 14px !important; }
+.layui-layer-setwin .layui-layer-close1,
+.layui-layer-setwin .layui-layer-close2 {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+    background: rgba(15, 23, 42, 0.08) !important;
+    background-image: none !important;
+    position: relative;
+    top: auto !important;
+    left: auto !important;
+    opacity: 0.6;
+    transition: all 0.15s ease;
+}
+.layui-layer-setwin .layui-layer-close1:hover,
+.layui-layer-setwin .layui-layer-close2:hover {
+    background: rgba(239, 68, 68, 0.9) !important;
+    opacity: 1;
+}
+.layui-layer-setwin .layui-layer-close1::after,
+.layui-layer-setwin .layui-layer-close2::after {
+    content: '×';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: 300;
+    color: inherit;
+    line-height: 1;
+}
+.layui-layer-setwin .layui-layer-close1 { color: #475569; }
+.layui-layer-setwin .layui-layer-close2 { display: none !important; }
+.layui-layer-setwin .layui-layer-close1:hover { color: #fff; }
+
+/* 内容区 */
+.layui-layer-content {
+    padding: 24px 24px 16px !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    color: #334155 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif !important;
+}
+
+/* 按钮区域 */
+.layui-layer-btn {
+    padding: 16px 24px 20px !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
+    background: rgba(248, 250, 252, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.layui-layer-btn a {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 84px;
+    height: 38px !important;
+    padding: 0 20px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif !important;
+    border: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    color: #64748b !important;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer;
+}
+.layui-layer-btn a:hover { transform: translateY(-1px); }
+.layui-layer-btn a:active { transform: translateY(0); }
+
+/* 确认按钮（btn0）*/
+.layui-layer-btn .layui-layer-btn0 {
+    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.45) !important;
+}
+.layui-layer-btn .layui-layer-btn0:hover {
+    box-shadow: 0 6px 16px -2px rgba(37, 99, 235, 0.55) !important;
+    filter: brightness(1.05);
+}
+
+/* 取消按钮（btn1）*/
+.layui-layer-btn .layui-layer-btn1 {
+    background: rgba(15, 23, 42, 0.06) !important;
+    color: #475569 !important;
+}
+.layui-layer-btn .layui-layer-btn1:hover {
+    background: rgba(15, 23, 42, 0.1) !important;
+    color: #1e293b !important;
+}
+
+/* 危险操作的确认按钮（btn0，配合 skin: 'danger'）*/
+.layui-layer-danger .layui-layer-btn .layui-layer-btn0 {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    box-shadow: 0 4px 12px -2px rgba(220, 38, 38, 0.45) !important;
+}
+.layui-layer-danger .layui-layer-btn .layui-layer-btn0:hover {
+    box-shadow: 0 6px 16px -2px rgba(220, 38, 38, 0.55) !important;
+}
+
+/* 对话框按钮区单独一行时取消按钮在左 */
+.layui-layer-dialog .layui-layer-btn a.layui-layer-btn1 { order: 0; }
+.layui-layer-dialog .layui-layer-btn a.layui-layer-btn0 { order: 1; }
+
+/* msg 消息框（toast）—— 浅色液态玻璃卡片，替代默认深色黑块 */
+.layui-layer-msg {
+    border-radius: 14px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+/* 注意：layer.msg 的容器同时带有 .layui-layer-dialog，需用更高优先级覆盖 dialog 的 58px 左内边距 */
+.layui-layer-msg.layui-layer-dialog .layui-layer-content {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 22px !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+    font-weight: 600;
+    line-height: 1.45 !important;
+    letter-spacing: 0.2px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.28), 0 4px 12px -4px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    min-width: 120px;
+    animation: gpt-toast-in 0.24s ease;
+}
+@keyframes gpt-toast-in {
+    0% { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+/* 成功 / 失败图标徽标（layer 原生 <i class="layui-layer-ico layui-layer-icoN">） */
+.layui-layer-msg.layui-layer-dialog .layui-layer-content .layui-layer-ico {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    background-image: none !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+.layui-layer-msg.layui-layer-dialog .layui-layer-content .layui-layer-ico1 { background: rgba(34, 197, 94, 0.16) !important; color: #16a34a !important; }
+.layui-layer-msg.layui-layer-dialog .layui-layer-content .layui-layer-ico1::after { content: '✓'; }
+.layui-layer-msg.layui-layer-dialog .layui-layer-content .layui-layer-ico2 { background: rgba(239, 68, 68, 0.16) !important; color: #dc2626 !important; }
+.layui-layer-msg.layui-layer-dialog .layui-layer-content .layui-layer-ico2::after { content: '✕'; }
+
+/* 图标层（仅用于 dialog 会话框，:not(.layui-layer-msg) 排除 toast，避免样式泄漏） */
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-content {
+    padding-left: 58px !important;
+    padding-top: 28px !important;
+    padding-bottom: 24px !important;
+}
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico {
+    position: absolute !important;
+    left: 24px !important;
+    top: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    background-image: none !important;
+}
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico1 { background: linear-gradient(135deg, #22c55e, #16a34a) !important; }
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico1::after {
+    content: '✓';
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico2 { background: linear-gradient(135deg, #ef4444, #dc2626) !important; }
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico2::after {
+    content: '✕';
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico3 { background: linear-gradient(135deg, #3b82f6, #2563eb) !important; }
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico3::after {
+    content: 'i';
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: italic;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico4 { background: linear-gradient(135deg, #f59e0b, #d97706) !important; }
+.layui-layer-dialog:not(.layui-layer-msg) .layui-layer-ico4::after {
+    content: '!';
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* confirm 去掉默认大图标（已经在上面的 dialog 处理了） */
+
+/* 自定义内容弹窗（layer.open content）*/
+.layui-layer-page .layui-layer-content {
+    padding: 0 !important;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+/* 表单弹窗 */
+.layui-layer .form-layer input,
+.layui-layer .form-layer select,
+.layui-layer .form-layer textarea {
+    width: 100%;
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 14px;
+    color: #1e293b;
+    transition: all 0.18s ease;
+    box-sizing: border-box;
+}
+.layui-layer .form-layer input:focus,
+.layui-layer .form-layer select:focus,
+.layui-layer .form-layer textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.layui-layer .form-layer label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 6px;
+}
+.layui-layer .form-layer .fld { margin-bottom: 16px; }
+
+/* tips 小提示 */
+.layui-layer-tips {
+    border-radius: 8px !important;
+    background: rgba(15, 23, 42, 0.92) !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    color: #fff !important;
+    box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.45) !important;
+    backdrop-filter: blur(12px);
+}
+.layui-layer-tips .layui-layer-content {
+    background: transparent !important;
+    color: #fff !important;
+    padding: 0 !important;
+}
+.layui-layer-tips .layui-layer-ico,
+.layui-layer-tips i.layui-layer-close { display: none !important; }
+
+/* 移除默认的 icon.png 背景（仅去背景，保留尺寸让各子类型自行控制） */
+.layui-layer-ico { background-image: none !important; background-color: transparent !important; }
+/* 非 dialog 的 ico（msg/tips/close 按钮）统一隐藏 */
+.layui-layer-msg .layui-layer-ico,
+.layui-layer-tips .layui-layer-ico,
+.layui-layer-load .layui-layer-ico {
+    display: none !important;
+}
+
+/* 加载层 */
+.layui-layer-load {
+    background: rgba(15, 23, 42, 0.8) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='2.5'/><path fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' d='M16 2 A14 14 0 0 1 30 16'><animateTransform attributeName='transform' type='rotate' from='0 16 16' to='360 16 16' dur='0.9s' repeatCount='indefinite'/></path></svg>") center center no-repeat !important;
+}
+
+/* 滚动条美化 */
+.layui-layer-content::-webkit-scrollbar { width: 6px; }
+.layui-layer-content::-webkit-scrollbar-track { background: transparent; }
+.layui-layer-content::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.15);
+    border-radius: 3px;
+}
+.layui-layer-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.25);
+}

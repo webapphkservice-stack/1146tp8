@@ -1,0 +1,15 @@
+{
+  "name": "php_tp8-tailwind",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tailwind CSS build for php_tp8 admin (amazeui replacement)",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./public/assets/common/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/tailwind.css -o ./public/assets/common/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.20"
+  }
+}

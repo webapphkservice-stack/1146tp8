@@ -1,0 +1,85 @@
+<view class="container">
+
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{ isLoading }}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 订单不存在 -->
+  <view class="empty-box" wx:elif="{{ notFound || !order }}">
+    <text class="empty-text">订单不存在或已被删除</text>
+    <view class="btn-home" bindtap="onGoHome">逛逛商城</view>
+  </view>
+
+  <block wx:else>
+
+    <!-- 下单人信息 -->
+    <view class="buyer-card">
+      <image class="buyer-avatar" src="{{ buyer.avatarUrl ? buyer.avatarUrl : '/images/default-avatar.jpg' }}"></image>
+      <view class="buyer-title">
+        <text class="buyer-name">{{ buyer.nickName }}</text>
+        <text wx:if="{{ order.pay_status.value == 10 }}"> 请你帮TA付款</text>
+        <text wx:else> 的订单</text>
+      </view>
+      <!-- 支付成功 -->
+      <view class="pay-state success" wx:if="{{ paySuccess }}">
+        <text class="iconfont icon-duihao"></text>
+        <text>代付成功，感谢您的慷慨~</text>
+      </view>
+      <!-- 已支付 -->
+      <view class="pay-state paid" wx:elif="{{ order.pay_status.value != 10 }}">
+        <text>该订单已完成付款，无需重复支付</text>
+      </view>
+      <!-- 已取消 -->
+      <view class="pay-state paid" wx:elif="{{ order.order_status.value != 10 }}">
+        <text>该订单{{ order.order_status.text }}，无法支付</text>
+      </view>
+    </view>
+
+    <!-- 商品列表 -->
+    <view class="goods-card">
+      <view class="card-title">商品信息</view>
+      <view class="goods-item dis-flex" wx:for="{{ order.goods }}" wx:key="index">
+        <view class="goods-image">
+          <image mode="aspectFill" src="{{ item.goods_image }}"></image>
+        </view>
+        <view class="goods-info flex-box">
+          <text class="goods-name twolist-hidden">{{ item.goods_name }}</text>
+          <text class="goods-attr">{{ item.goods_attr }}</text>
+          <view class="goods-price-num dis-flex flex-x-between">
+            <text class="goods-num">×{{ item.total_num }}</text>
+            <text class="goods-price">￥{{ item.goods_price }}</text>
+          </view>
+        </view>
+      </view>
+      <view class="order-info">
+        <view class="order-info-item">
+          <text class="label">订单编号：</text>
+          <text>{{ order.order_no }}</text>
+        </view>
+        <view class="order-info-item">
+          <text class="label">下单时间：</text>
+          <text>{{ order.create_time }}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 支付金额 -->
+    <view class="amount-card dis-flex flex-x-between">
+      <text>需支付金额</text>
+      <text class="amount">￥{{ order.pay_price }}</text>
+    </view>
+
+    <!-- 操作栏 -->
+    <view class="footer-fixed">
+      <!-- 待支付：帮TA付款 -->
+      <view class="btn-pay" wx:if="{{ !paySuccess && order.pay_status.value == 10 && order.order_status.value == 10 }}" bindtap="onPayOrder">
+        帮TA支付 ￥{{ order.pay_price }}
+      </view>
+      <!-- 已支付/已取消：回首页 -->
+      <view class="btn-pay gray" wx:else bindtap="onGoHome">逛逛商城</view>
+    </view>
+
+  </block>
+
+</view>

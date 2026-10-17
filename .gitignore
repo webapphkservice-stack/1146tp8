@@ -1,0 +1,5 @@
+# Only track TP8 backend and WeChat mini-program source
+/*
+!/.gitignore
+!/php_tp8/
+!/1146weixin/

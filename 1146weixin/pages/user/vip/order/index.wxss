@@ -1,0 +1,51 @@
+.vip-order-list {
+  padding: 20rpx;
+}
+
+.order-item {
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.order-item-top {
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.order-item-body {
+  padding: 24rpx 0 20rpx;
+}
+
+.order-plan {
+  min-width: 0;
+  flex: 1;
+}
+
+.plan-name {
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.plan-paytype,
+.plan-time {
+  margin-top: 6rpx;
+}
+
+.order-amount {
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}
+
+.order-item-foot {
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.col-green {
+  color: #07c160;
+}
+
+.col-orange {
+  color: #ff976a;
+}

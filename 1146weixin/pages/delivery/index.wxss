@@ -1,0 +1,510 @@
+.container {
+  padding: 20rpx;
+}
+
+.delivery-header {
+  padding: 24rpx;
+  background: linear-gradient(135deg, #ff7000, #ffa040);
+  border-radius: 16rpx;
+  color: #fff;
+}
+
+.delivery-title {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.delivery-sub {
+  font-size: 24rpx;
+  opacity: 0.9;
+  margin-top: 8rpx;
+}
+
+/* 后台外送设置中的提示文案 */
+.delivery-notice {
+  margin-top: 20rpx;
+  padding: 20rpx 24rpx;
+  background: #fff7ec;
+  border: 1rpx solid #ffe1bf;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: #a86a1c;
+  line-height: 1.6;
+}
+
+.delivery-empty {
+  text-align: center;
+  padding: 120rpx 40rpx;
+  color: #999;
+}
+
+.delivery-empty .iconfont {
+  font-size: 90rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.delivery-empty .cont {
+  font-size: 28rpx;
+  margin-bottom: 30rpx;
+}
+
+.btn-address {
+  background: #ff7000;
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  padding: 0 40rpx;
+  display: inline-block;
+}
+
+.delivery-loading {
+  text-align: center;
+  padding: 60rpx;
+  color: #999;
+}
+
+.delivery-card {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.delivery-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #f5f5f5;
+}
+
+.delivery-info {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.delivery-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.delivery-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin: 8rpx 0 16rpx;
+  line-height: 1.5;
+}
+
+.delivery-range {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+
+.delivery-range .range-label {
+  flex-shrink: 0;
+  font-size: 20rpx;
+  color: #ff7000;
+  border: 1rpx solid #ff7000;
+  border-radius: 6rpx;
+  padding: 0 8rpx;
+  margin-right: 10rpx;
+  line-height: 1.6;
+}
+
+.delivery-range .range-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.delivery-range .range-tag {
+  font-size: 22rpx;
+  color: #666;
+  background: #f5f5f5;
+  border-radius: 6rpx;
+  padding: 2rpx 10rpx;
+  margin: 0 8rpx 8rpx 0;
+}
+
+.delivery-meta {
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.delivery-meta .price {
+  color: #ff495e;
+  font-weight: 600;
+  font-size: 28rpx;
+  margin-right: 16rpx;
+}
+
+.delivery-meta .fee,
+.delivery-meta .min {
+  color: #999;
+  margin-right: 16rpx;
+}
+
+/* 我的外送订单 */
+.order-section {
+  margin-top: 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 20rpx 10rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.order-section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.order-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1rpx solid #f0f0f0;
+  padding-bottom: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.order-tab {
+  font-size: 24rpx;
+  color: #999;
+  padding: 8rpx 20rpx;
+  margin-right: 12rpx;
+  border-radius: 28rpx;
+  background: #f5f5f5;
+}
+
+.order-tab.active {
+  color: #fff;
+  background: #ff7000;
+}
+
+.order-loading,
+.order-empty {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 40rpx 0;
+}
+
+.order-card {
+  border: 1rpx solid #f0f0f0;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.order-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+
+.order-card-title-wrap {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.order-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.order-status {
+  font-size: 22rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+}
+
+.order-status.status-0 { color: #ff9500; background: #fff4e5; }
+.order-status.status-1 { color: #007aff; background: #e6f2ff; }
+.order-status.status-2 { color: #34c759; background: #e8f9ed; }
+.order-status.status-3 { color: #999; background: #f2f2f2; }
+
+.order-row {
+  display: flex;
+  align-items: flex-start;
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
+  line-height: 1.5;
+}
+
+.order-label {
+  flex-shrink: 0;
+  color: #999;
+  width: 70rpx;
+}
+
+.order-price {
+  color: #ff495e;
+  font-weight: 600;
+}
+
+.order-fee-detail {
+  color: #999;
+  font-size: 22rpx;
+}
+
+.order-addr,
+.order-remark,
+.order-no-text {
+  color: #666;
+  flex: 1;
+}
+
+.order-no .order-no-text {
+  color: #bbb;
+  font-size: 22rpx;
+}
+
+/* 确认收货操作区 */
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.btn-confirm {
+  margin: 0;
+  padding: 0 36rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  color: #fff;
+  background: #34c759;
+  border-radius: 30rpx;
+}
+
+.btn-confirm::after {
+  border: none;
+}
+
+.delivery-action {
+  width: 100%;
+  margin-top: 16rpx;
+  text-align: right;
+}
+
+.btn-order {
+  background: #ff495e;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 50rpx;
+  padding: 0 28rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  margin: 0;
+}
+
+/* 店铺信息 */
+.shop-section {
+  margin-top: 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 20rpx 10rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.shop-section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+/* 店铺为主：首页店铺卡片 */
+.shop-card {
+  background: #fff;
+  border-radius: 16rpx;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.shop-head {
+  display: flex;
+  align-items: flex-start;
+}
+
+.shop-logo {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  background: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.shop-body {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+
+.shop-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.shop-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin: 8rpx 0 12rpx;
+  line-height: 1.5;
+}
+
+.shop-row {
+  display: flex;
+  align-items: flex-start;
+  font-size: 24rpx;
+  margin-bottom: 8rpx;
+  line-height: 1.5;
+}
+
+.shop-label {
+  flex-shrink: 0;
+  color: #999;
+  width: 130rpx;
+}
+
+.shop-text {
+  color: #666;
+  flex: 1;
+}
+
+.shop-wa {
+  color: #25d366;
+  font-weight: 600;
+}
+
+.shop-go {
+  color: #ccc;
+  font-size: 40rpx;
+  margin-left: 8rpx;
+  align-self: center;
+}
+
+.shop-goods-head {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.shop-goods-more {
+  font-size: 24rpx;
+  color: #ff7000;
+}
+
+.shop-goods-scroll {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  margin-top: 16rpx;
+}
+
+.shop-goods-item {
+  display: inline-block;
+  width: 180rpx;
+  margin-right: 16rpx;
+  vertical-align: top;
+}
+
+.shop-goods-img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 12rpx;
+  background: #f5f5f5;
+}
+
+.shop-goods-name {
+  font-size: 24rpx;
+  color: #333;
+  margin-top: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shop-goods-price {
+  font-size: 24rpx;
+  color: #ff495e;
+  font-weight: 600;
+}
+
+.shop-goods-empty {
+  font-size: 24rpx;
+  color: #999;
+  padding: 20rpx 0;
+}
+
+/* 接单/配送状态徽标 */
+.shop-badge {
+  display: inline-block;
+  font-size: 20rpx;
+  font-weight: 400;
+  line-height: 1;
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+  margin-left: 12rpx;
+  vertical-align: middle;
+}
+
+.badge-stop {
+  color: #ff495e;
+  background: #ffe9ec;
+}
+
+.badge-self {
+  color: #ff9500;
+  background: #fff4e5;
+}
+
+.shop-goods-tag {
+  display: inline-block;
+  font-size: 20rpx;
+  color: #ff9500;
+  background: #fff4e5;
+  border-radius: 6rpx;
+  padding: 2rpx 10rpx;
+  margin-top: 8rpx;
+}
+
+/* 出租车入口 */
+.taxi-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+.taxi-entry-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 600;
+}
+.taxi-entry-go {
+  font-size: 40rpx;
+  color: #ccc;
+}

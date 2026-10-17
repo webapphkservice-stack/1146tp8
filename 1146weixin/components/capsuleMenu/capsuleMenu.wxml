@@ -1,0 +1,21 @@
+<!-- 自定义胶囊菜单 -->
+<view class="capsule-menu" style="height: {{ navHeight }}px; background-color: {{ backgroundColor }};">
+  <!-- 左侧：胶囊按钮组（仅保留头像） -->
+  <view class="capsule-group" style="background-color: {{ titleBgColor }};">
+    <!-- 用户头像 -->
+    <view class="capsule-item" catchtap="onGoUser">
+      <block wx:if="{{ isLogin && userInfo.avatarUrl }}">
+        <image class="user-avatar" src="{{ userInfo.avatarUrl }}" mode="aspectFill"></image>
+      </block>
+      <block wx:elif="{{ userIconUrl }}">
+        <image class="user-avatar" src="{{ userIconUrl }}" mode="aspectFill"></image>
+      </block>
+      <block wx:else>
+        <text class="iconfont icon-profile"></text>
+      </block>
+    </view>
+  </view>
+
+  <!-- 页面标题 -->
+  <view class="page-title" style="color: {{ titleColor }};">{{ title }}</view>
+</view>

@@ -1,0 +1,25 @@
+<view class="container b-f">
+  <!-- 状态栏占位 -->
+  <view style="height: {{ statusBarHeight }}px; background: {{ page.style.titleBackgroundColor || '#ff6600' }};"></view>
+
+  <!-- 胶囊菜单 -->
+  <capsule-menu 
+    backgroundColor="{{ page.style.titleBackgroundColor || '#ff6600' }}" 
+    titleBgColor="{{ page.style.titleBackgroundColor || '#ff6600' }}" 
+    capsuleBgColor="{{ capsuleBgColor || 'rgba(255,255,255,0.9)' }}"
+    title="{{ page.params.title || '' }}"
+    titleColor="{{ page.style.titleTextColor === 'white' ? '#ffffff' : '#000000' }}"
+    userIcon="{{ icon.userIcon || '' }}"
+    homeIcon="{{ icon.homeIcon || '' }}">
+  </capsule-menu>
+
+  <!-- DIY组件 -->
+  <diy-component diyItems="{{ items }}"></diy-component>
+
+  <!-- 底线 -->
+  <!-- <view class="title-footer p-r">
+    <text class="f-24 col-9 cont">我是有底线的</text>
+    <view class="hr"></view>
+  </view> -->
+
+</view>

@@ -1,0 +1,41 @@
+/*!
+ * iconfont-business.css — 业务/菜单图标（原 amazeui 的 .am-icon-* 改名而来）的本地实现。
+ *
+ * 2026-10-06 改造：把兜底字体从 FontAwesome 换成 **本地 Material Icons**
+ * （public/assets/common/fonts/material-icons.{woff2,woff,ttf}，不走 Google CDN），
+ * 仅覆盖当初 amazeui 改名来的这 16 个图标（trash/cloud-upload/pencil/plus/search/
+ * caret-down/undo/refresh/list/calendar-check-o + 菜单 rmb/film/plane/motorcycle/car/credit-card）。
+ *
+ * 其余系统/业务图标（砍价、拼团、秒杀、微信、优惠券……约 54 个）仍由远程 iconfont.cn
+ * 集 font_783249 提供（Material Icons 无对应业务图标，无法替换）。
+ *
+ * 每个 :before 都显式声明 font-family，覆盖可能的远程 .iconfont 字体，确保命中本地 Material。
+ */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/material-icons.woff2) format('woff2'),
+       url(../fonts/material-icons.woff) format('woff'),
+       url(../fonts/material-icons.ttf) format('truetype');
+}
+
+/* 10 个业务图标（amazeui -> FontAwesome 码点 -> 现 Material Icons 码点） */
+.icon-trash:before         { font-family: 'Material Icons'; content: "\e872"; } /* delete */
+.icon-cloud-upload:before  { font-family: 'Material Icons'; content: "\e2c3"; } /* cloud_upload */
+.icon-pencil:before        { font-family: 'Material Icons'; content: "\e3c9"; } /* edit */
+.icon-plus:before          { font-family: 'Material Icons'; content: "\e145"; } /* add */
+.icon-search:before        { font-family: 'Material Icons'; content: "\e8b6"; } /* search */
+.icon-caret-down:before    { font-family: 'Material Icons'; content: "\e5c5"; } /* arrow_drop_down */
+.icon-undo:before          { font-family: 'Material Icons'; content: "\e166"; } /* undo */
+.icon-refresh:before       { font-family: 'Material Icons'; content: "\e5d5"; } /* refresh */
+.icon-list:before          { font-family: 'Material Icons'; content: "\e896"; } /* list */
+.icon-calendar-check-o:before { font-family: 'Material Icons'; content: "\e614"; } /* event_available */
+
+/* 6 个菜单图标（amazeui -> 现 Material Icons 码点；rmb 用 payments 近似，因 Material 无人民币专用图标） */
+.icon-rmb:before           { font-family: 'Material Icons'; content: "\ef63"; } /* payments */
+.icon-film:before          { font-family: 'Material Icons'; content: "\e02c"; } /* movie */
+.icon-plane:before         { font-family: 'Material Icons'; content: "\e539"; } /* flight */
+.icon-motorcycle:before    { font-family: 'Material Icons'; content: "\e91b"; } /* motorcycle */
+.icon-car:before           { font-family: 'Material Icons'; content: "\e531"; } /* directions_car */
+.icon-credit-card:before   { font-family: 'Material Icons'; content: "\e870"; } /* credit_card */

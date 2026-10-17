@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 项目常用组件层（替代 amazeui 的 .am-btn / .am-table 等基础外观） */
+@layer components {
+  /* 下拉菜单项：配合视图里的 .dropdown-menu（原 am-dropdown-content）使用 */
+  .dropdown-menu a {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center px-3 py-1.5 text-sm leading-5 border border-gray-300 rounded bg-white text-gray-700 transition-colors hover:bg-gray-50;
+  }
+  .btn-default {
+    @apply border-gray-300 bg-white text-gray-700;
+  }
+  .btn-primary {
+    @apply border-indigo-600 bg-indigo-600 text-white hover:bg-indigo-500;
+  }
+  .form-input {
+    @apply w-full px-3 py-1.5 text-sm border border-gray-300 rounded outline-none focus:border-indigo-500;
+  }
+  .form-select {
+    @apply w-full px-3 py-1.5 text-sm border border-gray-300 rounded bg-white outline-none focus:border-indigo-500;
+  }
+  .table-base {
+    @apply w-full text-sm text-left text-gray-700;
+  }
+  .table-base thead th {
+    @apply px-3 py-2 font-medium text-gray-600 bg-gray-50 border-b border-gray-200;
+  }
+  .table-base tbody td {
+    @apply px-3 py-2 border-b border-gray-100 align-middle;
+  }
+  .table-base tbody tr:nth-child(odd) {
+    @apply bg-gray-50/50;
+  }
+  .badge {
+    @apply inline-block px-2 py-0.5 text-xs font-medium rounded;
+  }
+  .badge-success {
+    @apply bg-green-100 text-green-700;
+  }
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-700;
+  }
+  .badge-secondary {
+    @apply bg-gray-100 text-gray-600;
+  }
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-700 hover:bg-gray-300 border border-gray-300;
+  }
+  .btn-xs {
+    @apply text-xs px-2 py-1;
+  }
+  .btn-sm {
+    @apply text-sm px-3 py-1.5;
+  }
+  .btn-lg {
+    @apply text-base px-5 py-2.5;
+  }
+  .input-group {
+    @apply flex;
+  }
+  .input-group-label {
+    @apply inline-flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l text-sm text-gray-600 whitespace-nowrap;
+  }
+  .input-group-label__left {
+    @apply rounded-r-none;
+  }
+  .input-group-label__right {
+    @apply rounded-l-none rounded-r border-l-0;
+  }
+  .input-group .form-input {
+    @apply rounded-none;
+  }
+  .btn-success {
+    @apply bg-green-600 text-white border border-green-600 hover:bg-green-500;
+  }
+  .input-group-btn {
+    @apply inline-flex items-stretch;
+  }
+  .input-group-btn .btn {
+    @apply rounded-l-none;
+  }
+}

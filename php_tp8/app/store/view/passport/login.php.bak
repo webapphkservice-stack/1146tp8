@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title><?= htmlspecialchars($siteName) ?> - 商家后台登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <base href="/"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="/assets/common/i/favicon.ico"/>
+    <link rel="stylesheet" href="/assets/common/plugins/layer/theme/gpt/layer.css"/>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 登录背景轮播层（双缓冲交叉淡入） */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.4s ease;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+            /* 背景兜底（实际背景由 JS 切换的 .bg-layer 呈现） */
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 520px;
+            height: 520px;
+            background: rgba(165, 180, 252, 0.7);
+            top: -140px;
+            left: -100px;
+        }
+
+        body::after {
+            width: 460px;
+            height: 460px;
+            background: rgba(124, 58, 237, 0.65);
+            bottom: -140px;
+            right: -80px;
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 1;
+            width: 400px;
+            max-width: 92vw;
+            padding: 44px 40px 36px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(22px) saturate(160%);
+            -webkit-backdrop-filter: blur(22px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow:
+                0 24px 60px rgba(10, 30, 60, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .brand-text {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .form-tabs {
+            display: flex;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+        }
+
+        .form-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.78);
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .form-tab.active {
+            color: #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .login-form input {
+            width: 100%;
+            height: 46px;
+            padding: 0 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .login-form input::placeholder {
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .login-form input:focus {
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.26);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
+        }
+
+        #btn-submit, #btn-register {
+            width: 100%;
+            height: 46px;
+            margin-top: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 12px;
+            /* 磨砂玻璃按钮：主题色半透明 + 背景模糊 */
+            background: rgba(79, 70, 229, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 24px rgba(10, 30, 60, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        #btn-submit:hover, #btn-register:hover {
+            background: rgba(79, 70, 229, 0.6);
+            transform: translateY(-2px);
+        }
+
+        #btn-submit:active, #btn-register:active {
+            transform: translateY(0);
+        }
+
+        #btn-submit:disabled, #btn-register:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .form-switch a {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div id="bg1" class="bg-layer"></div>
+<div id="bg2" class="bg-layer"></div>
+<div class="login-card">
+    <div class="brand">
+        <h2 class="brand-text"><?= htmlspecialchars($siteName) ?></h2>
+    </div>
+
+    <!-- 选项卡 -->
+    <div class="form-tabs">
+        <div class="form-tab active" data-target="login">商户登录</div>
+        <div class="form-tab" data-target="register">注册商户</div>
+    </div>
+
+    <!-- 登录表单 -->
+    <div id="login-form-container" class="form-container active">
+        <form id="login-form" class="login-form">
+            <div class="form-group">
+                <input class="" name="User[user_name]" placeholder="请输入用户名" type="text" required>
+            </div>
+            <div class="form-group">
+                <input class="" name="User[password]" placeholder="请输入密码" type="password" required>
+            </div>
+            <div class="form-group">
+                <button id="btn-submit" type="submit">
+                    登录
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 注册表单 -->
+    <div id="register-form-container" class="form-container">
+        <form id="register-form" class="login-form">
+            <div class="form-group">
+                <input type="text" name="store[store_name]" placeholder="请输入商城名称" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="store[user_name]" placeholder="请输入商家账户名" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="store[password]" placeholder="请输入密码" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="store[password_confirm]" placeholder="请确认密码" required>
+            </div>
+            <input type="hidden" name="store[sort]" value="100">
+            <div class="form-group">
+                <button id="btn-register" type="submit">
+                    注册商户
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script src="/assets/common/js/jquery.min.js"></script>
+<script src="/assets/common/js/jquery4-polyfill.js"></script>
+<script src="/assets/common/plugins/layer/layer.js?v=<?= $version ?>"></script>
+<script src="/assets/common/js/jquery.form.min.js"></script>
+<script>
+    $(function () {
+        // 登录背景轮播切换（双缓冲交叉淡入，每 6 秒切换）
+        try {
+        (function () {
+            var imgs = [
+                '/assets/common/img/login/serge-taeymans-semr62rBJO0-unsplash.jpg',
+                '/assets/common/img/login/andrea-caramello-PatGIkZnQcE-unsplash.jpg',
+                '/assets/common/img/login/jason-mavrommatis-GPPAjJicemU-unsplash.jpg',
+                '/assets/common/img/login/nicolas-hans-xGVjRRmnHlQ-unsplash.jpg',
+                '/assets/common/img/login/red-zeppelin-0jJttj_0Qsw-unsplash.jpg',
+                '/assets/common/img/login/samuel-harrington-u1YBSpjc2Lk-unsplash.jpg',
+                '/assets/common/img/login/troy-olson-6TIH8Nv3KXw-unsplash.jpg'
+            ];
+            var layers = [document.getElementById('bg1'), document.getElementById('bg2')];
+            if (!layers[0] || !layers[1]) return;
+            var curLayer = 0, imgIdx = 0;
+            imgs.forEach(function (s) { var i = new Image(); i.src = s; });
+            function paint(layerIdx, imgI, op) {
+                if (!layers[layerIdx]) return;
+                layers[layerIdx].style.backgroundImage = "url('" + imgs[imgI] + "')";
+                layers[layerIdx].style.opacity = op;
+            }
+            paint(curLayer, imgIdx, 1);
+            paint(1 - curLayer, imgIdx, 0);
+            setInterval(function () {
+                imgIdx = (imgIdx + 1) % imgs.length;
+                var nextLayer = 1 - curLayer;
+                paint(nextLayer, imgIdx, 1);
+                paint(curLayer, imgIdx, 0);
+                curLayer = nextLayer;
+            }, 6000);
+        })();
+        } catch (e) {}
+
+        // 选项卡切换
+        $('.form-tab').click(function () {
+            var target = $(this).data('target');
+            $('.form-tab').removeClass('active');
+            $(this).addClass('active');
+            $('.form-container').removeClass('active');
+            $('#' + target + '-form-container').addClass('active');
+        });
+
+        // 登录表单提交
+        var $loginForm = $('#login-form');
+        $loginForm.submit(function () {
+            var $btn_submit = $('#btn-submit');
+            $btn_submit.attr("disabled", true);
+            $loginForm.ajaxSubmit({
+                type: "post",
+                dataType: "json",
+                url: '',
+                success: function (result) {
+                    $btn_submit.attr('disabled', false);
+                    if (result.code === 1) {
+                        layer.msg(result.msg, {time: 1500, anim: 1}, function () {
+                            window.location = result.url;
+                        });
+                        return true;
+                    }
+                    layer.msg(result.msg, {time: 1500, anim: 6});
+                }
+            });
+            return false;
+        });
+
+        // 注册表单提交
+        var $registerForm = $('#register-form');
+        $registerForm.submit(function () {
+            var $btn_register = $('#btn-register');
+            $btn_register.attr("disabled", true);
+            $registerForm.ajaxSubmit({
+                type: "post",
+                dataType: "json",
+                url: '<?= url("passport/register") ?>',
+                success: function (result) {
+                    $btn_register.attr('disabled', false);
+                    if (result.code === 1) {
+                        layer.msg(result.msg, {time: 1500, anim: 1}, function () {
+                            $('.form-tab[data-target="login"]').click();
+                            $registerForm[0].reset();
+                        });
+                        return true;
+                    }
+                    layer.msg(result.msg, {time: 1500, anim: 6});
+                }
+            });
+            return false;
+        });
+        // URL 参数自动填入并直接 POST 登录（绕开 ajaxSubmit，用 $.ajax 保证可靠）
+        (function () {
+            try {
+                var qs = location.search.substring(1).split('&');
+                for (var i = 0; i < qs.length; i++) {
+                    var p = qs[i].split('=');
+                    if (!p[1]) continue;
+                    var key = decodeURIComponent(p[0]);
+                    var v = decodeURIComponent(p[1].replace(/\+/g, ' '));
+                    if (key === 'User[user_name]') $('input[name="User[user_name]"]').val(v);
+                    if (key === 'User[password]') $('input[name="User[password]"]').val(v);
+                }
+                var $u = $('input[name="User[user_name]"]');
+                var $p = $('input[name="User[password]"]');
+                if ($u.val() && $p.val()) {
+                    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+                    $.ajax({
+                        url: location.pathname,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'User[user_name]': $u.val(), 'User[password]': $p.val() },
+                        success: function (r) {
+                            if (r && r.code === 1 && r.data && r.data.token) {
+                                try { localStorage.setItem('admin_token', r.data.token); } catch (e) {}
+                                window.location.href = '/admin/index/index?token=' + encodeURIComponent(r.data.token);
+                            } else {
+                                layer.msg((r && r.msg) || '登录失败', {time: 1500, anim: 6});
+                            }
+                        },
+                        error: function () {
+                            layer.msg('网络错误，请重试', {time: 1500, anim: 6});
+                        }
+                    });
+                }
+            } catch (e) {}
+        })();
+    });
+</script>
+</html>

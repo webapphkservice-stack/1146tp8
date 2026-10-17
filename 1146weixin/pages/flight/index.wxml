@@ -1,0 +1,73 @@
+<view class="container">
+  <view class="flight-header">
+    <view class="flight-title">航班查询</view>
+    <view class="flight-sub">免费参考航班信息</view>
+  </view>
+
+  <view class="flight-form">
+    <view class="form-row">
+      <text class="label">出发地</text>
+      <input class="input" placeholder="三字码，如 PEK" data-field="origin" value="{{origin}}" bindinput="bindInput"></input>
+    </view>
+    <view class="form-row">
+      <text class="label">目的地</text>
+      <input class="input" placeholder="三字码，如 SHA" data-field="destination" value="{{destination}}" bindinput="bindInput"></input>
+    </view>
+    <view class="form-row">
+      <text class="label">出发日期</text>
+      <picker mode="date" value="{{date}}" start="2025-01-01" end="2027-12-31" bindchange="bindDateChange">
+        <view class="input picker-value {{date ? '' : 'placeholder'}}">{{date || '请选择出发日期'}}</view>
+      </picker>
+    </view>
+    <view class="form-row cabin-row">
+      <text class="label">舱位</text>
+      <view class="cabin-tabs">
+        <text class="cabin-tab {{cabin == 1 ? 'active' : ''}}" data-cabin="1" bindtap="switchCabin">经济</text>
+        <text class="cabin-tab {{cabin == 2 ? 'active' : ''}}" data-cabin="2" bindtap="switchCabin">超经</text>
+        <text class="cabin-tab {{cabin == 3 ? 'active' : ''}}" data-cabin="3" bindtap="switchCabin">商务</text>
+        <text class="cabin-tab {{cabin == 4 ? 'active' : ''}}" data-cabin="4" bindtap="switchCabin">头等</text>
+      </view>
+    </view>
+    <button class="search-btn" bindtap="search" disabled="{{loading}}">{{loading ? '查询中...' : '查询航班'}}</button>
+  </view>
+
+  <view wx:if="{{list.length && source === 'default' && (defaultTitle || defaultFlightNo)}}" class="source-tag">
+    {{defaultTitle ? defaultTitle : ''}}{{defaultFlightNo ? (defaultTitle ? ' · ' : '') + defaultFlightNo : ''}}
+  </view>
+  <view wx:elif="{{list.length}}" class="source-tag">
+    数据来源：{{source === 'cache' ? '接口缓存' : '实时接口'}}
+  </view>
+
+  <view wx:for="{{list}}" wx:key="key" class="flight-card">
+    <view class="flight-airline">{{item.airline}} · {{item.flight_no}}</view>
+    <view class="flight-route">
+      <view class="point">
+        <view class="time">{{item.departure_time}}</view>
+        <view class="airport">{{item.departure_airport}}</view>
+      </view>
+      <view class="duration">
+        <view class="line"></view>
+        <view class="text">{{item.duration}}</view>
+        <view class="stops">{{item.stops == null || item.stops == 0 ? '直飞' : item.stops + '经停'}}</view>
+      </view>
+      <view class="point right">
+        <view class="time">{{item.arrival_time}}</view>
+        <view class="airport">{{item.arrival_airport}}</view>
+      </view>
+    </view>
+    <view class="flight-ext" wx:if="{{item.extensions.length}}">
+      <text wx:for="{{item.extensions}}" wx:for-item="ext" wx:key="this" class="ext">{{ext}}</text>
+    </view>
+    <view class="flight-price">
+      <text class="price">{{item.currency_symbol || '¥ '}}{{item.price}}</text>
+      <text class="cabin">{{item.cabin}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && list.length === 0}}" class="flight-empty">
+    <text class="iconfont icon-wushuju"></text>
+    <view class="cont">请输入航线信息后查询</view>
+  </view>
+</view>
+
+

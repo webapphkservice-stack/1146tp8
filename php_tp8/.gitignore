@@ -1,0 +1,19 @@
+*.log
+.env
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+/.idea
+/.vscode
+/vendor
+/.settings
+/.buildpath
+/.project
+# Uploaded user files (runtime data, not in git repo)
+public/uploads/
+/runtime/
+/node_modules/
+
+.DS_Store
+.env.bak

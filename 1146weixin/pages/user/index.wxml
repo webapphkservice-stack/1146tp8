@@ -1,0 +1,271 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user">
+    <view class="user-header" style="background-image: url('/images/user-bg.png');">
+      <!-- 已登录 -->
+      <view wx:if="{{ isLogin }}" class="user-header-cont" catchtap="onEditUserInfo">
+        <view class="user-header-avatar">
+          <!-- 用户头像 -->
+          <image src="{{ userInfo.avatarUrl || userIcon }}"></image>
+        </view>
+        <view class="user-header-right">
+          <!-- 用户昵称 -->
+          <text class="user-header-cont-name">{{ userInfo.nickName }}</text>
+          <!-- 会员等级 -->
+          <view wx:if="{{ userInfo.grade_id > 0 }}" class="user-header-grade dis-flex flex-y-center">
+            <view class="user-grade_icon">
+              <image src="/images/grade_icon.png"></image>
+            </view>
+            <view class="user-grade_name">
+              <text>{{ userInfo.grade.name }}</text>
+            </view>
+          </view>
+          <view wx:else class="user-header-grade dis-flex flex-y-center">
+            <text class="f-24 col-f">点击编辑个人信息</text>
+          </view>
+        </view>
+      </view>
+      <!-- 未登录 -->
+      <view wx:else class="user-header-cont" catchtap="onLogin">
+        <view class="user-header-avatar">
+          <image src="{{ userIcon || '/images/default-avatar.jpg' }}"></image>
+        </view>
+        <view class="user-header-cont-name">点击登录</view>
+      </view>
+    </view>
+    <!-- 订单导航栏 -->
+    <view class="order-navbar">
+      <form bindsubmit="onTargetOrder" data-type="all">
+        <button formType="submit" class="btn-normal">
+          <view class="order-navbar-header dis-flex">
+            <text class="f-30">我的订单</text>
+            <view class="dis-flex flex-y-center">
+              <text class="f-24 col-6">全部订单</text>
+              <text class="iconfont icon-xiangyoujiantou user-orderJtou"></text>
+            </view>
+          </view>
+        </button>
+      </form>
+      <view class="order-navbar-footer dis-flex m-top10">
+        <view class="order-navbar-item flex-box">
+          <form bindsubmit="onTargetOrder" data-type="all">
+            <button formType="submit" class="btn-normal">
+              <text class="order-navbar__icon iconfont icon-form"></text>
+              <text class="order-navbar__name">全部订单</text>
+            </button>
+          </form>
+        </view>
+        <view class="order-navbar-item flex-box">
+          <form bindsubmit="onTargetOrder" data-type="payment">
+            <button formType="submit" class="btn-normal">
+              <text class="order-navbar__icon iconfont icon-daifukuan"></text>
+              <text class="order-navbar__name">待付款</text>
+              <text class="order-badge" wx:if="{{orderCount.payment > 0}}">{{orderCount.payment}}</text>
+            </button>
+          </form>
+        </view>
+        <view class="order-navbar-item flex-box">
+          <form bindsubmit="onTargetOrder" data-type="received">
+            <button formType="submit" class="btn-normal">
+              <text class="order-navbar__icon iconfont icon-daishouhuo"></text>
+              <text class="order-navbar__name">待收货</text>
+              <text class="order-badge" wx:if="{{orderCount.received > 0}}">{{orderCount.received}}</text>
+            </button>
+          </form>
+        </view>
+        <view class="order-navbar-item flex-box">
+          <form bindsubmit="onTargetOrder" data-type="refund">
+            <button formType="submit" class="btn-normal">
+              <text class="order-navbar__icon iconfont icon-shouhou"></text>
+              <text class="order-navbar__name">退款/售后</text>
+              <text class="order-badge" wx:if="{{orderCount.refund > 0}}">{{orderCount.refund}}</text>
+            </button>
+          </form>
+        </view>
+      </view>
+    </view>
+  </view>
+ 
+  <!-- 我的钱包 -->
+  <view class="my-asset dis-flex">
+    <view class="asset-left flex-box dis-flex flex-x-center">
+      <view class="asset-left_item">
+        <form bindsubmit="onTargetWallet">
+          <button formType="submit" class="btn-normal">
+            <view class="item-value dis-flex flex-x-center">
+              <text>{{ balanceText }}</text>
+            </view>
+            <view class="item-name dis-flex flex-x-center">
+              <text>账户余额</text>
+            </view>
+          </button>
+        </form>
+      </view>
+      <view class="asset-left_item">
+        <form bindsubmit="onTargetPoints">
+          <button formType="submit" class="btn-normal">
+            <view class="item-value dis-flex flex-x-center">
+              <text>{{ isLogin ? userInfo.points : 0 }}</text>
+            </view>
+            <view class="item-name dis-flex flex-x-center">
+              <text>可用{{ setting.points_name }}</text>
+            </view>
+          </button>
+        </form>
+      </view>
+      <view class="asset-left_item">
+        <form bindsubmit="onTargetCoin">
+          <button formType="submit" class="btn-normal">
+            <view class="item-value dis-flex flex-x-center">
+              <text>{{ coinText }}</text>
+            </view>
+            <view class="item-name dis-flex flex-x-center">
+              <text>我的代币</text>
+            </view>
+          </button>
+        </form>
+      </view>
+      <view class="asset-left_item">
+        <form bindsubmit="onTargetWaterTicket">
+          <button formType="submit" class="btn-normal">
+            <view class="item-value dis-flex flex-x-center">
+              <text>{{ isLogin ? waterTicketNum : 0 }}</text>
+            </view>
+            <view class="item-name dis-flex flex-x-center">
+              <text>我的水票</text>
+            </view>
+          </button>
+        </form>
+      </view>
+    </view>
+    <view class="asset-right">
+      <view class="asset-right_item">
+        <form bindsubmit="onTargetWallet">
+          <button formType="submit" class="btn-normal">
+            <view class="item-icon dis-flex flex-x-center">
+              <text class="iconfont icon-qianbao"></text>
+            </view>
+            <view class="item-name dis-flex flex-x-center">
+              <text>我的钱包</text>
+            </view>
+          </button>
+        </form>
+      </view>
+    </view>
+  </view>
+
+  <!-- VIP会员 -->
+  <view class="vip-card m-10" catchtap="onTargetVip">
+    <view class="vip-card-left">
+      <view class="vip-card-title">
+        <text class="iconfont icon-vip f-34"></text>
+        <text class="f-30 col-f">VIP会员</text>
+      </view>
+      <view class="vip-card-sub f-24 col-f">
+        <block wx:if="{{ isVip }}">有效期至 {{ vipExpireDate }}</block>
+        <block wx:else>专享商品 · 双倍积分 · 运费券 · 退货包运费</block>
+      </view>
+    </view>
+    <view class="vip-card-btn">
+      <text class="f-26 col-f">{{ isVip ? '续费' : '立即开通' }}</text>
+    </view>
+  </view>
+
+  <!-- 签到功能 -->
+   <view wx:if="{{ signin.is_signin_open }}" class="signin-section b-f m-10">
+    <view class="signin-header dis-flex flex-y-center flex-x-between">
+      <view class="signin-title">
+        <text class="f-30 col-3">每日签到</text>
+        <text class="f-24 col-9 m-l-20">已连续签到 {{ signin.continue_days }} 天</text>
+      </view>
+      <view class="signin-btn {{ signin.is_signin_today ? 'signed' : '' }}" catchtap="onSignin">
+        <text class="f-28">{{ signin.is_signin_today ? '已签到' : '签到' }}</text>
+      </view>
+    </view>
+    <view class="signin-week dis-flex flex-x-around">
+      <view wx:for="{{ signin.week_signin }}" wx:key="index" class="signin-day {{ item.is_signin ? 'signed' : '' }} {{ item.date === today ? 'today' : '' }}">
+        <text class="day-name f-22">{{ item.day }}</text>
+        <text class="day-date f-20">{{ item.date_short }}</text>
+        <view class="day-icon">
+          <text wx:if="{{ item.is_signin }}" class="iconfont icon-duihao"></text>
+          <text wx:else class="day-dot"></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 区域代理 -->
+  <view wx:if="{{ agentInfo && agentInfo.is_agency == 1 }}" class="ra-card m-10" bindtap="onTargetRegionAgent">
+    <view class="ra-card-head dis-flex flex-x-between flex-y-center">
+      <view class="ra-card-title">
+        <text class="f-30 col-3">区域代理</text>
+      </view>
+      <view class="ra-status ra-status-{{ agentInfo.agent.status }}">{{ agentInfo.agent.status_text }}</view>
+    </view>
+    <view class="ra-card-region f-26 col-6">
+      {{ agentInfo.agent.level_text }} · {{ agentInfo.agent.region_name || '未分配地区' }}
+    </view>
+    <view class="ra-card-body dis-flex">
+      <view class="ra-item flex-box">
+        <text class="ra-item-value f-34 col-3">{{ agentInfo.agent.withdrawableText }}</text>
+        <text class="ra-item-name f-24 col-9">可提现收益</text>
+      </view>
+      <view class="ra-item flex-box">
+        <text class="ra-item-value f-34 col-3">{{ agentInfo.agent.current_moneyText }}</text>
+        <text class="ra-item-name f-24 col-9">累计收益</text>
+      </view>
+    </view>
+    <view class="ra-card-foot">
+      <text class="f-24 col-9">进入代理中心</text>
+      <text class="iconfont icon-xiangyoujiantou f-24 col-9 m-l-10"></text>
+    </view>
+  </view>
+
+  <view wx:elif="{{ agentInfo && agentInfo.agent }}" class="ra-card m-10" bindtap="onTargetRegionAgent">
+    <view class="ra-card-head dis-flex flex-x-between flex-y-center">
+      <view class="ra-card-title">
+        <text class="f-30 col-3">区域代理</text>
+      </view>
+      <view class="ra-status ra-status-{{ agentInfo.agent.status }}">{{ agentInfo.agent.status_text }}</view>
+    </view>
+    <view class="ra-card-region f-26 col-6">
+      您的区域代理申请{{ agentInfo.agent.status_text }}，暂未开通收益
+    </view>
+    <view class="ra-card-foot">
+      <text class="f-24 col-9">查看申请进度</text>
+      <text class="iconfont icon-xiangyoujiantou f-24 col-9 m-l-10"></text>
+    </view>
+  </view>
+
+  <view wx:elif="{{ isLogin }}" class="ra-card ra-card-apply m-10" bindtap="onTargetRegionAgent">
+    <view class="ra-card-head dis-flex flex-x-between flex-y-center">
+      <view class="ra-card-title">
+        <text class="f-30 col-3">区域代理</text>
+      </view>
+      <text class="iconfont icon-xiangyoujiantou f-28 col-9"></text>
+    </view>
+    <view class="ra-card-region f-26 col-6">
+      开通区域代理，享专属区域订单收益分成
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menus-list">
+    <view class="menus-grid">
+      <form wx:for="{{ menus }}" wx:key="this" bindsubmit="onTargetMenus" data-url="{{item.url}}" class="menus-grid-item">
+        <button formType="submit" class="btn-normal">
+          <view class="menus-item b-f">
+            <view class="menus-item__icon">
+              <text class="iconfont icon-{{ item.icon }} f-40"></text>
+            </view>
+            <view class="menus-item__name f-26">{{ item.name }}</view>
+          </view>
+        </button>
+      </form>
+    </view>
+  </view>
+  <!-- 备案信息 -->
+  <view wx:if="{{ setting && setting.icp_text }}" class="icp-info">
+    <text class="f-24 col-9">{{ setting.icp_text }}</text>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "种草详情",
+  "usingComponents": {
+    "shortcut": "/components/shortcut/shortcut"
+  }
+}

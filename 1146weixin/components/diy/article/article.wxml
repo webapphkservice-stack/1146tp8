@@ -1,0 +1,43 @@
+<!-- 文章组（瀑布流） -->
+<view class="diy-article">
+  <view class="waterfall">
+    <!-- 左列 -->
+    <view class="waterfall__col">
+      <view class="article-card" wx:for="{{ leftList }}" wx:key="article_id" catchtap="onTargetDetail" data-id="{{ item.article_id }}">
+        <view class="article-card__image">
+          <image class="image" mode="widthFix" src="{{ item.image.file_path }}"></image>
+        </view>
+        <view class="article-card__body">
+          <view class="article-card__title twolist-hidden">
+            <text class="f-28 col-3">{{ item.article_title }}</text>
+          </view>
+          <view wx:if="{{ item.summary }}" class="article-card__summary twolist-hidden">
+            <text class="dis-block f-24 col-9">{{ item.summary }}</text>
+          </view>
+          <view class="article-card__footer">
+            <text class="article-views f-22 col-8">{{ item.show_views }}次浏览</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 右列 -->
+    <view class="waterfall__col">
+      <view class="article-card" wx:for="{{ rightList }}" wx:key="article_id" catchtap="onTargetDetail" data-id="{{ item.article_id }}">
+        <view class="article-card__image">
+          <image class="image" mode="widthFix" src="{{ item.image.file_path }}"></image>
+        </view>
+        <view class="article-card__body">
+          <view class="article-card__title twolist-hidden">
+            <text class="f-28 col-3">{{ item.article_title }}</text>
+          </view>
+          <view wx:if="{{ item.summary }}" class="article-card__summary twolist-hidden">
+            <text class="dis-block f-24 col-9">{{ item.summary }}</text>
+          </view>
+          <view class="article-card__footer">
+            <text class="article-views f-22 col-8">{{ item.show_views }}次浏览</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,42 @@
+<wxs module="addr">
+module.exports = function (region, address) {
+  var province = (region && region.province) || '';
+  var city = (region && region.city) || '';
+  var district = (region && region.region) || '';
+  var street = address || '';
+  // 港澳台等省市同名（如 香港特别行政区 香港特别行政区）时去重，避免重复显示
+  if (province && city && province === city) {
+    city = '';
+  }
+  var parts = [];
+  if (province) parts.push(province);
+  if (city) parts.push(city);
+  if (district) parts.push(district);
+  if (street) parts.push(street);
+  return parts.join('');
+}
+</wxs>
+
+<!-- 辅助空白 -->
+<view class="diy-shop">
+  <view class="shop-item" wx:for="{{ dataList }}" wx:for-item="dataItem" wx:key="this">
+    <form bindsubmit="_onTargetDetail">
+      <button formType="submit" class="btn-normal dis-flex flex-y-center" data-id="{{ dataItem.shop_id }}">
+        <view class="shop-item__logo">
+          <image class="image" src="{{ dataItem.logo_image }}"></image>
+        </view>
+        <view class="shop-item__content flex-box">
+          <view class="shop-item__title">
+            <span>{{ dataItem.shop_name }}</span>
+          </view>
+          <view class="shop-item__address onelist-hidden">
+            <span>门店地址：{{ addr(dataItem.region, dataItem.address) }}</span>
+          </view>
+          <view class="shop-item__phone">
+            <span>联系电话：{{ dataItem.phone }}</span>
+          </view>
+        </view>
+      </button>
+    </form>
+  </view>
+</view>

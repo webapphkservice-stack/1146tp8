@@ -1,0 +1,66 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+
+  <block wx:else>
+    <!-- 服务信息 -->
+    <view class="block service">
+      <view class="block-title">外送服务</view>
+      <view class="service-row">
+        <text class="label">服务名称</text>
+        <text class="value">{{detail.title}}</text>
+      </view>
+      <view class="service-row">
+        <text class="label">服务说明</text>
+        <text class="value">{{detail.description}}</text>
+      </view>
+    </view>
+
+    <!-- 配送范围 -->
+    <view class="block range" wx:if="{{detail.range_list.length}}">
+      <view class="block-title">配送范围</view>
+      <view class="range-box {{rangeExpanded ? '' : 'collapsed'}}">
+        <text wx:for="{{detail.range_list}}" wx:for-item="area" wx:key="*this" class="range-tag">{{area}}</text>
+      </view>
+      <text wx:if="{{detail.range_list.length > 6}}" class="range-toggle" bindtap="toggleRange">{{rangeExpanded ? '收起' : '展开全部(' + detail.range_list.length + ')'}}</text>
+    </view>
+
+    <!-- 收货地址 -->
+    <view class="block address">
+      <view class="block-title">收货地址</view>
+      <view wx:if="{{selectedAddress}}" class="address-card" bindtap="goAddress">
+        <view class="address-name">{{selectedAddress.name}}　{{selectedAddress.phone}}</view>
+        <view class="address-detail">{{selectedAddress.fullAddress}}</view>
+        <view class="address-change">点击修改 ></view>
+      </view>
+      <view wx:else class="address-empty" bindtap="goAddress">
+        <text>暂无收货地址，点击去添加</text>
+      </view>
+    </view>
+
+    <!-- 金额 -->
+    <view class="block amount">
+      <view class="block-title">费用明细</view>
+      <view class="amount-row">
+        <text>商品费</text><text class="amount-num">RM {{detail.price}}</text>
+      </view>
+      <view class="amount-row">
+        <text>配送费</text><text class="amount-num">RM {{detail.delivery_fee}}</text>
+      </view>
+      <view class="amount-row total">
+        <text>合计</text><text class="amount-num">RM {{total}}</text>
+      </view>
+    </view>
+
+    <!-- 备注 -->
+    <view class="block remark">
+      <view class="block-title">订单备注</view>
+      <textarea class="remark-input" placeholder="选填，如有特殊要求请告诉我们" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" />
+    </view>
+  </block>
+
+  <!-- 底部提交栏 -->
+  <view class="footer-bar" wx:if="{{!loading}}">
+    <view class="footer-total">合计 <text class="footer-price">RM {{total}}</text></view>
+    <button class="btn-submit" loading="{{submitting}}" bindtap="onSubmit">提交订单</button>
+  </view>
+</view>

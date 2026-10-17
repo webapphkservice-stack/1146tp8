@@ -1,0 +1,4 @@
+<!-- 公告组 -->
+<view class="diy-notice">
+  <zan-noticebar leftIcon="{{ _icon }}" text="{{ _text }}" color="{{ _textColor }}" background-color="{{ _background }}" paddingTop="{{ _paddingTop }}" scrollable="{{ true }}" />
+</view>

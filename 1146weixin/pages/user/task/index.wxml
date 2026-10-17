@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="task-tip">
+    <text>完成任务领取积分，每日 0 点重置</text>
+  </view>
+
+  <view class="task-list" wx:if="{{ list.length }}">
+    <view class="task-item" wx:for="{{ list }}" wx:key="task_id">
+      <view class="task-icon">
+        <image wx:if="{{ item.task_icon }}" src="{{ item.task_icon }}" mode="aspectFit"></image>
+        <image wx:else src="/images/normal.png" mode="aspectFit"></image>
+      </view>
+      <view class="task-info">
+        <view class="task-name">
+          <text>{{ item.task_name }}</text>
+        </view>
+        <view class="task-points">
+          <text>+{{ item.points }} 积分</text>
+        </view>
+      </view>
+      <view class="task-action">
+        <view wx:if="{{ !item.is_received }}" class="btn-receive" catchtap="receive" data-task-id="{{ item.task_id }}">
+          <text>领取奖励</text>
+        </view>
+        <view wx:else class="btn-received">
+          <text>已领取</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{ notcont }}">
+    <view class="yoshop-notcont">
+      <text class="iconfont icon-wushuju"></text>
+      <text class="cont">亲，暂无每日任务哦</text>
+    </view>
+  </view>
+</view>

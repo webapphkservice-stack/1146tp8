@@ -1,0 +1,98 @@
+<view class="container">
+  <view class="common-header-xian"></view>
+  <!-- 表单 -->
+  <form bindsubmit="saveData">
+    <view class="address-cont-title b-f b-b">
+      <view class="list address-box dis-flex b-b">
+        <view class="left-name">
+          <text class="f-30">收货人</text>
+        </view>
+        <view class="right-cont flex-box">
+          <input name="name" placeholder="请输入收货人姓名" value="{{name}}"></input>
+        </view>
+      </view>
+      <view class="list address-box dis-flex">
+        <view class="left-name">
+          <text class="f-30">手机号</text>
+        </view>
+        <view class="right-cont flex-box">
+          <input name="phone" placeholder="请输入收货人联系电话" type="text" maxlength="20" value="{{phone}}"></input>
+        </view>
+      </view>
+      <!-- 账号关联提示 -->
+      <view wx:if="{{ showBindTip }}" class="bind-mobile-tip">
+        填写的手机号码将用于绑定在微信和支付宝账号关联
+      </view>
+    </view>
+
+    <!-- 国家选择 -->
+    <view class="address-cont-title b-f b-b">
+      <view class="dis-flex list address-box m-top20 b-b country-select">
+        <view class="country-tabs">
+          <view class="country-tab {{country === 'CN' ? 'active' : ''}}" bindtap="switchCountry" data-country="CN">中国大陆</view>
+          <view class="country-tab {{country === 'MY' ? 'active' : ''}}" bindtap="switchCountry" data-country="MY">马来西亚</view>
+        </view>
+      </view>
+
+      <!-- 中国大陆：省市区三级 -->
+      <block wx:if="{{country === 'CN'}}">
+        <view class="dis-flex list address-box b-b">
+          <view class="left-name">
+            <text class="f-30">所在地区</text>
+          </view>
+          <view class="address-cont-box flex-box">
+            <picker mode="region" bindchange="bindRegionChange">
+              <text wx:if="{{region.length}}" class="f-30">{{region}}</text>
+              <text wx:else class="f-30 col-7">选择省、市、区</text>
+            </picker>
+          </view>
+        </view>
+      </block>
+
+      <!-- 马来西亚：州/城市自由填写 -->
+      <block wx:else>
+        <view class="dis-flex list address-box b-b">
+          <view class="left-name">
+            <text class="f-30">州/省</text>
+          </view>
+          <view class="right-cont flex-box">
+            <picker mode="selector" range="{{stateList}}" value="{{stateIndex}}" bindchange="bindStateChange">
+              <view class="f-30">{{state || '请选择州属'}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="dis-flex list address-box b-b">
+          <view class="left-name">
+            <text class="f-30">城市</text>
+          </view>
+          <view class="right-cont flex-box">
+            <picker wx:if="{{cityList.length}}" mode="selector" range="{{cityList}}" value="{{cityIndex}}" bindchange="bindCityChange">
+              <view class="f-30">{{city || '请选择城市'}}</view>
+            </picker>
+            <input wx:else name="city" placeholder="如 Shah Alam" value="{{city}}" bindinput="bindCityInput"></input>
+          </view>
+        </view>
+      </block>
+
+      <view class="dis-flex list address-box">
+        <view class="left-name">
+          <text class="f-30">详细地址</text>
+        </view>
+        <view class="right-cont flex-box">
+          <input name="detail" placeholder="请输入街道小区楼层" type="text" value="{{detail}}"></input>
+        </view>
+      </view>
+    </view>
+    <view class="padding-box m-top35 btn-green btn-sm">
+      <button class="f-32" catchtap="chooseAddress">一键获取微信地址</button>
+    </view>
+    <view class="padding-box m-top20 profile-btn">
+      <button formType="submit" disabled="{{disabled}}">保存</button>
+    </view>
+  </form>
+</view>
+
+<!-- 快捷导航 -->
+<shortcut></shortcut>
+
+

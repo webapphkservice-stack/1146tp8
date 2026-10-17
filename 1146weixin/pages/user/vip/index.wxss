@@ -1,0 +1,210 @@
+page, .container {
+  background: #f7f7f7;
+}
+
+.vip-header {
+  background: linear-gradient(135deg, #3a3a4a, #1f1f2e);
+  padding: 40rpx 30rpx 50rpx;
+}
+
+.vip-header-top {
+  justify-content: space-between;
+}
+
+.vip-header-icon .iconfont {
+  font-size: 56rpx;
+  color: #f5d28b;
+}
+
+.vip-header-name {
+  flex: 1;
+  margin-left: 16rpx;
+}
+
+.vip-header-status {
+  padding: 6rpx 20rpx;
+  border-radius: 30rpx;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.vip-header-status.on {
+  background: #f5d28b;
+  color: #333;
+}
+
+.vip-header-status.on text {
+  color: #333;
+}
+
+/* 权益 */
+.vip-benefits {
+  margin: -30rpx 20rpx 0;
+  border-radius: 16rpx;
+  padding: 30rpx 20rpx;
+}
+
+.benefits-title {
+  margin-bottom: 24rpx;
+}
+
+.benefits-grid {
+  text-align: center;
+}
+
+.benefits-item {
+  padding: 10rpx 0;
+}
+
+.benefits-icon {
+  display: block;
+  font-size: 48rpx;
+  color: #fd4a5f;
+  margin-bottom: 12rpx;
+}
+
+.benefits-tip {
+  margin-top: 20rpx;
+  text-align: center;
+}
+
+/* 套餐 */
+.vip-plans {
+  padding: 20rpx;
+}
+
+.plans-title {
+  margin: 10rpx 0 20rpx;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  border-radius: 12rpx;
+  padding: 30rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.plan-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-name {
+  font-weight: bold;
+}
+
+.plan-desc {
+  margin-top: 10rpx;
+}
+
+.plan-price {
+  margin-right: 24rpx;
+}
+
+.col-m {
+  color: #fd4a5f;
+}
+
+.plan-btn {
+  background: linear-gradient(90deg, #ff7e5f, #fd4a5f);
+  color: #fff;
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+}
+
+.vip-tip {
+  text-align: center;
+  padding: 10rpx 30rpx 40rpx;
+}
+
+/* 我的VIP订单入口 */
+.vip-order-entry {
+  margin: 0 20rpx 20rpx;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 支付方式 */
+.pay-types {
+  margin: 20rpx;
+  border-radius: 16rpx;
+  padding: 30rpx 24rpx;
+}
+
+.pay-types-title {
+  margin-bottom: 24rpx;
+}
+
+.pay-type-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pay-type-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26rpx 24rpx;
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  background: #f7f8fa;
+  border: 2rpx solid #f0f0f0;
+  transition: all .2s;
+}
+
+.pay-type-item:last-child {
+  margin-bottom: 0;
+}
+
+.pay-type-item.active {
+  background: #fff5f6;
+  border-color: #fd4a5f;
+}
+
+.pay-type-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pay-type-name {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.pay-type-desc {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #999;
+}
+
+.pay-type-radio {
+  width: 38rpx;
+  height: 38rpx;
+  border-radius: 50%;
+  border: 3rpx solid #ccc;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pay-type-radio.checked {
+  border-color: #fd4a5f;
+  background: #fd4a5f;
+}
+
+.pay-type-radio.checked::after {
+  content: '';
+  position: absolute;
+  width: 16rpx;
+  height: 9rpx;
+  border-left: 4rpx solid #fff;
+  border-bottom: 4rpx solid #fff;
+  transform: rotate(-45deg);
+  top: 8rpx;
+  left: 9rpx;
+}

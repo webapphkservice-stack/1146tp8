@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 已通过: 代理信息 -->
+  <view wx:if="{{ agentInfo && agentInfo.is_agency == 1 }}" class="ra-detail b-f m-10">
+    <view class="ra-detail-head dis-flex flex-x-between flex-y-center">
+      <view class="ra-detail-title f-32 col-3">区域代理信息</view>
+      <view class="ra-status ra-status-{{ agentInfo.agent.status }}">{{ agentInfo.agent.status_text }}</view>
+    </view>
+    <view class="ra-detail-region f-28 col-6">{{ agentInfo.agent.level_text }} · {{ agentInfo.agent.region_name || '未分配地区' }}</view>
+    <view wx:if="{{ agentInfo.agent.contract_date }}" class="ra-detail-contract f-24 col-9">合约日期：{{ agentInfo.agent.contract_date }}</view>
+    <view class="ra-detail-money dis-flex">
+      <view class="ra-money-item flex-box">
+        <text class="ra-money-value f-40 col-3">{{ agentInfo.agent.withdrawableText }}</text>
+        <text class="ra-money-name f-24 col-9">可提现收益</text>
+      </view>
+      <view class="ra-money-item flex-box">
+        <text class="ra-money-value f-40 col-3">{{ agentInfo.agent.current_moneyText }}</text>
+        <text class="ra-money-name f-24 col-9">累计收益</text>
+      </view>
+      <view class="ra-money-item flex-box">
+        <text class="ra-money-value f-40 col-3">{{ agentInfo.agent.withdrawnText }}</text>
+        <text class="ra-money-name f-24 col-9">已提现</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待审核/已驳回: 申请进度 -->
+  <view wx:elif="{{ agentInfo && agentInfo.agent }}" class="ra-detail b-f m-10">
+    <view class="ra-detail-head dis-flex flex-x-between flex-y-center">
+      <view class="ra-detail-title f-32 col-3">区域代理申请</view>
+      <view class="ra-status ra-status-{{ agentInfo.agent.status }}">{{ agentInfo.agent.status_text }}</view>
+    </view>
+    <view class="ra-detail-region f-28 col-6">您的区域代理申请{{ agentInfo.agent.status_text }}，暂未开通收益</view>
+    <view wx:if="{{ agentInfo.agent.contract_date }}" class="ra-detail-contract f-24 col-9">合约日期：{{ agentInfo.agent.contract_date }}</view>
+  </view>
+
+  <!-- 非代理商: 申请入口 -->
+  <view wx:else class="ra-detail b-f m-10">
+    <view class="ra-detail-title f-32 col-3">成为区域代理</view>
+    <view class="ra-detail-region f-26 col-6">开通后可按区域订单获得收益分成，代理费用如下：</view>
+    <view wx:if="{{ fee }}" class="ra-fee dis-flex">
+      <view class="ra-fee-item flex-box">
+        <text class="ra-fee-value f-36 col-3">¥{{ fee.province_fee }}</text>
+        <text class="ra-fee-name f-24 col-9">省级代理</text>
+      </view>
+      <view class="ra-fee-item flex-box">
+        <text class="ra-fee-value f-36 col-3">¥{{ fee.city_fee }}</text>
+        <text class="ra-fee-name f-24 col-9">市级代理</text>
+      </view>
+      <view class="ra-fee-item flex-box">
+        <text class="ra-fee-value f-36 col-3">¥{{ fee.district_fee }}</text>
+        <text class="ra-fee-name f-24 col-9">区级代理</text>
+      </view>
+    </view>
+    <view class="ra-apply-btn" bindtap="onApply">申请区域代理</view>
+  </view>
+
+  <view class="ra-tip f-24 col-9">区域代理相关功能由后台统一管理，如有疑问请联系客服。</view>
+</view>

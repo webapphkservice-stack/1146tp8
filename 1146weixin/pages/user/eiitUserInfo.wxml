@@ -1,0 +1,181 @@
+<view class="page-container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">个人信息</text>
+    <text class="page-subtitle">管理您的头像和昵称</text>
+  </view>
+
+  <!-- 头像卡片 -->
+  <view class="info-card">
+    <view class="card-header">
+      <text class="card-title">头像</text>
+      <text class="card-desc">点击更换头像</text>
+    </view>
+    <view class="card-content">
+      <button class="avatar-btn" bindtap="onChooseAvatar">
+        <image class="avatar-image" src="{{avatarUrl}}" mode="aspectFill"></image>
+        <view class="avatar-overlay">
+          <text class="iconfont icon-camera"></text>
+        </view>
+      </button>
+    </view>
+  </view>
+
+  <!-- 昵称卡片 -->
+  <view class="info-card" bindtap="showNicknameModal">
+    <view class="card-header">
+      <text class="card-title">昵称</text>
+      <text class="card-desc">点击修改昵称</text>
+    </view>
+    <view class="card-content">
+      <view class="nickname-display {{nickName ? 'has-value' : ''}}">
+        {{nickName || '请输入昵称'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 手机号码卡片 (WhatsApp 注册用户不需要绑定手机号, 故隐藏) -->
+  <view class="info-card" wx:if="{{registerMethod !== 'whatsapp'}}">
+    <view class="card-header">
+      <text class="card-title">手机号码</text>
+      <text class="card-desc">用于接收订单通知与登录</text>
+    </view>
+    <view class="card-content bind-content">
+      <view class="mobile-display {{mobile ? 'has-value' : ''}}">
+        {{mobile || '未绑定手机号码'}}
+      </view>
+      <button wx:if="{{!mobile}}" class="bind-btn" bindtap="showBindMobile">立即绑定</button>
+    </view>
+  </view>
+
+  <!-- WhatsApp 卡片 (手机注册用户不需要绑定 WhatsApp, 故隐藏) -->
+  <view class="info-card" wx:if="{{registerMethod !== 'mobile'}}">
+    <view class="card-header">
+      <text class="card-title">WhatsApp</text>
+      <text class="card-desc">用于接收订单通知与登录</text>
+    </view>
+    <view class="card-content bind-content">
+      <view class="mobile-display {{whatsapp ? 'has-value' : ''}}">
+        {{whatsapp || '未绑定 WhatsApp'}}
+      </view>
+      <button wx:if="{{!whatsapp}}" class="bind-btn" bindtap="showBindWhatsapp">立即绑定</button>
+    </view>
+  </view>
+
+  <!-- 微信绑定卡片 -->
+  <view class="info-card">
+    <view class="card-header">
+      <text class="card-title">微信绑定</text>
+      <text class="card-desc">绑定后可使用微信支付</text>
+    </view>
+    <view class="card-content bind-content">
+      <view class="bind-status {{isBindWechat ? 'bound' : ''}}">{{isBindWechat ? '已绑定' : '未绑定'}}</view>
+      <button wx:if="{{!isBindWechat}}" class="bind-btn" bindtap="onBindWechat">立即绑定</button>
+    </view>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips-section">
+    <text class="tips-icon">💡</text>
+    <text class="tips-text">昵称和头像将展示在订单、评价等页面</text>
+  </view>
+
+  <!-- 自定义昵称弹窗 -->
+  <view class="modal-mask {{showModal ? 'show' : ''}}" bindtap="hideNicknameModal">
+    <view class="modal-content {{showModal ? 'show' : ''}}" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">修改昵称</text>
+        <text class="modal-close" bindtap="hideNicknameModal">✕</text>
+      </view>
+      <view class="modal-body">
+        <input 
+          class="modal-input" 
+          maxlength="20" 
+          placeholder="请输入昵称" 
+          value="{{tempNickName}}" 
+          bindinput="onModalInput"
+          focus="{{showModal}}"
+        />
+        <text class="modal-tip">昵称长度2-20个字符，支持中英文、数字</text>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="hideNicknameModal">取消</button>
+        <button class="modal-btn confirm" bindtap="confirmNickname">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 绑定手机号弹窗 -->
+  <view class="modal-mask {{showMobileModal ? 'show' : ''}}" bindtap="hideBindMobile">
+    <view class="modal-content {{showMobileModal ? 'show' : ''}}" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">绑定手机号</text>
+        <text class="modal-close" bindtap="hideBindMobile">✕</text>
+      </view>
+      <view class="modal-body">
+        <input
+          class="modal-input"
+          type="number"
+          maxlength="11"
+          placeholder="请输入手机号码"
+          value="{{tempMobile}}"
+          bindinput="onBindMobileInput"
+          focus="{{showMobileModal}}"
+        />
+        <view class="code-row">
+          <input
+            class="modal-input code-input"
+            type="number"
+            maxlength="6"
+            placeholder="请输入验证码"
+            value="{{tempCode}}"
+            bindinput="onBindCodeInput"
+          />
+          <button class="code-btn {{mobileCountdown > 0 ? 'disabled' : ''}}" bindtap="getBindMobileCode" disabled="{{mobileCountdown > 0}}">{{mobileCodeText}}</button>
+        </view>
+        <text class="modal-tip">绑定后可用于手机号登录与接收订单通知</text>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="hideBindMobile">取消</button>
+        <button class="modal-btn confirm" bindtap="confirmBindMobile">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 绑定 WhatsApp 弹窗 -->
+  <view class="modal-mask {{showWhatsappModal ? 'show' : ''}}" bindtap="hideBindWhatsapp">
+    <view class="modal-content {{showWhatsappModal ? 'show' : ''}}" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">绑定 WhatsApp</text>
+        <text class="modal-close" bindtap="hideBindWhatsapp">✕</text>
+      </view>
+      <view class="modal-body">
+        <input
+          class="modal-input"
+          type="number"
+          maxlength="16"
+          placeholder="请输入 WhatsApp 号码(国际格式)"
+          value="{{tempWhatsapp}}"
+          bindinput="onBindWhatsappInput"
+          focus="{{showWhatsappModal}}"
+        />
+        <view class="code-row">
+          <input
+            class="modal-input code-input"
+            type="number"
+            maxlength="6"
+            placeholder="请输入验证码"
+            value="{{tempWhatsappCode}}"
+            bindinput="onBindWhatsappCodeInput"
+          />
+          <button class="code-btn {{whatsappCountdown > 0 ? 'disabled' : ''}}" bindtap="getBindWhatsappCode" disabled="{{whatsappCountdown > 0}}">{{whatsappCodeText}}</button>
+        </view>
+        <text class="modal-tip">绑定后可用于 WhatsApp 登录与接收订单通知</text>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="hideBindWhatsapp">取消</button>
+        <button class="modal-btn confirm" bindtap="confirmBindWhatsapp">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

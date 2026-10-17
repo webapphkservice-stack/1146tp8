@@ -1,0 +1,190 @@
+page {
+  background: #fff;
+  font-size: 32rpx;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 40rpx 60rpx;
+}
+
+/* 登录页 LOGO */
+.login-logo {
+  text-align: center;
+  margin-bottom: 48rpx;
+}
+
+/* 登录方式切换标签 */
+.login-tabs {
+  display: flex;
+  margin-bottom: 48rpx;
+  background: #f2f2f2;
+  border-radius: 999rpx;
+  padding: 6rpx;
+}
+
+.login-tabs .tab {
+  flex: 1;
+  text-align: center;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  color: #666;
+  border-radius: 999rpx;
+  transition: all .2s;
+}
+
+.login-tabs .tab.active {
+  background: #fff;
+  color: #04be01;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+.logo-image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 16rpx;
+}
+
+.wechatapp {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #e3e3e3;
+  margin-bottom: 36rpx;
+  text-align: center;
+}
+
+/* 头像选择按钮 */
+.avatar-wrapper {
+  display: inline-block;
+  width: 190rpx;
+  height: 190rpx;
+  padding: 0;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #f5f5f5;
+  overflow: hidden;
+  box-shadow: 1px 0px 5px rgba(50, 50, 50, 0.3);
+}
+
+.avatar-wrapper::after {
+  border: none;
+}
+
+.avatar {
+  width: 190rpx;
+  height: 190rpx;
+  border-radius: 50%;
+}
+
+/* 未选择头像时的占位 */
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder .iconfont {
+  font-size: 96rpx;
+  color: #c8c8c8;
+}
+
+.avatar-tip {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.auth-title {
+  color: #585858;
+  font-size: 34rpx;
+  margin-bottom: 40rpx;
+}
+
+.auth-subtitle {
+  color: #888;
+  margin-bottom: 48rpx;
+  font-size: 28rpx;
+}
+
+/* 昵称输入框 */
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  margin-bottom: 60rpx;
+  background: #f9f9f9;
+  border-radius: 16rpx;
+}
+
+.form-item .label {
+  flex-shrink: 0;
+  padding-right: 20rpx;
+  font-size: 30rpx;
+  color: #333;
+  white-space: nowrap;
+}
+
+.nickname-input {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+/* 验证码行：输入框 + 获取按钮 */
+.code-item {
+  padding-right: 12rpx;
+}
+
+.code-btn {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  color: #04be01;
+  background: #eafbe9;
+  border-radius: 999rpx;
+}
+
+.code-btn[disabled] {
+  color: #bbb;
+  background: #f2f2f2;
+}
+
+.ph {
+  color: #bbb;
+}
+
+.login-btn {
+  padding: 0 20rpx;
+}
+
+.login-btn button {
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #04be01;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 999rpx;
+  text-align: center;
+}
+
+.no-login-btn {
+  margin-top: 20rpx;
+  padding: 0 20rpx;
+}
+
+.no-login-btn button {
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #dfdfdf;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 999rpx;
+  text-align: center;
+}

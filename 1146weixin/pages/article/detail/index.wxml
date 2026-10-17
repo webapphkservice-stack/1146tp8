@@ -1,0 +1,78 @@
+<view class="container">
+      <!-- 封面图：左右贴边全宽滑动，单张按比例显示，手动滑动不自动播放 -->
+      <view wx:if="{{detail.images.length > 0}}" class="cover-card">
+        <swiper class="cover-swiper" style="height:{{coverH}}rpx" bindchange="onCoverChange"
+                indicator-dots="{{detail.images.length > 1}}"
+                circular
+                indicator-color="rgba(0,0,0,.2)" indicator-active-color="#fff">
+          <swiper-item wx:for="{{detail.images}}" wx:key="file_id" class="cover-item">
+            <image class="cover-cell" src="{{item.file_path}}" mode="widthFix"
+                   bindload="onCoverLoad" bindtap="previewCover" data-index="{{index}}"></image>
+          </swiper-item>
+        </swiper>
+      </view>
+
+  <view class="article-detail">
+    <view class="article-item">
+      <!-- 文章标题 -->
+      <view class="article-title">
+        <text>{{detail.article_title}}</text>
+      </view>
+      <!-- 文章信息 -->
+      <view class="article-info">
+        <text>{{detail.category.name}}</text>
+        <text>{{detail.view_time}}</text>
+      </view>
+      <!-- 文章内容 -->
+      <view class="article-content">
+        <rich-text nodes="{{detail.article_content}}"></rich-text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评论区 -->
+  <view class="comment-block">
+    <view class="comment-head">评论（{{commentNum}}）</view>
+    <view wx:if="{{commentList.length}}" class="comment-list">
+      <view wx:for="{{commentList}}" wx:key="comment_id" class="comment-item">
+        <view class="c-avatar">{{item.avatar}}</view>
+        <view class="c-main">
+          <view class="c-name">{{item.nickname}}</view>
+          <view class="c-content">{{item.content}}</view>
+          <view class="c-time">{{item.time_text}}</view>
+        </view>
+      </view>
+      <view wx:if="{{!commentNoMore}}" class="c-more" bindtap="loadMoreComment">加载更多评论</view>
+      <view wx:else class="c-more">没有更多评论了</view>
+    </view>
+    <view wx:else class="comment-empty">快来抢沙发，发表第一条评论吧~</view>
+  </view>
+
+  <view class="flow"></view>
+</view>
+
+<!-- 底部互动栏 -->
+<view class="action-bar">
+  <view class="ab-input" bindtap="showComment">
+    <text>说点什么...</text>
+  </view>
+  <view class="ab-btn {{isLike ? 'liked' : ''}}" bindtap="onLike">
+    <text class="ab-ico">{{isLike ? '♥' : '♡'}}</text>
+    <text class="ab-num">{{likeNum}}</text>
+  </view>
+  <view class="ab-btn" bindtap="showComment">
+    <text class="ab-ico">💬</text>
+    <text class="ab-num">{{commentNum}}</text>
+  </view>
+  <view class="ab-btn" bindtap="goTop">
+    <text class="ab-ico">⌃</text>
+  </view>
+</view>
+
+<!-- 评论输入弹层 -->
+<view wx:if="{{commentShow}}" class="comment-mask" bindtap="hideComment">
+  <view class="comment-panel" catchtap="noop">
+    <textarea class="comment-textarea" placeholder="说点什么..." value="{{commentContent}}" bindinput="onCommentInput" maxlength="500" auto-focus />
+    <view class="comment-send" bindtap="postComment">发送</view>
+  </view>
+</view>

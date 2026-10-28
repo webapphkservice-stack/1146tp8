@@ -97,6 +97,7 @@
             <div class="stat-card"><div class="num"><?= $stat['store_user'] ?></div><div class="label">门店管理员</div></div>
             <div class="stat-card"><div class="num" style="font-size:16px;"><?= date('Y-m-d', (int)$stat['time_ts'] ?? time()) ?></div><div class="label">服务器时间</div></div>
             <div class="stat-card"><div class="num" style="font-size:16px;"><?= htmlspecialchars($stat['php'] ?? PHP_VERSION) ?></div><div class="label">PHP 版本</div></div>
+            <div class="stat-card"><div class="num" style="font-size:16px;"><?= htmlspecialchars($stat['tp'] ?? \think\App::VERSION) ?></div><div class="label">ThinkPHP 版本</div></div>
         </div>
     </div>
 

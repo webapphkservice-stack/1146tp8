@@ -69,6 +69,7 @@ class Setting extends Controller
         }
         $stat = [
             'php'        => PHP_VERSION,
+            'tp'         => \think\App::VERSION,
             'store'      => Db::name('wxapp')->where('is_delete', 0)->where('is_recycle', 0)->count(),
             'store_user' => Db::name('store_user')->where('is_delete', 0)->count(),
             'time'       => date('Y-m-d H:i:s'),

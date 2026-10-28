@@ -1,0 +1,78 @@
+<?php
+$W = $words['index']['words'] ?? [];
+$vw = fn($k, $d = '') => htmlspecialchars((string)($W[$k]['value'] ?? $d));
+$indexTitle = $words['index']['title']['value'] ?? '分销中心';
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($indexTitle) ?> · 大料优选</title>
+    <meta name="description" content="大料优选分销中心，分享好物赚佣金，管理团队、订单与提现。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .dealer-page{padding:40px 0 72px;min-height:420px}
+        .deal-hero{position:relative;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 90% 10%,#f5c542 0 16%,transparent 16.5%),linear-gradient(135deg,#2d5016,#4a7a26);color:#fff;padding:46px 40px 40px;box-shadow:0 4px 18px rgba(45,80,22,.18)}
+        .deal-hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18}
+        .deal-user{position:relative;display:flex;align-items:center;gap:16px}
+        .deal-avatar{width:72px;height:72px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid rgba(255,255,255,.5)}
+        .deal-avatar img{width:100%;height:100%;object-fit:cover}
+        .deal-avatar .ph{font-size:30px;color:var(--green)}
+        .deal-user h1{font-size:26px;margin:0 0 4px}
+        .deal-user p{margin:0;color:rgba(255,255,255,.85);font-size:14px}
+        .deal-cards{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px;align-items:stretch}
+        .deal-cap{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px 20px;backdrop-filter:blur(4px)}
+        .deal-cap span{display:block;font-size:13px;color:rgba(255,255,255,.82);margin-bottom:8px}
+        .deal-cap b{font-size:26px;font-weight:800}
+        .deal-withdraw{position:relative;margin-top:34px;display:inline-flex}
+        .ops-title{margin:40px 0 18px;font-size:20px;font-weight:800}
+        .deal-ops{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .deal-op{display:flex;flex-direction:column;align-items:center;gap:14px;padding:30px 20px;background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.08);transition:.2s}
+        .deal-op:hover{box-shadow:0 7px 18px rgba(139,69,19,.14);transform:translateY(-3px)}
+        .deal-op .ico{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+        .deal-op .txt{font-size:15px;font-weight:600;color:var(--green)}
+        .apply-card{max-width:560px;margin:0 auto;text-align:center;background:#fff;border-radius:24px;padding:56px 32px;box-shadow:0 4px 18px rgba(139,69,19,.10)}
+        .apply-card .emoji{font-size:52px;margin-bottom:12px}
+        .apply-card h1{font-size:26px;margin:0 0 10px}
+        .apply-card p{color:var(--muted);margin:0 0 26px;font-size:15px}
+        @media(max-width:900px){.deal-ops{grid-template-columns:repeat(2,1fr)}.deal-cards{grid-template-columns:1fr}}
+        @media(max-width:520px){.deal-hero{padding:34px 22px 30px}.deal-user h1{font-size:22px}.deal-ops{gap:14px}.deal-op{padding:22px 12px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main class="wrap dealer-page">
+<?php if ($isDealer): ?>
+    <section class="deal-hero" aria-label="<?= htmlspecialchars($indexTitle) ?>">
+        <?php if (!empty($background)): ?><img class="bg" src="<?= htmlspecialchars($background) ?>" alt=""/><?php endif; ?>
+        <div class="deal-user">
+            <div class="deal-avatar"><?php if (!empty($user['avatarUrl'])): ?><img src="<?= htmlspecialchars($user['avatarUrl']) ?>" alt=""/> <?php else: ?><span class="ph">大</span><?php endif; ?></div>
+            <div><h1><?= htmlspecialchars($user['nickName'] ?: '分销商') ?></h1><p><?= $vw('referee', '推荐人') ?>：<?= htmlspecialchars($refereeName) ?></p></div>
+        </div>
+        <div class="deal-cards">
+            <div class="deal-cap"><span><?= $vw('money', '可提现') ?></span><b>¥<?= number_format($dealer['money'] ?? 0, 2) ?></b></div>
+            <div class="deal-cap"><span><?= $vw('freeze_money', '待提现') ?></span><b>¥<?= number_format($dealer['freeze_money'] ?? 0, 2) ?></b></div>
+            <div class="deal-cap"><span><?= $vw('total_money', '已提现') ?></span><b>¥<?= number_format($dealer['total_money'] ?? 0, 2) ?></b></div>
+        </div>
+        <a class="btn deal-withdraw" href="/h5/dealer/withdrawApply.html"><?= $vw('withdraw', '去提现') ?></a>
+    </section>
+    <h2 class="ops-title">分销服务</h2>
+    <section class="deal-ops" aria-label="分销服务入口">
+        <a class="deal-op" href="/h5/dealer/withdraw.html"><span class="ico" style="background:#fff7e6;color:#f9a825;">￥</span><span class="txt"><?= htmlspecialchars($words['withdraw_list']['title']['value'] ?? '提现明细') ?></span></a>
+        <a class="deal-op" href="/h5/dealer/order.html"><span class="ico" style="background:#fff0f0;color:#e8722a;">单</span><span class="txt"><?= htmlspecialchars($words['order']['title']['value'] ?? '分销订单') ?></span></a>
+        <a class="deal-op" href="/h5/dealer/team.html"><span class="ico" style="background:#eefaf3;color:#4a7a26;">队</span><span class="txt"><?= htmlspecialchars($words['team']['title']['value'] ?? '我的团队') ?></span></a>
+        <a class="deal-op" href="/h5/dealer/qrcode.html"><span class="ico" style="background:#eef4ff;color:#5fa5ff;">码</span><span class="txt"><?= htmlspecialchars($words['qrcode']['title']['value'] ?? '推广二维码') ?></span></a>
+    </section>
+<?php else: ?>
+    <section class="apply-card">
+        <div class="emoji">🤝</div>
+        <h1><?= $vw('not_dealer', '您还不是分销商') ?></h1>
+        <p><?= $vw('not_dealer_tip', '分享好物赚佣金，加入分销商，一起把新鲜带给更多人。') ?></p>
+        <a class="btn" href="/h5/dealer/apply.html"><?= $vw('apply_now', '立即加入') ?></a>
+    </section>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+</body>
+</html>

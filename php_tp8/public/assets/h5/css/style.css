@@ -1059,3 +1059,70 @@ body.h5-body {
 .fm-page .h5-empty { color: #8b7355; }
 .fm-page .h5-empty__btn { background: #e8722a; border-radius: 999px; font-weight: 500; }
 
+
+/* ============================================================
+   Fresh Market · 航班查询页（/pages/flight/index → h5/flight/index）
+   色板沿用 stylekit fresh-market：米白底 #fef9f0、标题绿 #2d5016、
+   主按钮橙 #e8722a、价格黄 #f5c542、药丸浅绿 #d4e4bc、辅助棕 #8b7355
+   ============================================================ */
+
+/* 查询表单面板 */
+.fm-page .fm-form {
+    background: #ffffff; border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08);
+    padding: 16px; margin: 0 14px 14px;
+}
+.fm-page .fm-form__row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.fm-page .fm-form__label { flex: 0 0 56px; font-size: 13px; color: #2d5016; font-weight: 600; }
+.fm-page .fm-form__input {
+    flex: 1; height: 38px; border: 1px solid #d4e4bc; border-radius: 999px;
+    padding: 0 14px; font-size: 14px; color: #2d5016; background: #fef9f0;
+    outline: none; box-sizing: border-box; min-width: 0;
+}
+.fm-page .fm-form__input:focus { border-color: #e8722a; box-shadow: 0 0 0 3px rgba(232, 114, 42, 0.15); }
+.fm-page .fm-form__btn {
+    width: 100%; height: 42px; border: none; border-radius: 999px;
+    background: #e8722a; color: #ffffff; font-size: 15px; font-weight: 600;
+    cursor: pointer;
+}
+.fm-page .fm-form__btn:active { opacity: 0.85; }
+
+/* 舱位选项（radio 药丸） */
+.fm-page .fm-cabin { flex: 1; display: flex; gap: 6px; flex-wrap: wrap; }
+.fm-page .fm-cabin__tab input { position: absolute; opacity: 0; pointer-events: none; }
+.fm-page .fm-cabin__tab span {
+    display: inline-block; padding: 5px 12px; border-radius: 999px;
+    background: #d4e4bc; color: #2d5016; font-size: 12px; line-height: 1.5;
+    cursor: pointer; transition: background-color .2s ease, color .2s ease;
+}
+.fm-page .fm-cabin__tab input:checked + span { background: #e8722a; color: #ffffff; }
+
+/* 数据来源标签 */
+.fm-page .fm-tag {
+    margin: 0 14px 10px; padding: 6px 12px; display: inline-block;
+    background: #d4e4bc; color: #2d5016; border-radius: 8px; font-size: 12px;
+}
+
+/* 航班卡片 */
+.fm-page .fm-flight-list { display: flex; flex-direction: column; gap: 12px; margin: 0 14px 20px; }
+.fm-page .fm-flight-card {
+    background: #ffffff; border-radius: 16px; padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08);
+}
+.fm-page .fm-flight-card__airline { font-size: 13px; color: #8b7355; margin-bottom: 10px; }
+.fm-page .fm-flight-card__route { display: flex; align-items: center; gap: 8px; }
+.fm-page .fm-flight-point { flex: 1; min-width: 0; }
+.fm-page .fm-flight-point--right { text-align: right; }
+.fm-page .fm-flight-point__time { font-size: 17px; font-weight: 700; color: #2d5016; }
+.fm-page .fm-flight-point__airport { font-size: 12px; color: #8b7355; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fm-page .fm-flight-mid { flex: 1.2; text-align: center; }
+.fm-page .fm-flight-mid__line { height: 1px; background: #d4e4bc; margin: 0 6px; }
+.fm-page .fm-flight-mid__duration { font-size: 11px; color: #8b7355; margin-top: 4px; }
+.fm-page .fm-flight-mid__stops { font-size: 11px; color: #e8722a; margin-top: 2px; }
+.fm-page .fm-flight-card__ext { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.fm-page .fm-flight-card__ext-item {
+    background: #fef5e6; color: #8b4513; border-radius: 6px;
+    padding: 2px 8px; font-size: 11px;
+}
+.fm-page .fm-flight-card__price { margin-top: 10px; display: flex; align-items: center; gap: 10px; }
+.fm-page .fm-flight-card__cabin { font-size: 12px; color: #8b7355; }

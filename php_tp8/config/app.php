@@ -15,9 +15,10 @@ return [
 
     // 应用映射（自动多应用模式有效）
     // 旧版 TP5 首页应用 home 映射到 h5（兼容旧链接 index.php?s=/home/...）。
+    // pages 映射到 h5：兼容小程序页面路径风格链接（如 /pages/flight/index）。
     // 注意：think-multi-app 会把「app_map 的 value」视为不可直连（404 app not exists），
     // 故 h5 必须同时作为 key 自映射，否则 s=/h5/... 直连全部 404。
-    'app_map'          => ['home' => 'h5', 'h5' => 'h5'],
+    'app_map'          => ['home' => 'h5', 'pages' => 'h5', 'h5' => 'h5'],
     // 域名绑定（自动多应用模式有效）
     'domain_bind'      => [],
     // 禁止URL访问的应用列表（自动多应用模式有效）

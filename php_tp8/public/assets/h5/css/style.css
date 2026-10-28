@@ -1134,3 +1134,56 @@ body.h5-body {
     background: rgba(196, 72, 72, 0.12); border: 1px solid rgba(196, 72, 72, 0.4); color: #a33;
 }
 .fm-page select.fm-form__input { appearance: none; -webkit-appearance: none; }
+
+/* ============================================================
+   Fresh Market · web 端首页（/h5/index/index、s=/home/）
+   ============================================================ */
+
+/* Hero CTA 按钮 */
+.fm-page .fm-hero__btn {
+    display: inline-block; margin-top: 14px; padding: 9px 28px;
+    background: #e8722a; color: #ffffff; border-radius: 999px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    box-shadow: 0 2px 8px rgba(232, 114, 42, 0.35);
+}
+.fm-page .fm-hero__btn:active { opacity: 0.85; }
+
+/* 便捷服务卡片 */
+.fm-page .fm-service { display: flex; gap: 10px; margin: 0 14px 16px; }
+.fm-page .fm-service__card {
+    flex: 1; display: flex; flex-direction: column; align-items: flex-start;
+    background: #ffffff; border-radius: 16px; padding: 14px 16px;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08); text-decoration: none;
+}
+.fm-page .fm-service__icon { font-size: 24px; }
+.fm-page .fm-service__name { margin-top: 6px; font-size: 14px; font-weight: 600; color: #2d5016; }
+.fm-page .fm-service__desc { margin-top: 2px; font-size: 11px; color: #8b7355; }
+
+/* 区块标题 */
+.fm-page .fm-home__sec {
+    margin: 0 14px 10px; font-size: 16px; font-weight: 700; color: #2d5016;
+}
+
+/* 推荐商品两列网格 */
+.fm-page .fm-home-goods {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin: 0 14px; padding: 0; list-style: none;
+}
+.fm-page .fm-home-goods__card {
+    background: #ffffff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.08); cursor: pointer;
+}
+.fm-page .fm-home-goods__img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.fm-page .fm-home-goods__info { padding: 10px 12px 12px; }
+.fm-page .fm-home-goods__name {
+    font-size: 13px; color: #2d5016; line-height: 1.4; margin: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fm-page .fm-home-goods__price { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; }
+.fm-page .fm-home__more {
+    display: block; margin: 14px 14px 24px; text-align: center;
+    font-size: 13px; color: #e8722a; text-decoration: none;
+}
+
+/* 导航购物车图标 */
+.fm-page .h5-nav-cart { margin-left: 8px; font-size: 18px; text-decoration: none; }

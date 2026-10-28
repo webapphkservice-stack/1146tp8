@@ -1,0 +1,113 @@
+<?php
+$hasGoods = !empty($goods);
+$sku = $hasGoods && !empty($goods['sku']) ? $goods['sku'][0] : null;
+$sharingPrice = $sku ? (float)$sku['sharing_price'] : 0;
+if ($sharingPrice <= 0) $sharingPrice = $sku ? (float)$sku['goods_price'] : 0;
+$linePrice = $hasGoods ? (float)($goods['line_price'] ?? 0) : 0;
+$people = $hasGoods ? (int)($goods['people'] ?: ($goods['people_num'] ?? 2)) : 2;
+$sales = $hasGoods ? (int)($goods['sales_actual'] ?? 0) : 0;
+$stock = $sku ? (int)$sku['stock_num'] : 0;
+$content = $hasGoods ? html_entity_decode((string)($goods['content'] ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
+$pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼团商品不存在 · 大料优选';
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($pageTitle) ?></title>
+    <meta name="description" content="<?= htmlspecialchars($hasGoods ? $goods['goods_name'] . '，邀好友一起拼。' : '拼团商品不存在或已结束') ?>"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .breadcrumb{display:flex;flex-wrap:wrap;gap:8px;padding:28px 0 20px;color:var(--muted);font-size:13px}
+        .breadcrumb a:hover{color:var(--orange)}
+        .product{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:start}
+        .gallery-main{background:#fff;border-radius:24px;padding:18px;box-shadow:0 2px 10px rgba(139,69,19,.08)}
+        .gallery-main img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px}
+        .info{padding-top:8px}
+        .eyebrow{margin:0 0 12px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .info h1{font-size:34px;line-height:1.35;margin:0 0 16px;letter-spacing:-.5px}
+        .price-box{display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding:22px 24px;background:#fff4d7;border-radius:18px}
+        .price{color:var(--brown);font-size:36px;font-weight:800;line-height:1}
+        .line-price{color:var(--muted);font-size:15px;text-decoration:line-through}
+        .sales{margin-left:auto;color:var(--muted);font-size:13px}
+        .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+        .meta-item{padding:13px 16px;background:#fff;border-radius:14px;font-size:13px;color:var(--muted)}
+        .meta-item strong{color:var(--green);margin-left:6px}
+        .group-list{margin-top:24px}
+        .group-list h2{font-size:16px;margin:0 0 12px}
+        .group-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;margin-bottom:10px;background:#fff;border-radius:14px;font-size:14px}
+        .group-item .who{color:var(--green);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .group-item .need{color:var(--orange);font-weight:700;white-space:nowrap}
+        .actions{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin-top:30px}
+        .service-note{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+        .service-note span{padding:7px 12px;border-radius:999px;background:var(--pill);font-size:12px;font-weight:600}
+        .detail-card{margin:64px 0 0;padding:36px;background:#fff;border-radius:24px;box-shadow:0 2px 8px rgba(139,69,19,.06)}
+        .detail-card h2{font-size:26px;margin:0 0 22px}
+        .desc-content{color:var(--muted);font-size:15px;overflow-wrap:anywhere}
+        .desc-content p{margin:0 0 18px}
+        .desc-content img{display:block;max-width:100%;height:auto;margin:16px auto;border-radius:16px}
+        .empty{margin:50px auto 80px;padding:70px 24px;text-align:center;background:#fff;border-radius:24px;max-width:640px}
+        .empty h1{margin:0 0 12px}
+        .empty p{color:var(--muted);margin:0 0 26px}
+        .toast{position:fixed;left:50%;bottom:36px;z-index:50;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
+        .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+        @media(max-width:900px){.product{grid-template-columns:1fr;gap:32px}.gallery-main{max-width:680px}.info h1{font-size:30px}.detail-card{margin-top:40px}}
+        @media(max-width:520px){.product{gap:24px}.info h1{font-size:26px}.price-box{padding:18px}.price{font-size:30px}.sales{margin-left:0;width:100%}.actions{grid-template-columns:1fr}.detail-card{padding:24px 18px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<div class="wrap breadcrumb"><a href="/">首页</a><span>/</span><a href="/index/sharing/index.html">拼团</a><span>/</span><span>商品详情</span></div>
+<main class="wrap">
+<?php if ($hasGoods): ?>
+    <section class="product" aria-labelledby="goodsName">
+        <div class="gallery">
+            <div class="gallery-main"><img src="<?= htmlspecialchars($goods['image'] ?? '') ?>" alt="<?= htmlspecialchars($goods['goods_name']) ?>"/></div>
+        </div>
+        <div class="info">
+            <p class="eyebrow">GROUP BUYING · 邀好友一起拼</p>
+            <h1 id="goodsName"><?= htmlspecialchars($goods['goods_name']) ?></h1>
+            <div class="price-box">
+                <span class="price">¥<?= number_format($sharingPrice, 2) ?></span>
+                <?php if ($linePrice > 0): ?><span class="line-price">¥<?= number_format($linePrice, 2) ?></span><?php endif; ?>
+                <span class="sales">已售 <?= $sales ?></span>
+            </div>
+            <div class="meta">
+                <div class="meta-item"><?= $people ?>人成团<strong>邀请好友更划算</strong></div>
+                <div class="meta-item">可用库存<strong><?= $stock ?></strong></div>
+            </div>
+            <div class="actions">
+                <button class="btn" id="btnBuy" type="button" <?= $stock <= 0 ? 'disabled' : '' ?>><?= $stock > 0 ? '立即拼团' : '暂时缺货' ?></button>
+                <a class="btn btn-light" href="/index/sharing/index.html">返回拼团</a>
+            </div>
+            <div class="service-note"><span>好友成团</span><span>产地直供</span><span>未成团自动退款</span></div>
+        </div>
+    </section>
+    <?php if (!empty($activeList)): ?>
+    <section class="group-list" aria-labelledby="groupTitle">
+        <h2 id="groupTitle">进行中的拼单</h2>
+        <?php foreach ($activeList as $activeItem): ?>
+        <div class="group-item"><span class="who"><?= htmlspecialchars($activeItem['nickName'] ?: '神秘买家') ?> 的拼单</span><span class="need">还差 <?= (int)$activeItem['remain_people'] ?> 人</span></div>
+        <?php endforeach; ?>
+    </section>
+    <?php endif; ?>
+    <section class="detail-card" aria-labelledby="detailTitle">
+        <h2 id="detailTitle">商品详情</h2>
+        <div class="desc-content"><?= $content !== '' ? $content : '<p>商家正在补充更多商品信息。</p>' ?></div>
+    </section>
+<?php else: ?>
+    <section class="empty"><h1>拼团商品不存在或已结束</h1><p>看看其他精心挑选的好物吧。</p><a class="btn" href="/index/sharing/index.html">返回拼团专区</a></section>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+    function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
+    var buy=document.getElementById('btnBuy');
+    if(buy){buy.addEventListener('click',function(){toast('拼团下单功能即将上线，敬请期待')})}
+})();
+</script>
+</body>
+</html>

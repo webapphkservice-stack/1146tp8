@@ -1,0 +1,90 @@
+<?php
+$hasActive = !empty($detail);
+$floorPrice = $hasActive ? (float)$detail['floor_price'] : 0;
+$originalPrice = $hasActive ? (float)$detail['original_price'] : 0;
+$cutCount = $hasActive ? (int)$detail['active_sales'] : 0;
+$peoples = $hasActive ? (int)$detail['peoples'] : 0;
+$prompt = $hasActive ? ($detail['prompt_words'] ?: $detail['share_title'] ?: '邀请好友帮你砍价，砍到心仪好价。') : '';
+$pageTitle = $hasActive ? $detail['goods_name'] . ' · 大料优选砍价' : '砍价活动不存在 · 大料优选';
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($pageTitle) ?></title>
+    <meta name="description" content="<?= htmlspecialchars($hasActive ? $detail['goods_name'] . '，邀请好友帮你砍价。' : '砍价活动不存在或已结束') ?>"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .breadcrumb{display:flex;flex-wrap:wrap;gap:8px;padding:28px 0 20px;color:var(--muted);font-size:13px}
+        .breadcrumb a:hover{color:var(--orange)}
+        .product{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:start}
+        .gallery-main{background:#fff;border-radius:24px;padding:18px;box-shadow:0 2px 10px rgba(139,69,19,.08)}
+        .gallery-main img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px}
+        .info{padding-top:8px}
+        .eyebrow{margin:0 0 12px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .info h1{font-size:34px;line-height:1.35;margin:0 0 16px;letter-spacing:-.5px}
+        .price-box{display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding:22px 24px;background:#fff4d7;border-radius:18px}
+        .price{color:var(--brown);font-size:36px;font-weight:800;line-height:1}
+        .line-price{color:var(--muted);font-size:15px;text-decoration:line-through}
+        .sales{margin-left:auto;color:var(--muted);font-size:13px}
+        .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+        .meta-item{padding:13px 16px;background:#fff;border-radius:14px;font-size:13px;color:var(--muted)}
+        .meta-item strong{color:var(--green);margin-left:6px}
+        .prompt{margin-top:24px;padding:16px 18px;background:var(--pill);border-radius:14px;font-size:14px;color:var(--green)}
+        .actions{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin-top:30px}
+        .service-note{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+        .service-note span{padding:7px 12px;border-radius:999px;background:var(--pill);font-size:12px;font-weight:600}
+        .empty{margin:50px auto 80px;padding:70px 24px;text-align:center;background:#fff;border-radius:24px;max-width:640px}
+        .empty h1{margin:0 0 12px}
+        .empty p{color:var(--muted);margin:0 0 26px}
+        .toast{position:fixed;left:50%;bottom:36px;z-index:50;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
+        .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+        @media(max-width:900px){.product{grid-template-columns:1fr;gap:32px}.gallery-main{max-width:680px}.info h1{font-size:30px}}
+        @media(max-width:520px){.product{gap:24px}.info h1{font-size:26px}.price-box{padding:18px}.price{font-size:30px}.sales{margin-left:0;width:100%}.actions{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<div class="wrap breadcrumb"><a href="/">首页</a><span>/</span><a href="/index/bargain/index.html">砍价免费拿</a><span>/</span><span>商品详情</span></div>
+<main class="wrap">
+<?php if ($hasActive): ?>
+    <section class="product" aria-labelledby="goodsName">
+        <div class="gallery">
+            <div class="gallery-main"><img src="<?= htmlspecialchars($detail['image'] ?? '') ?>" alt="<?= htmlspecialchars($detail['goods_name']) ?>"/></div>
+        </div>
+        <div class="info">
+            <p class="eyebrow">BARGAIN · 邀请好友帮你砍</p>
+            <h1 id="goodsName"><?= htmlspecialchars($detail['goods_name']) ?></h1>
+            <div class="price-box">
+                <span class="price">底价 ¥<?= number_format($floorPrice, 2) ?></span>
+                <?php if ($originalPrice > 0): ?><span class="line-price">¥<?= number_format($originalPrice, 2) ?></span><?php endif; ?>
+                <span class="sales">已砍 <?= $cutCount ?> 次</span>
+            </div>
+            <div class="meta">
+                <div class="meta-item">已砍次数<strong><?= $cutCount ?></strong></div>
+                <div class="meta-item">参与人数<strong><?= $peoples ?></strong></div>
+            </div>
+            <div class="prompt"><?= htmlspecialchars($prompt) ?></div>
+            <div class="actions">
+                <button class="btn" id="btnCut" type="button">发起砍价</button>
+                <a class="btn btn-light" href="/index/bargain/index.html">返回砍价</a>
+            </div>
+            <div class="service-note"><span>好友帮砍</span><span>越砍越划算</span><span>砍到心仪价</span></div>
+        </div>
+    </section>
+<?php else: ?>
+    <section class="empty"><h1>砍价活动不存在或已结束</h1><p>看看其他精心挑选的好物吧。</p><a class="btn" href="/index/bargain/index.html">返回砍价专区</a></section>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+    function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
+    var cut=document.getElementById('btnCut');
+    if(cut){cut.addEventListener('click',function(){toast('砍价下单功能即将上线，敬请期待')})}
+})();
+</script>
+</body>
+</html>

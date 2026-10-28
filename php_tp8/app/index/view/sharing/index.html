@@ -1,0 +1,105 @@
+<?php
+$list = $list ?? ['data' => [], 'total' => 0, 'current_page' => 1, 'last_page' => 1];
+$categoryId = (int)($categoryId ?? 0);
+$categoryList = $categoryList ?? [];
+$pageUrl = function ($page) use ($categoryId) {
+    $query = ['page' => max(1, (int)$page)];
+    if ($categoryId > 0) $query['category_id'] = $categoryId;
+    return '/index/sharing/index.html?' . http_build_query($query);
+};
+$categoryUrl = function ($id) {
+    return '/index/sharing/index.html' . ((int)$id > 0 ? '?category_id=' . (int)$id : '');
+};
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>拼团 · 大料优选</title>
+    <meta name="description" content="大料优选拼团专区，邀好友一起拼，尝鲜好物更划算。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .hero{padding:50px 0 30px}
+        .eyebrow{margin:0 0 10px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .hero h1{font-size:42px;line-height:1.25;margin:0 0 12px;letter-spacing:-1px}
+        .hero p{margin:0;color:var(--muted);font-size:16px}
+        .category-section{padding:12px 0 26px}
+        .pills{display:flex;flex-wrap:wrap;gap:11px}
+        .pill{display:inline-flex;align-items:center;min-height:42px;padding:9px 19px;border:1px solid transparent;border-radius:999px;background:var(--pill);font-size:14px;font-weight:600;transition:.2s}
+        .pill:hover{background:#c4d6a5}
+        .pill.active{background:var(--green);color:#fff}
+        .list-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 22px}
+        .list-head h2{font-size:24px;margin:0}
+        .list-head span{color:var(--muted);font-size:13px}
+        .goods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+        .card{background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.08);overflow:hidden;transition:box-shadow .2s,transform .2s}
+        .card:hover{box-shadow:0 7px 18px rgba(139,69,19,.14);transform:translateY(-3px)}
+        .goods-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+        .goods-body{padding:18px}
+        .goods-name{font-size:16px;font-weight:700;line-height:1.45;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:46px}
+        .group-tag{display:inline-block;margin:10px 0 12px;padding:3px 9px;border-radius:8px;background:#fff0e5;color:var(--orange);font-size:12px;font-weight:700}
+        .goods-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+        .price{display:inline-block;background:var(--yellow);color:var(--brown);border-radius:8px;padding:4px 10px;font-size:18px;font-weight:800;white-space:nowrap}
+        .line-price{font-size:13px;color:var(--muted);text-decoration:line-through;white-space:nowrap}
+        .empty{padding:70px 24px;text-align:center;background:#fff;border-radius:22px}
+        .empty h2{margin:0 0 10px}
+        .empty p{margin:0 0 24px;color:var(--muted)}
+        .pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;margin:36px 0 0}
+        .page{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 13px;border-radius:999px;background:#fff;color:var(--green);font-size:14px;font-weight:600}
+        .page:hover{background:var(--pill)}
+        .page.active{background:var(--orange);color:#fff}
+        .page.disabled{opacity:.45;pointer-events:none}
+        .list-section{padding-bottom:64px;min-height:360px}
+        @media(max-width:900px){.goods-grid{grid-template-columns:repeat(2,1fr)}.hero{padding-top:38px}.hero h1{font-size:34px}}
+        @media(max-width:520px){.hero h1{font-size:29px}.goods-grid{gap:14px}.goods-body{padding:14px}.price{font-size:16px}.list-head{align-items:flex-start;flex-direction:column;gap:4px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main>
+    <header class="wrap hero">
+        <p class="eyebrow">GROUP BUYING · 邀好友一起拼</p>
+        <h1>拼团专区</h1>
+        <p>邀上好友一起拼，产地直供好物，拼团价更划算。</p>
+    </header>
+    <section class="wrap category-section" aria-label="拼团分类">
+        <div class="pills">
+            <a class="pill<?= $categoryId === 0 ? ' active' : '' ?>" href="<?= htmlspecialchars($categoryUrl(0)) ?>">全部</a>
+            <?php foreach ($categoryList as $category): ?>
+            <a class="pill<?= $categoryId === (int)$category['category_id'] ? ' active' : '' ?>" href="<?= htmlspecialchars($categoryUrl($category['category_id'])) ?>"><?= htmlspecialchars($category['name']) ?></a>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <section class="wrap list-section" aria-labelledby="resultTitle">
+        <div class="list-head"><h2 id="resultTitle">拼团好物</h2><span>共 <?= (int)($list['total'] ?? 0) ?> 件商品</span></div>
+        <?php if (!empty($list['data'])): ?>
+        <div class="goods-grid">
+            <?php foreach ($list['data'] as $goods): ?>
+            <a class="card" href="/index/sharing/goods.html?goods_id=<?= (int)$goods['goods_id'] ?>" aria-label="<?= htmlspecialchars($goods['goods_name']) ?>">
+                <img class="goods-img" src="<?= htmlspecialchars($goods['image']) ?>" alt="<?= htmlspecialchars($goods['goods_name']) ?>" loading="lazy"/>
+                <div class="goods-body">
+                    <h3 class="goods-name"><?= htmlspecialchars($goods['goods_name']) ?></h3>
+                    <span class="group-tag"><?= (int)$goods['people_num'] ?>人团 · 已售 <?= (int)$goods['sales_actual'] ?></span>
+                    <div class="goods-bottom"><span class="price">¥<?= number_format((float)$goods['goods_price'], 2) ?></span><?php if ((float)($goods['line_price'] ?? 0) > 0): ?><span class="line-price">¥<?= number_format((float)$goods['line_price'], 2) ?></span><?php endif; ?></div>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="empty"><h2>暂无拼团商品</h2><p>更多拼团好物正在准备中，敬请期待。</p><a class="btn" href="/index/goods/list.html">逛逛全部商品</a></div>
+        <?php endif; ?>
+        <?php if ((int)($list['last_page'] ?? 1) > 1): $current = (int)$list['current_page']; $last = (int)$list['last_page']; ?>
+        <nav class="pagination" aria-label="拼团分页">
+            <a class="page<?= $current <= 1 ? ' disabled' : '' ?>" href="<?= htmlspecialchars($pageUrl($current - 1)) ?>">上一页</a>
+            <?php for ($p = max(1, $current - 2), $end = min($last, $current + 2); $p <= $end; $p++): ?>
+            <a class="page<?= $p === $current ? ' active' : '' ?>" href="<?= htmlspecialchars($pageUrl($p)) ?>"><?= $p ?></a>
+            <?php endfor; ?>
+            <a class="page<?= $current >= $last ? ' disabled' : '' ?>" href="<?= htmlspecialchars($pageUrl($current + 1)) ?>">下一页</a>
+        </nav>
+        <?php endif; ?>
+    </section>
+</main>
+{include file="common/footer" /}
+</body>
+</html>

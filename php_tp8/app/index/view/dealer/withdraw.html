@@ -1,0 +1,94 @@
+<?php
+/** @var array $words @var array|null $dealer @var bool $isDealer @var array $list @var int $status */
+$W = $words['withdraw_list']['words'] ?? [];
+$vw = fn($k, $d = '') => htmlspecialchars((string)($W[$k]['value'] ?? $d));
+$tabs = [
+    -1 => $vw('all', '全部'),
+    10 => $vw('apply_10', '审核中'),
+    20 => $vw('apply_20', '审核通过'),
+    40 => $vw('apply_40', '已打款'),
+    30 => $vw('apply_30', '驳回'),
+];
+$payTypeText = [10 => '微信', 20 => '支付宝', 30 => '银行卡'];
+$statusUrl = function ($s) {
+    return '/index/dealer/withdraw.html?status=' . (int)$s;
+};
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($words['withdraw_list']['title']['value'] ?? '提现明细') ?> · 大料优选</title>
+    <meta name="description" content="分销商提现明细，查看每一笔提现申请的进度与金额。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .wrap-pad{padding:40px 0 80px;min-height:440px}
+        .eyebrow{margin:0 0 10px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .hero h1{font-size:34px;margin:0 0 12px;letter-spacing:-.5px}
+        .hero p{margin:0;color:var(--muted)}
+        .cap-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;padding:22px 26px;background:linear-gradient(135deg,#2d5016,#4a7a26);color:#fff;border-radius:20px;box-shadow:0 4px 18px rgba(45,80,22,.18)}
+        .cap-bar span{font-size:13px;color:rgba(255,255,255,.8);display:block;margin-bottom:4px}
+        .cap-bar b{font-size:30px;font-weight:800}
+        .pills{display:flex;flex-wrap:wrap;gap:11px;margin:28px 0 20px}
+        .pill{display:inline-flex;align-items:center;min-height:42px;padding:9px 19px;border:1px solid transparent;border-radius:999px;background:var(--pill);font-size:14px;font-weight:600;transition:.2s;color:var(--green)}
+        .pill:hover{background:#c4d6a5}
+        .pill.active{background:var(--green);color:#fff}
+        .list-card{background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.06);overflow:hidden}
+        .wd-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;border-bottom:1px solid #f5ede0}
+        .wd-item:last-child{border-bottom:0}
+        .wd-item__info h3{margin:0 0 4px;font-size:16px;font-weight:700}
+        .wd-item__info p{margin:0;color:var(--muted);font-size:13px}
+        .wd-item__right{text-align:right}
+        .wd-item__right b{display:block;font-size:20px;color:var(--brown);margin-bottom:6px}
+        .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff0e5;color:var(--orange);font-size:12px;font-weight:700}
+        .tag.is-done{background:var(--pill);color:var(--green)}
+        .empty{text-align:center;padding:70px 24px;color:var(--muted)}
+        .empty .emoji{font-size:48px;margin-bottom:12px}
+        @media(max-width:900px){.wd-item{padding:18px 18px;flex-direction:column;align-items:flex-start}.wd-item__right{text-align:left;margin-top:12px}.cap-bar{padding:20px 18px}}
+        @media(max-width:520px){.hero h1{font-size:28px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main class="wrap wrap-pad">
+<?php if ($isDealer): ?>
+    <header class="hero">
+        <p class="eyebrow">DEALER · 分销中心</p>
+        <h1><?= htmlspecialchars($words['withdraw_list']['title']['value'] ?? '提现明细') ?></h1>
+        <p>查看每一笔提现申请的进度与金额。</p>
+    </header>
+    <div class="cap-bar">
+        <div><span>可提现佣金</span><b>¥<?= number_format((float)($dealer['money'] ?? 0), 2) ?></b></div>
+        <a class="btn" href="/index/dealer/withdrawApply.html">申请提现</a>
+    </div>
+    <nav class="pills" aria-label="筛选状态">
+        <?php foreach ($tabs as $k => $label): ?>
+            <a class="pill<?= (int)$status === (int)$k ? ' active' : '' ?>" href="<?= htmlspecialchars($statusUrl($k)) ?>"><?= $label ?></a>
+        <?php endforeach; ?>
+    </nav>
+    <?php if (!empty($list)): ?>
+    <section class="list-card">
+        <?php foreach ($list as $r): ?>
+        <div class="wd-item">
+            <div class="wd-item__info">
+                <h3>提现 ¥<?= number_format((float)$r['money'], 2) ?></h3>
+                <p><?= htmlspecialchars($payTypeText[(int)($r['pay_type'] ?? 0)] ?? '') ?> · <?= date('Y-m-d H:i', (int)$r['create_time']) ?></p>
+            </div>
+            <div class="wd-item__right">
+                <b>¥<?= number_format((float)$r['money'], 2) ?></b>
+                <span class="tag<?= (int)$r['apply_status'] === 40 ? ' is-done' : '' ?>"><?= htmlspecialchars($r['apply_status_text'] ?? '') ?></span>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </section>
+    <?php else: ?>
+        <div class="empty"><div class="emoji">￥</div><p>暂无提现记录</p></div>
+    <?php endif; ?>
+<?php else: ?>
+    <section class="empty"><div class="emoji">￥</div><p>您还不是分销商，暂无提现记录</p><p><a class="btn" href="/index/dealer/apply.html">立即加入</a></p></section>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+</body>
+</html>

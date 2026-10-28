@@ -1,0 +1,91 @@
+<?php
+/** @var array $words @var bool $isDealer @var bool $isApplying @var string $refereeName @var string $license @var string $background */
+$W = $words['apply']['words'] ?? [];
+$vw = fn($k, $d = '') => htmlspecialchars((string)($W[$k]['value'] ?? $d));
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($words['apply']['title']['value'] ?? '申请成为分销商') ?> · 大料优选</title>
+    <meta name="description" content="提交分销商申请，邀请好友一起赚佣金。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .apply-page{padding:44px 0 80px}
+        .apply-hero{position:relative;border-radius:24px;padding:48px;color:#fff;background:radial-gradient(circle at 85% 15%,#f5c542 0 10%,transparent 10.5%),linear-gradient(135deg,#2d5016,#4a7a26);box-shadow:0 4px 18px rgba(45,80,22,.18)}
+        .apply-hero h1{font-size:36px;margin:0 0 10px;letter-spacing:-.5px}
+        .apply-hero p{margin:0;color:rgba(255,255,255,.85);font-size:15px}
+        .apply-card{max-width:560px;margin:32px auto 0;padding:34px 32px;background:#fff;border-radius:22px;box-shadow:0 2px 8px rgba(139,69,19,.08)}
+        .apply-card h2{margin:0 0 20px;font-size:22px;text-align:center}
+        .field{margin-bottom:16px}
+        .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+        .field .static{min-height:46px;padding:0 14px;border:1px dashed var(--pill);border-radius:14px;background:var(--cream);color:var(--green);display:flex;align-items:center;font-size:14px}
+        .field input{width:100%;height:46px;padding:0 15px;border:1px solid var(--pill);border-radius:14px;background:var(--cream);color:var(--green);font-size:15px;outline:none;transition:.2s}
+        .field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,114,42,.12);background:#fff}
+        .field .text-area{padding:16px 18px;background:var(--cream);border-radius:14px;font-size:13px;color:var(--muted);max-height:180px;overflow:auto;white-space:pre-wrap}
+        .agree{display:flex;align-items:flex-start;gap:8px;margin:22px 0;font-size:13px;color:var(--muted);line-height:1.6}
+        .agree input{width:16px;height:16px;margin-top:2px;accent-color:var(--orange)}
+        .agree a{color:var(--orange);font-weight:600}
+        .apply-card .btn{width:100%;height:50px;font-size:16px;letter-spacing:1px}
+        .apply-card .btn:disabled{opacity:.65;cursor:not-allowed}
+        .status-card{max-width:480px;margin:0 auto;padding:48px 32px;text-align:center;background:#fff;border-radius:24px;box-shadow:0 2px 8px rgba(139,69,19,.08)}
+        .status-card .emoji{font-size:48px;margin-bottom:12px}
+        .status-card p{color:var(--muted);margin:0 0 24px;font-size:15px}
+        .toast{position:fixed;left:50%;bottom:36px;z-index:60;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
+        .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+        @media(max-width:520px){.apply-hero{padding:32px 22px}.apply-hero h1{font-size:28px}.apply-card{padding:26px 20px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main class="wrap apply-page">
+<?php if ($isDealer): ?>
+    <section class="status-card"><div class="emoji">✅</div><h1>您已经是分销商</h1><p>无需重复申请。</p><a class="btn" href="/index/dealer/index.html">返回分销中心</a></section>
+<?php elseif ($isApplying): ?>
+    <section class="status-card"><div class="emoji">⏳</div><h1>申请审核中</h1><p><?= $vw('wait_audit', '您的申请已受理，正在进行信息核验，请耐心等待。') ?></p><a class="btn" href="/">去商城逛逛</a></section>
+<?php else: ?>
+    <section class="apply-hero">
+        <h1>加入分销，分享赚钱</h1>
+        <p>成为分销商，把好物分享给好友，每笔订单都有佣金。</p>
+    </section>
+    <section class="apply-card">
+        <h2><?= $vw('title', '请填写申请信息') ?></h2>
+        <div class="field"><label>邀请人</label><div class="static"><?= htmlspecialchars($refereeName) ?></div></div>
+        <div class="field"><label>姓名</label><input type="text" id="d-name" placeholder="请输入真实姓名" value=""/></div>
+        <div class="field"><label>手机号</label><input type="tel" id="d-mobile" maxlength="11" placeholder="请输入手机号" value=""/></div>
+        <?php if ($license !== ''): ?>
+        <div class="field"><label>协议</label><div class="text-area"><?= nl2br(htmlspecialchars($license)) ?></div></div>
+        <?php endif; ?>
+        <label class="agree"><input type="checkbox" id="d-read"/><span>我已阅读并了解【<?= $vw('license', '分销商申请协议') ?>】</span></label>
+        <button type="button" class="btn" id="d-submit"><?= $vw('submit', '申请成为经销商') ?></button>
+    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+<?php if (!$isDealer && !$isApplying): ?>
+<script>
+(function(){
+    function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
+    var btn=document.getElementById('d-submit');
+    btn.addEventListener('click',function(){
+        var name=(document.getElementById('d-name').value||'').trim();
+        var mobile=(document.getElementById('d-mobile').value||'').trim();
+        var read=document.getElementById('d-read').checked;
+        if(!read){toast('请先阅读并勾选分销商申请协议');return}
+        if(!name){toast('请输入真实姓名');return}
+        if(!/^1\d{10}$/.test(mobile)){toast('请输入正确的 11 位手机号');return}
+        btn.disabled=true;btn.textContent='提交中...';
+        fetch('/h5/dealer/applySubmit.html',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'name='+encodeURIComponent(name)+'&mobile='+encodeURIComponent(mobile)})
+            .then(function(r){return r.json()}).then(function(res){
+                btn.disabled=false;btn.textContent='<?= $vw('submit', '申请成为经销商') ?>';
+                if(res.code===1){toast('提交成功');setTimeout(function(){location.href=(res.data&&res.data.redirect)||'/index/dealer/apply.html'},600)}
+                else{toast(res.msg||'提交失败')}
+            }).catch(function(){btn.disabled=false;btn.textContent='<?= $vw('submit', '申请成为经销商') ?>';toast('网络异常，请稍后再试')});
+    });
+})();
+</script>
+<?php endif; ?>
+</body>
+</html>

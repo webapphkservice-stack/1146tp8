@@ -1,0 +1,84 @@
+<?php
+/** @var array $words @var bool $isDealer @var array $list @var int $settled @var int $myId */
+$W = $words['order']['words'] ?? [];
+$vw = fn($k, $d = '') => htmlspecialchars((string)($W[$k]['value'] ?? $d));
+$tabs = [-1 => $vw('all', '全部'), 20 => $vw('unsettled', '未结算'), 10 => $vw('settled', '已结算')];
+$tabUrl = function ($s) { return '/index/dealer/order.html?settled=' . (int)$s; };
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><?= htmlspecialchars($words['order']['title']['value'] ?? '分销订单') ?> · 大料优选</title>
+    <meta name="description" content="查看您的分销订单、每单佣金和结算状态。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .wrap-pad{padding:40px 0 80px;min-height:440px}
+        .eyebrow{margin:0 0 10px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .hero h1{font-size:34px;margin:0 0 12px;letter-spacing:-.5px}
+        .hero p{margin:0;color:var(--muted)}
+        .pills{display:flex;flex-wrap:wrap;gap:11px;margin:28px 0 20px}
+        .pill{display:inline-flex;align-items:center;min-height:42px;padding:9px 19px;border:1px solid transparent;border-radius:999px;background:var(--pill);font-size:14px;font-weight:600;transition:.2s;color:var(--green)}
+        .pill:hover{background:#c4d6a5}
+        .pill.active{background:var(--green);color:#fff}
+        .list-card{background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.06);overflow:hidden}
+        .wd-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;border-bottom:1px solid #f5ede0}
+        .wd-item:last-child{border-bottom:0}
+        .wd-item__info h3{margin:0 0 4px;font-size:15px;font-weight:700;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--brown)}
+        .wd-item__info p{margin:2px 0;color:var(--muted);font-size:13px}
+        .wd-item__right{text-align:right}
+        .wd-item__right b{display:block;font-size:20px;color:var(--brown);margin-bottom:6px}
+        .tag{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff0e5;color:var(--orange);font-size:12px;font-weight:700}
+        .tag.is-done{background:var(--pill);color:var(--green)}
+        .empty{text-align:center;padding:70px 24px;color:var(--muted)}
+        .empty .emoji{font-size:48px;margin-bottom:12px}
+        @media(max-width:900px){.wd-item{padding:18px;flex-direction:column;align-items:flex-start}.wd-item__right{text-align:left;margin-top:12px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main class="wrap wrap-pad">
+<?php if ($isDealer): ?>
+    <header class="hero">
+        <p class="eyebrow">DEALER · 分销中心</p>
+        <h1><?= htmlspecialchars($words['order']['title']['value'] ?? '分销订单') ?></h1>
+        <p>查看每笔订单的佣金和结算状态。</p>
+    </header>
+    <nav class="pills" aria-label="结算状态">
+        <?php foreach ($tabs as $k => $label): ?>
+            <a class="pill<?= (int)$settled === (int)$k ? ' active' : '' ?>" href="<?= htmlspecialchars($tabUrl($k)) ?>"><?= $label ?></a>
+        <?php endforeach; ?>
+    </nav>
+    <?php if (!empty($list)): ?>
+    <section class="list-card">
+        <?php foreach ($list as $o):
+            $commission = 0.0;
+            if ((int)($o['first_user_id'] ?? 0) === $myId)  $commission = (float)($o['first_money'] ?? 0);
+            if ((int)($o['second_user_id'] ?? 0) === $myId) $commission = (float)($o['second_money'] ?? 0);
+            if ((int)($o['third_user_id'] ?? 0) === $myId)  $commission = (float)($o['third_money'] ?? 0);
+            $isSettled = (int)($o['is_settled'] ?? 0) === 1;
+        ?>
+        <div class="wd-item">
+            <div class="wd-item__info">
+                <h3><?= htmlspecialchars($o['order_no'] ?? '') ?></h3>
+                <p>下单金额 ¥<?= number_format((float)($o['order_price'] ?: ($o['pay_price'] ?? 0)), 2) ?></p>
+                <p><?= date('Y-m-d H:i', (int)($o['create_time'] ?? 0)) ?></p>
+            </div>
+            <div class="wd-item__right">
+                <b>+¥<?= number_format($commission, 2) ?></b>
+                <span class="tag<?= $isSettled ? ' is-done' : '' ?>"><?= $isSettled ? '已结算' : '未结算' ?></span>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </section>
+    <?php else: ?>
+        <div class="empty"><div class="emoji">📦</div><p>暂无分销订单</p></div>
+    <?php endif; ?>
+<?php else: ?>
+    <section class="empty"><div class="emoji">📦</div><p>您还不是分销商，暂无分销订单</p><p><a class="btn" href="/index/dealer/apply.html">立即加入</a></p></section>
+<?php endif; ?>
+</main>
+{include file="common/footer" /}
+</body>
+</html>

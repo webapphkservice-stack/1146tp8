@@ -55,21 +55,21 @@ $indexTitle = $words['index']['title']['value'] ?? '分销中心';
             <div class="deal-cap"><span><?= $vw('freeze_money', '待提现') ?></span><b>¥<?= number_format($dealer['freeze_money'] ?? 0, 2) ?></b></div>
             <div class="deal-cap"><span><?= $vw('total_money', '已提现') ?></span><b>¥<?= number_format($dealer['total_money'] ?? 0, 2) ?></b></div>
         </div>
-        <a class="btn deal-withdraw" href="/h5/dealer/withdrawApply.html"><?= $vw('withdraw', '去提现') ?></a>
+        <a class="btn deal-withdraw" href="/index/dealer/withdrawApply.html"><?= $vw('withdraw', '去提现') ?></a>
     </section>
     <h2 class="ops-title">分销服务</h2>
     <section class="deal-ops" aria-label="分销服务入口">
-        <a class="deal-op" href="/h5/dealer/withdraw.html"><span class="ico" style="background:#fff7e6;color:#f9a825;">￥</span><span class="txt"><?= htmlspecialchars($words['withdraw_list']['title']['value'] ?? '提现明细') ?></span></a>
-        <a class="deal-op" href="/h5/dealer/order.html"><span class="ico" style="background:#fff0f0;color:#e8722a;">单</span><span class="txt"><?= htmlspecialchars($words['order']['title']['value'] ?? '分销订单') ?></span></a>
-        <a class="deal-op" href="/h5/dealer/team.html"><span class="ico" style="background:#eefaf3;color:#4a7a26;">队</span><span class="txt"><?= htmlspecialchars($words['team']['title']['value'] ?? '我的团队') ?></span></a>
-        <a class="deal-op" href="/h5/dealer/qrcode.html"><span class="ico" style="background:#eef4ff;color:#5fa5ff;">码</span><span class="txt"><?= htmlspecialchars($words['qrcode']['title']['value'] ?? '推广二维码') ?></span></a>
+        <a class="deal-op" href="/index/dealer/withdraw.html"><span class="ico" style="background:#fff7e6;color:#f9a825;">￥</span><span class="txt"><?= htmlspecialchars($words['withdraw_list']['title']['value'] ?? '提现明细') ?></span></a>
+        <a class="deal-op" href="/index/dealer/order.html"><span class="ico" style="background:#fff0f0;color:#e8722a;">单</span><span class="txt"><?= htmlspecialchars($words['order']['title']['value'] ?? '分销订单') ?></span></a>
+        <a class="deal-op" href="/index/dealer/team.html"><span class="ico" style="background:#eefaf3;color:#4a7a26;">队</span><span class="txt"><?= htmlspecialchars($words['team']['title']['value'] ?? '我的团队') ?></span></a>
+        <a class="deal-op" href="/index/dealer/qrcode.html"><span class="ico" style="background:#eef4ff;color:#5fa5ff;">码</span><span class="txt"><?= htmlspecialchars($words['qrcode']['title']['value'] ?? '推广二维码') ?></span></a>
     </section>
 <?php else: ?>
     <section class="apply-card">
         <div class="emoji">🤝</div>
         <h1><?= $vw('not_dealer', '您还不是分销商') ?></h1>
         <p><?= $vw('not_dealer_tip', '分享好物赚佣金，加入分销商，一起把新鲜带给更多人。') ?></p>
-        <a class="btn" href="/h5/dealer/apply.html"><?= $vw('apply_now', '立即加入') ?></a>
+        <a class="btn" href="/index/dealer/apply.html"><?= $vw('apply_now', '立即加入') ?></a>
     </section>
 <?php endif; ?>
 </main>

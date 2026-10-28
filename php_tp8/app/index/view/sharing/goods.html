@@ -7,6 +7,7 @@ $linePrice = $hasGoods ? (float)($goods['line_price'] ?? 0) : 0;
 $people = $hasGoods ? (int)($goods['people'] ?: ($goods['people_num'] ?? 2)) : 2;
 $sales = $hasGoods ? (int)($goods['sales_actual'] ?? 0) : 0;
 $stock = $sku ? (int)$sku['stock_num'] : 0;
+$specSkuId = $sku ? (string)$sku['spec_sku_id'] : '0';
 $content = $hasGoods ? html_entity_decode((string)($goods['content'] ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
 $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼团商品不存在 · 大料优选';
 ?>
@@ -34,11 +35,18 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼�
         .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
         .meta-item{padding:13px 16px;background:#fff;border-radius:14px;font-size:13px;color:var(--muted)}
         .meta-item strong{color:var(--green);margin-left:6px}
+        .quantity{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:24px}
+        .quantity .q-label{font-size:14px;font-weight:700}
+        .qty-ctrl{display:flex;align-items:center;border:1px solid var(--pill);border-radius:999px;background:#fff;overflow:hidden}
+        .qty-ctrl button{width:42px;height:42px;border:0;background:transparent;color:var(--green);font-size:21px}
+        .qty-ctrl button:hover{background:var(--pill)}
+        .qty-ctrl span{min-width:48px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--green)}
         .group-list{margin-top:24px}
         .group-list h2{font-size:16px;margin:0 0 12px}
         .group-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;margin-bottom:10px;background:#fff;border-radius:14px;font-size:14px}
         .group-item .who{color:var(--green);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .group-item .need{color:var(--orange);font-weight:700;white-space:nowrap}
+        .group-item .join{min-height:36px;padding:7px 15px;font-size:13px}
         .actions{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin-top:30px}
         .service-note{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
         .service-note span{padding:7px 12px;border-radius:999px;background:var(--pill);font-size:12px;font-weight:600}
@@ -50,10 +58,32 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼�
         .empty{margin:50px auto 80px;padding:70px 24px;text-align:center;background:#fff;border-radius:24px;max-width:640px}
         .empty h1{margin:0 0 12px}
         .empty p{color:var(--muted);margin:0 0 26px}
-        .toast{position:fixed;left:50%;bottom:36px;z-index:50;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
+        .toast{position:fixed;left:50%;bottom:36px;z-index:60;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
         .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+        .modal{position:fixed;inset:0;z-index:55;display:none;align-items:center;justify-content:center;padding:20px}
+        .modal.show{display:flex}
+        .modal-mask{position:absolute;inset:0;background:rgba(45,80,22,.35);backdrop-filter:blur(3px)}
+        .modal-panel{position:relative;width:100%;max-width:440px;background:#fff;border-radius:22px;padding:26px;box-shadow:0 20px 50px rgba(45,80,22,.25)}
+        .modal-panel h2{margin:0 0 18px;font-size:22px}
+        .modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;border:0;border-radius:50%;background:var(--cream);color:var(--green);font-size:20px;line-height:1}
+        .order-summary{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--cream);border-radius:14px;margin-bottom:16px}
+        .order-summary img{width:52px;height:52px;object-fit:cover;border-radius:10px}
+        .order-summary .t{flex:1;min-width:0}
+        .order-summary .t b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .order-summary .t span{color:var(--muted);font-size:12px}
+        .field{margin-bottom:14px}
+        .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+        .field select{width:100%;height:46px;padding:0 12px;border:1px solid var(--pill);border-radius:12px;background:var(--cream);color:var(--green);font-size:14px;outline:none}
+        .no-addr{padding:12px 14px;background:#fff4d7;border-radius:12px;font-size:13px;color:var(--brown)}
+        .no-addr a{color:var(--orange);font-weight:700}
+        .pay-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:12px 0;border-top:1px solid #f0e6d7;border-bottom:1px solid #f0e6d7}
+        .pay-row strong{color:var(--green)}
+        .pay-amount{display:flex;justify-content:space-between;align-items:center;font-size:15px;padding:14px 0}
+        .pay-amount strong{color:var(--brown);font-size:24px}
+        .modal-panel>.btn{width:100%;height:50px;font-size:16px}
+        .modal-panel>.btn:disabled{opacity:.6;cursor:not-allowed}
         @media(max-width:900px){.product{grid-template-columns:1fr;gap:32px}.gallery-main{max-width:680px}.info h1{font-size:30px}.detail-card{margin-top:40px}}
-        @media(max-width:520px){.product{gap:24px}.info h1{font-size:26px}.price-box{padding:18px}.price{font-size:30px}.sales{margin-left:0;width:100%}.actions{grid-template-columns:1fr}.detail-card{padding:24px 18px}}
+        @media(max-width:520px){.product{gap:24px}.info h1{font-size:26px}.price-box{padding:18px}.price{font-size:30px}.sales{margin-left:0;width:100%}.actions{grid-template-columns:1fr}.detail-card{padding:24px 18px}.modal-panel{padding:22px 18px}}
     </style>
 </head>
 <body>
@@ -77,6 +107,10 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼�
                 <div class="meta-item"><?= $people ?>人成团<strong>邀请好友更划算</strong></div>
                 <div class="meta-item">可用库存<strong><?= $stock ?></strong></div>
             </div>
+            <div class="quantity">
+                <span class="q-label">购买数量</span>
+                <div class="qty-ctrl"><button id="numMinus" type="button" aria-label="减少数量">−</button><span id="numVal">1</span><button id="numPlus" type="button" aria-label="增加数量">+</button></div>
+            </div>
             <div class="actions">
                 <button class="btn" id="btnBuy" type="button" <?= $stock <= 0 ? 'disabled' : '' ?>><?= $stock > 0 ? '立即拼团' : '暂时缺货' ?></button>
                 <a class="btn btn-light" href="/index/sharing/index.html">返回拼团</a>
@@ -88,7 +122,7 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼�
     <section class="group-list" aria-labelledby="groupTitle">
         <h2 id="groupTitle">进行中的拼单</h2>
         <?php foreach ($activeList as $activeItem): ?>
-        <div class="group-item"><span class="who"><?= htmlspecialchars($activeItem['nickName'] ?: '神秘买家') ?> 的拼单</span><span class="need">还差 <?= (int)$activeItem['remain_people'] ?> 人</span></div>
+        <div class="group-item"><span class="who"><?= htmlspecialchars($activeItem['nickName'] ?: '神秘买家') ?> 的拼单</span><span class="need">还差 <?= (int)$activeItem['remain_people'] ?> 人</span><button class="btn join" type="button" data-join="<?= (int)$activeItem['active_id'] ?>">去参团</button></div>
         <?php endforeach; ?>
     </section>
     <?php endif; ?>
@@ -102,11 +136,103 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选拼团' : '拼�
 </main>
 {include file="common/footer" /}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" aria-hidden="true">
+    <div class="modal-mask" data-close></div>
+    <div class="modal-panel">
+        <button class="modal-close" type="button" data-close aria-label="关闭">×</button>
+        <h2 id="checkoutTitle">确认订单</h2>
+        <div class="order-summary"><img src="<?= htmlspecialchars($goods['image'] ?? '') ?>" alt=""/><div class="t"><b><?= htmlspecialchars($goods['goods_name'] ?? '') ?></b><span>¥<?= number_format($sharingPrice, 2) ?> × <em id="sumNum">1</em></span></div></div>
+        <div class="field"><label for="addrSelect">收货地址</label><select id="addrSelect"><option value="">加载中...</option></select></div>
+        <div class="no-addr" id="noAddr" hidden>暂无收货地址，请先<a href="/index/user/index.html">去个人中心添加</a>后再下单。</div>
+        <div class="pay-row"><span>支付方式</span><strong>余额支付</strong></div>
+        <div class="pay-amount"><span>应付金额</span><strong>¥<span id="payAmount"><?= number_format($sharingPrice, 2) ?></span></strong></div>
+        <button class="btn" id="btnPay" type="button">确认支付</button>
+    </div>
+</div>
 <script>
 (function(){
+    var GOODS_ID = <?= (int)($goods['goods_id'] ?? 0) ?>;
+    var SPEC_SKU_ID = <?= json_encode($specSkuId) ?>;
+    var PRICE = <?= number_format($sharingPrice, 2, '.', '') ?>;
+    var STOCK = <?= $stock ?>;
+    var qty = 1;
+    var currentActiveId = 0;
+
     function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
+    function getToken(){try{return localStorage.getItem('h5_token')||new URLSearchParams(location.search).get('token')||''}catch(e){return ''}}
+    function goLogin(){location.href='/index/passport/login.html?redirect='+encodeURIComponent(location.pathname+location.search)}
+    function renderQty(){qty=Math.min(STOCK,Math.max(1,qty));document.getElementById('numVal').textContent=qty;document.getElementById('sumNum').textContent=qty;document.getElementById('payAmount').textContent=(PRICE*qty).toFixed(2)}
+
+    var minus=document.getElementById('numMinus'),plus=document.getElementById('numPlus');
+    if(minus)minus.addEventListener('click',function(){qty--;renderQty()});
+    if(plus)plus.addEventListener('click',function(){qty++;renderQty()});
+
+    var modal=document.getElementById('checkoutModal');
+    function openCheckout(activeId){
+        if(!getToken()){goLogin();return}
+        currentActiveId=activeId||0;
+        modal.classList.add('show');modal.setAttribute('aria-hidden','false');
+        loadAddresses();
+    }
+    function closeCheckout(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true')}
+
+    function showNoAddr(msg){var n=document.getElementById('noAddr');n.hidden=false;if(msg)n.textContent=msg+'，请先';document.getElementById('addrSelect').closest('.field').style.display='none'}
+    function loadAddresses(){
+        var sel=document.getElementById('addrSelect');
+        sel.innerHTML='<option value="">加载中...</option>';
+        sel.closest('.field').style.display='';
+        document.getElementById('noAddr').hidden=true;
+        fetch('/api/address/lists?token='+encodeURIComponent(getToken())+'&wxapp_id=10001',{credentials:'same-origin'})
+            .then(function(r){return r.json()})
+            .then(function(d){
+                if(d.code!==1){sel.innerHTML='';showNoAddr('地址加载失败');return}
+                var list=d.data.list||[];
+                if(!list.length){sel.innerHTML='';showNoAddr('暂无收货地址');return}
+                sel.innerHTML='';
+                list.forEach(function(a){
+                    var reg=(a.region?(a.region.province||'')+(a.region.city||'')+(a.region.region||''):'');
+                    var o=document.createElement('option');
+                    o.value=a.address_id;
+                    o.textContent=(a.name||'')+' '+(a.phone||'')+' '+reg+(a.detail||'');
+                    if(String(a.address_id)===String(d.data.default_id))o.selected=true;
+                    sel.appendChild(o);
+                });
+            })
+            .catch(function(){sel.innerHTML='';showNoAddr('地址加载失败')});
+    }
+
     var buy=document.getElementById('btnBuy');
-    if(buy){buy.addEventListener('click',function(){toast('拼团下单功能即将上线，敬请期待')})}
+    if(buy)buy.addEventListener('click',function(){openCheckout(0)});
+    document.querySelectorAll('[data-join]').forEach(function(el){
+        el.addEventListener('click',function(){openCheckout(parseInt(el.getAttribute('data-join'),10))});
+    });
+    document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeCheckout)});
+
+    var btnPay=document.getElementById('btnPay');
+    btnPay.addEventListener('click',function(){
+        var sel=document.getElementById('addrSelect');
+        var addrId=sel.value;
+        if(!addrId){toast('请先选择收货地址');return}
+        btnPay.disabled=true;btnPay.textContent='支付中...';
+        var fd=new FormData();
+        fd.append('wxapp_id',10001);
+        fd.append('token',getToken());
+        fd.append('goods_id',GOODS_ID);
+        fd.append('goods_sku_id',SPEC_SKU_ID);
+        fd.append('goods_num',qty);
+        fd.append('active_id',currentActiveId);
+        fd.append('delivery',10);
+        fd.append('address_id',addrId);
+        fd.append('pay_type',10);
+        fetch('/api/sharing.order/checkout',{method:'POST',body:fd,credentials:'same-origin'})
+            .then(function(r){return r.json()})
+            .then(function(d){
+                btnPay.disabled=false;btnPay.textContent='确认支付';
+                if(d.code===1){closeCheckout();toast(currentActiveId>0?'参团成功':'拼团成功');setTimeout(function(){location.href='/index/user/index.html'},900)}
+                else{toast(d.msg||'下单失败')}
+            })
+            .catch(function(){btnPay.disabled=false;btnPay.textContent='确认支付';toast('网络异常，请稍后重试')});
+    });
 })();
 </script>
 </body>

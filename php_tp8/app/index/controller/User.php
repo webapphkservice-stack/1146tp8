@@ -9,6 +9,6 @@ class User
 {
     public function index()
     {
-        return view('user/index');
+        return view('user/index', ['active' => 'user']);
     }
 }

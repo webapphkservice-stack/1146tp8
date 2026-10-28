@@ -30,6 +30,7 @@ class Goods
         }
 
         return view('goods/detail', [
+            'active'    => 'goods',
             'goods'     => $goods,
             'goodsDesc' => $goods ? html_entity_decode((string)($goods['content'] ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8') : '',
             'skuList'   => $skuList,
@@ -61,6 +62,7 @@ class Goods
         }
 
         return view('goods/list', [
+            'active'       => 'goods',
             'list'         => $list,
             'keyword'      => $keyword,
             'categoryId'   => $categoryId,

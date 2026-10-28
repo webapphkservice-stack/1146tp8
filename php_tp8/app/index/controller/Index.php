@@ -5,6 +5,6 @@ class Index
 {
     public function index()
     {
-        return 'TP8 multi-app POC: index app ok';
+        return view('index/index', ['active' => 'home']);
     }
 }

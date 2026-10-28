@@ -31,27 +31,49 @@ $categoryUrl = function ($id) use ($keyword) {
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title><?= htmlspecialchars($heading) ?> · 大料优选</title>
     <meta name="description" content="大料优选精选商品，按分类浏览并搜索新鲜好物。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
     <style>
-        :root{--cream:#fef9f0;--green:#2d5016;--orange:#e8722a;--yellow:#f5c542;--brown:#8b4513;--muted:#8b7355;--pill:#d4e4bc;--white:#fff}
-        *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--green);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;line-height:1.6}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}.wrap{width:min(1152px,calc(100% - 48px));margin:0 auto}.nav{position:sticky;top:0;z-index:20;background:rgba(254,249,240,.96);border-bottom:1px solid var(--pill);backdrop-filter:blur(10px)}.nav-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-size:23px;font-weight:800;display:flex;align-items:center;gap:10px}.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--pill);font-size:18px}.nav-links{display:flex;align-items:center;gap:28px;font-size:14px}.nav-links a:not(.btn):hover,.nav-links a.active{color:var(--orange)}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 23px;border:0;border-radius:999px;background:var(--orange);color:#fff;font-weight:700;transition:background .2s,transform .2s}.btn:hover{background:#d96420}.btn:active{transform:scale(.97)}.btn-light{background:var(--pill);color:var(--green)}.hero{padding:50px 0 30px}.eyebrow{margin:0 0 10px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:42px;line-height:1.25;margin:0 0 12px;letter-spacing:-1px}.hero p{margin:0;color:var(--muted);font-size:16px}.search{display:flex;gap:10px;max-width:620px;margin-top:26px;padding:6px;background:#fff;border:1px solid var(--pill);border-radius:999px}.search:focus-within{box-shadow:0 0 0 4px rgba(45,80,22,.12)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent;padding:8px 12px 8px 18px;color:var(--green)}.search input::placeholder{color:var(--muted)}.category-section{padding:12px 0 26px}.pills{display:flex;flex-wrap:wrap;gap:11px}.pill{display:inline-flex;align-items:center;min-height:42px;padding:9px 19px;border:1px solid transparent;border-radius:999px;background:var(--pill);font-size:14px;font-weight:600;transition:.2s}.pill:hover{background:#c4d6a5}.pill.active{background:var(--green);color:#fff}.list-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 22px}.list-head h2{font-size:24px;margin:0}.list-head span{color:var(--muted);font-size:13px}.goods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.card{background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.08);overflow:hidden;transition:box-shadow .2s,transform .2s}.card:hover{box-shadow:0 7px 18px rgba(139,69,19,.14);transform:translateY(-3px)}.goods-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}.goods-body{padding:18px}.goods-name{font-size:16px;font-weight:700;line-height:1.45;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:46px}.goods-point{font-size:13px;color:var(--muted);margin:8px 0 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.goods-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}.price{display:inline-block;background:var(--yellow);color:var(--brown);border-radius:8px;padding:4px 10px;font-size:18px;font-weight:800;white-space:nowrap}.sales{font-size:12px;color:var(--muted);white-space:nowrap}.empty{padding:70px 24px;text-align:center;background:#fff;border-radius:22px}.empty h2{margin:0 0 10px}.empty p{margin:0 0 24px;color:var(--muted)}.pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;margin:36px 0 0}.page{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 13px;border-radius:999px;background:#fff;color:var(--green);font-size:14px;font-weight:600}.page:hover{background:var(--pill)}.page.active{background:var(--orange);color:#fff}.page.disabled{opacity:.45;pointer-events:none}.list-section{padding-bottom:64px;min-height:360px}.footer{background:#fff;padding:34px 0;color:var(--muted);font-size:13px}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-links{display:flex;gap:22px}.footer a:hover{color:var(--orange)}
-        @media(max-width:900px){.nav-links a:not(.btn){display:none}.goods-grid{grid-template-columns:repeat(2,1fr)}.hero{padding-top:38px}.hero h1{font-size:34px}}
-        @media(max-width:520px){.wrap{width:calc(100% - 28px)}.nav-inner{min-height:64px}.brand{font-size:19px}.nav-links .btn{padding:9px 15px;font-size:12px;min-height:40px}.hero h1{font-size:29px}.search .btn{padding:9px 16px}.goods-grid{gap:14px}.goods-body{padding:14px}.price{font-size:16px}.list-head{align-items:flex-start;flex-direction:column;gap:4px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-links{flex-wrap:wrap}}
-        @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+        .hero{padding:50px 0 30px}
+        .eyebrow{margin:0 0 10px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:2px}
+        .hero h1{font-size:42px;line-height:1.25;margin:0 0 12px;letter-spacing:-1px}
+        .hero p{margin:0;color:var(--muted);font-size:16px}
+        .search{display:flex;gap:10px;max-width:620px;margin-top:26px;padding:6px;background:#fff;border:1px solid var(--pill);border-radius:999px}
+        .search:focus-within{box-shadow:0 0 0 4px rgba(45,80,22,.12)}
+        .search input{min-width:0;flex:1;border:0;outline:0;background:transparent;padding:8px 12px 8px 18px;color:var(--green)}
+        .search input::placeholder{color:var(--muted)}
+        .category-section{padding:12px 0 26px}
+        .pills{display:flex;flex-wrap:wrap;gap:11px}
+        .pill{display:inline-flex;align-items:center;min-height:42px;padding:9px 19px;border:1px solid transparent;border-radius:999px;background:var(--pill);font-size:14px;font-weight:600;transition:.2s}
+        .pill:hover{background:#c4d6a5}
+        .pill.active{background:var(--green);color:#fff}
+        .list-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 22px}
+        .list-head h2{font-size:24px;margin:0}
+        .list-head span{color:var(--muted);font-size:13px}
+        .goods-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+        .card{background:#fff;border-radius:20px;box-shadow:0 2px 8px rgba(139,69,19,.08);overflow:hidden;transition:box-shadow .2s,transform .2s}
+        .card:hover{box-shadow:0 7px 18px rgba(139,69,19,.14);transform:translateY(-3px)}
+        .goods-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+        .goods-body{padding:18px}
+        .goods-name{font-size:16px;font-weight:700;line-height:1.45;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:46px}
+        .goods-point{font-size:13px;color:var(--muted);margin:8px 0 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .goods-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+        .price{display:inline-block;background:var(--yellow);color:var(--brown);border-radius:8px;padding:4px 10px;font-size:18px;font-weight:800;white-space:nowrap}
+        .sales{font-size:12px;color:var(--muted);white-space:nowrap}
+        .empty{padding:70px 24px;text-align:center;background:#fff;border-radius:22px}
+        .empty h2{margin:0 0 10px}
+        .empty p{margin:0 0 24px;color:var(--muted)}
+        .pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;margin:36px 0 0}
+        .page{display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 13px;border-radius:999px;background:#fff;color:var(--green);font-size:14px;font-weight:600}
+        .page:hover{background:var(--pill)}
+        .page.active{background:var(--orange);color:#fff}
+        .page.disabled{opacity:.45;pointer-events:none}
+        .list-section{padding-bottom:64px;min-height:360px}
+        @media(max-width:900px){.goods-grid{grid-template-columns:repeat(2,1fr)}.hero{padding-top:38px}.hero h1{font-size:34px}}
+        @media(max-width:520px){.hero h1{font-size:29px}.search .btn{padding:9px 16px}.goods-grid{gap:14px}.goods-body{padding:14px}.price{font-size:16px}.list-head{align-items:flex-start;flex-direction:column;gap:4px}}
     </style>
 </head>
 <body>
-<nav class="nav" aria-label="主导航">
-    <div class="wrap nav-inner">
-        <a class="brand" href="/"><span class="brand-mark">大</span>大料优选</a>
-        <div class="nav-links">
-            <a href="/">首页</a>
-            <a class="active" href="/index/goods/list.html">全部商品</a>
-            <a href="/h5/sharing/index.html">拼团</a>
-            <a href="/h5/bargain/index.html">砍价</a>
-            <a class="btn" href="/index/cart/index.html">购物车</a>
-        </div>
-    </div>
-</nav>
+{include file="common/header" /}
 <main>
     <header class="wrap hero">
         <p class="eyebrow">FRESH MARKET · 精选好物</p>
@@ -100,6 +122,6 @@ $categoryUrl = function ($id) use ($keyword) {
         <?php endif; ?>
     </section>
 </main>
-<footer class="footer"><div class="wrap footer-inner"><span>© <?= date('Y') ?> 大料优选 · 新鲜好物，每日直达</span><div class="footer-links"><a href="/">PC 首页</a><a href="/index/goods/list.html">全部商品</a><a href="/pages/taxi/index">出租车预约</a></div></div></footer>
+{include file="common/footer" /}
 </body>
 </html>

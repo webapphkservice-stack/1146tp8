@@ -106,7 +106,7 @@
         var list=res&&res.data&&res.data.list&&res.data.list.data||[];var box=document.getElementById('goods');box.textContent='';
         if(!list.length){var empty=el('div','empty','商品正在准备中，先去商城逛逛吧。');empty.appendChild(document.createElement('br'));empty.appendChild(link('/h5/goods/list.html','service-link','进入商城 →'));box.appendChild(empty);return}
         list.slice(0,8).forEach(function(g){
-            var card=link('/h5/goods/detail.html?goods_id='+encodeURIComponent(g.goods_id),'card');card.setAttribute('aria-label',g.goods_name||'查看商品');
+            var card=link('/index/goods/detail.html?goods_id='+encodeURIComponent(g.goods_id),'card');card.setAttribute('aria-label',g.goods_name||'查看商品');
             var img=el('img','goods-img');img.src=g.goods_image||'';img.alt=g.goods_name||'商品图片';img.loading='lazy';card.appendChild(img);
             var body=el('div','goods-body');body.appendChild(el('h3','goods-name',g.goods_name||''));body.appendChild(el('p','goods-point',g.selling_point||'精选好物，值得入手'));
             var bottom=el('div','goods-bottom');bottom.appendChild(el('span','price','¥'+Number(g.goods_min_price||0).toFixed(2)));bottom.appendChild(el('span','sales','已售 '+(g.goods_sales||0)));body.appendChild(bottom);card.appendChild(body);box.appendChild(card);

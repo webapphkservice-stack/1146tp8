@@ -30,14 +30,14 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选' : '商品不�
         <a class="brand" href="/"><span class="brand-mark">大</span>大料优选</a>
         <div class="nav-links">
             <a href="/">首页</a>
-            <a href="/h5/goods/list.html">全部商品</a>
+            <a href="/index/goods/list.html">全部商品</a>
             <a href="/pages/flight/index">航班查询</a>
             <a href="/pages/taxi/index">出租车预约</a>
             <a class="btn cart-link" href="/h5/cart/index.html">购物车<span class="cart-num" id="cartNum" hidden>0</span></a>
         </div>
     </div>
 </nav>
-<div class="wrap breadcrumb"><a href="/">首页</a><span>/</span><a href="/h5/goods/list.html">全部商品</a><span>/</span><span>商品详情</span></div>
+<div class="wrap breadcrumb"><a href="/">首页</a><span>/</span><a href="/index/goods/list.html">全部商品</a><span>/</span><span>商品详情</span></div>
 <main class="wrap">
 <?php if ($hasGoods): ?>
     <section class="product" aria-labelledby="goodsName">
@@ -85,7 +85,7 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选' : '商品不�
             </div>
             <div class="actions">
                 <button class="btn" id="btnAddCart" type="button" <?= $defaultStock <= 0 ? 'disabled' : '' ?>><?= $defaultStock > 0 ? '加入购物车' : '暂时缺货' ?></button>
-                <a class="btn btn-light" href="/h5/goods/list.html">继续选购</a>
+                <a class="btn btn-light" href="/index/goods/list.html">继续选购</a>
             </div>
             <div class="service-note"><span>产地直供</span><span>认真打包</span><span>安心服务</span></div>
         </div>
@@ -100,10 +100,10 @@ $pageTitle = $hasGoods ? $goods['goods_name'] . ' · 大料优选' : '商品不�
         <div class="promise-item"><strong>安心服务</strong><span>购物有问题，随时联系我们</span></div>
     </section>
 <?php else: ?>
-    <section class="empty"><h1>商品不存在或已下架</h1><p>看看其他精心挑选的好物吧。</p><a class="btn" href="/h5/goods/list.html">查看全部商品</a></section>
+    <section class="empty"><h1>商品不存在或已下架</h1><p>看看其他精心挑选的好物吧。</p><a class="btn" href="/index/goods/list.html">查看全部商品</a></section>
 <?php endif; ?>
 </main>
-<footer class="footer"><div class="wrap footer-inner"><span>© <?= date('Y') ?> 大料优选 · 新鲜好物，每日直达</span><div class="footer-links"><a href="/">PC 首页</a><a href="/h5/goods/list.html">全部商品</a><a href="/pages/taxi/index">出租车预约</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-inner"><span>© <?= date('Y') ?> 大料优选 · 新鲜好物，每日直达</span><div class="footer-links"><a href="/">PC 首页</a><a href="/index/goods/list.html">全部商品</a><a href="/pages/taxi/index">出租车预约</a></div></div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <?php if ($hasGoods): ?>
 <script>

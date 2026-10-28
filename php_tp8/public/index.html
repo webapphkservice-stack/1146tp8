@@ -19,7 +19,7 @@
         <a class="brand" href="/" aria-label="大料优选首页">🌿 大料优选</a>
         <div class="nav-links">
             <a href="/">首页</a>
-            <a href="/h5/goods/list.html">全部商品</a>
+            <a href="/index/goods/list.html">全部商品</a>
             <a href="/pages/flight/index">航班查询</a>
             <a href="/pages/taxi/index">出租车预约</a>
         </div>
@@ -30,7 +30,7 @@
         <div>
             <h1>新鲜好物，<br/>每日直达</h1>
             <p>从产地到餐桌，我们认真挑选每一份新鲜。精选好物、便捷出行，一站满足你的生活所需。</p>
-            <form class="search" action="/h5/goods/list.html" method="get" role="search">
+            <form class="search" action="/index/goods/list.html" method="get" role="search">
                 <input name="keyword" type="search" placeholder="搜索新鲜好物" aria-label="搜索商品"/>
                 <button class="btn" type="submit">搜索</button>
             </form>
@@ -50,13 +50,13 @@
     <section class="section" aria-labelledby="category-title" style="padding-top:16px">
         <div class="wrap">
             <div class="section-head"><div><h2 id="category-title">逛逛分类</h2><p class="section-sub">找到你今天想要的新鲜好物</p></div></div>
-            <div class="pills" id="categories"><a class="pill" href="/h5/goods/list.html">全部商品</a></div>
+            <div class="pills" id="categories"><a class="pill" href="/index/goods/list.html">全部商品</a></div>
         </div>
     </section>
 
     <section class="section" aria-labelledby="goods-title" style="padding-top:24px">
         <div class="wrap">
-            <div class="section-head"><div><h2 id="goods-title">当季推荐</h2><p class="section-sub">精心挑选，值得信赖</p></div><a class="btn btn-light" href="/h5/goods/list.html">查看全部 →</a></div>
+            <div class="section-head"><div><h2 id="goods-title">当季推荐</h2><p class="section-sub">精心挑选，值得信赖</p></div><a class="btn btn-light" href="/index/goods/list.html">查看全部 →</a></div>
             <div class="goods-grid" id="goods" aria-live="polite">
                 <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
             </div>
@@ -67,7 +67,7 @@
         <div class="wrap">
             <div class="section-head"><div><h2 id="service-title">更多便捷服务</h2><p class="section-sub">购物之外，也让出行更轻松</p></div></div>
             <div class="services">
-                <div class="card service"><span class="service-icon">🧺</span><h3>新鲜商城</h3><p>精选商品、透明价格，随时随地逛好物。</p><a class="service-link" href="/h5/goods/list.html">去逛商品 →</a></div>
+                <div class="card service"><span class="service-icon">🧺</span><h3>新鲜商城</h3><p>精选商品、透明价格，随时随地逛好物。</p><a class="service-link" href="/index/goods/list.html">去逛商品 →</a></div>
                 <div class="card service"><span class="service-icon">✈️</span><h3>航班查询</h3><p>输入航线与日期，快速获取参考航班信息。</p><a class="service-link" href="/pages/flight/index">查询航班 →</a></div>
                 <div class="card service"><span class="service-icon">🚕</span><h3>出租车预约</h3><p>机场接送直达酒店，提前预约更安心。</p><a class="service-link" href="/pages/taxi/index">立即预约 →</a></div>
             </div>
@@ -86,7 +86,7 @@
     <div class="wrap">
         <div class="footer-grid">
             <div><a class="brand" href="/">🌿 大料优选</a><p>产地直供 · 每日新鲜到家<br/>把自然与新鲜带进日常生活。</p></div>
-            <div><h3>快速入口</h3><ul><li><a href="/h5/goods/list.html">全部商品</a></li><li><a href="/h5/cart/index.html">我的购物车</a></li><li><a href="/h5/user/index.html">个人中心</a></li></ul></div>
+            <div><h3>快速入口</h3><ul><li><a href="/index/goods/list.html">全部商品</a></li><li><a href="/h5/cart/index.html">我的购物车</a></li><li><a href="/h5/user/index.html">个人中心</a></li></ul></div>
             <div><h3>便捷服务</h3><ul><li><a href="/pages/flight/index">航班查询</a></li><li><a href="/pages/taxi/index">出租车预约</a></li><li><a href="/h5/index/index.html">手机商城</a></li></ul></div>
         </div>
         <div class="copyright">© <span id="year"></span> 大料优选 · 新鲜好物，每日直达</div>
@@ -100,11 +100,11 @@
     function link(href,cls,text){var n=el('a',cls,text);n.href=href;return n}
     fetch(api+'category/index?'+store).then(function(r){return r.json()}).then(function(res){
         var list=res&&res.data&&res.data.list||[];var box=document.getElementById('categories');
-        list.slice(0,8).forEach(function(c){box.appendChild(link('/h5/goods/list.html?category_id='+encodeURIComponent(c.category_id),'pill',c.name))});
+        list.slice(0,8).forEach(function(c){box.appendChild(link('/index/goods/list.html?category_id='+encodeURIComponent(c.category_id),'pill',c.name))});
     }).catch(function(){});
     fetch(api+'goods/lists?'+store).then(function(r){return r.json()}).then(function(res){
         var list=res&&res.data&&res.data.list&&res.data.list.data||[];var box=document.getElementById('goods');box.textContent='';
-        if(!list.length){var empty=el('div','empty','商品正在准备中，先去商城逛逛吧。');empty.appendChild(document.createElement('br'));empty.appendChild(link('/h5/goods/list.html','service-link','进入商城 →'));box.appendChild(empty);return}
+        if(!list.length){var empty=el('div','empty','商品正在准备中，先去商城逛逛吧。');empty.appendChild(document.createElement('br'));empty.appendChild(link('/index/goods/list.html','service-link','进入商城 →'));box.appendChild(empty);return}
         list.slice(0,8).forEach(function(g){
             var card=link('/index/goods/detail.html?goods_id='+encodeURIComponent(g.goods_id),'card');card.setAttribute('aria-label',g.goods_name||'查看商品');
             var img=el('img','goods-img');img.src=g.goods_image||'';img.alt=g.goods_name||'商品图片';img.loading='lazy';card.appendChild(img);

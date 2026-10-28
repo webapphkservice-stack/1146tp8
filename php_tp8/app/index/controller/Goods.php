@@ -2,6 +2,7 @@
 
 namespace app\index\controller;
 
+use app\api\model\Category as CategoryModel;
 use app\api\model\Goods as GoodsModel;
 use app\common\model\BaseModel;
 use think\facade\Db;
@@ -37,9 +38,33 @@ class Goods
 
     public function list()
     {
-        $query = request()->param();
-        unset($query['s'], $query['_'], $query['route']);
-        header('Location: /h5/goods/list.html?' . http_build_query($query), true, 302);
-        exit;
+        BaseModel::setApiWxappId(10001);
+        $keyword = trim((string)request()->param('keyword', ''));
+        $categoryId = (int)request()->param('category_id', 0);
+        $page = max(1, (int)request()->param('page', 1));
+
+        $list = (new GoodsModel)->getList([
+            'search'      => $keyword,
+            'category_id' => $categoryId,
+            'page'        => $page,
+        ]);
+
+        $categoryList = [];
+        try {
+            foreach ((new CategoryModel)->getTree() as $category) {
+                $categoryList[] = [
+                    'category_id' => (int)$category['category_id'],
+                    'name'        => $category['name'],
+                ];
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return view('goods/list', [
+            'list'         => $list,
+            'keyword'      => $keyword,
+            'categoryId'   => $categoryId,
+            'categoryList' => $categoryList,
+        ]);
     }
 }

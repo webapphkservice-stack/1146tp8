@@ -1126,3 +1126,11 @@ body.h5-body {
 }
 .fm-page .fm-flight-card__price { margin-top: 10px; display: flex; align-items: center; gap: 10px; }
 .fm-page .fm-flight-card__cabin { font-size: 12px; color: #8b7355; }
+
+/* Fresh Market · 出租车预约页补充 */
+.fm-page .fm-price-box { flex: 1; }
+.fm-page .fm-msg {
+    margin: 0 14px 12px; padding: 9px 14px; border-radius: 8px; font-size: 13px;
+    background: rgba(196, 72, 72, 0.12); border: 1px solid rgba(196, 72, 72, 0.4); color: #a33;
+}
+.fm-page select.fm-form__input { appearance: none; -webkit-appearance: none; }

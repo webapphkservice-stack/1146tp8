@@ -983,3 +983,79 @@ body.h5-body {
     60%  { transform: scale(1.18) translateY(0); }
     100% { transform: scale(1) translateY(0); opacity: 1; }
 }
+
+/* ====== Fresh Market 鲜活市集风格（商品列表页 .fm-page 作用域） ======
+   参考 stylekit fresh-market：
+   底色 #fef9f0 / 标题绿 #2d5016 / 主按钮橙 #e8722a /
+   价格标签黄底 #f5c542 + 棕字 #8b4513 / 药丸浅绿 #d4e4bc /
+   辅助棕 #8b7355；卡片 rounded-2xl shadow-sm，禁纯黑与冷色调 */
+.h5-shell.fm-page { background: #fef9f0; }
+
+/* 顶部导航：暖底、无边框硬阴影 */
+.fm-page .h5-nav-bar { background: #fef9f0; box-shadow: none; height: 52px; padding-left: 10px; }
+.fm-page .h5-back { color: #2d5016; font-weight: 600; }
+.fm-page .h5-nav-bar form.h5-search__inner {
+    height: 36px; background: #fff; border: 1px solid #d4e4bc;
+    border-radius: 999px; transition: box-shadow .2s ease;
+}
+.fm-page .h5-nav-bar form.h5-search__inner:focus-within { box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.15); }
+.fm-page .h5-search__icon { color: #8b7355; opacity: 1; width: 16px; height: 16px; }
+.fm-page .h5-nav-bar form.h5-search__inner .h5-search__input { color: #2d5016; font-size: 13px; }
+.fm-page .h5-nav-bar form.h5-search__inner .h5-search__input::placeholder { color: #8b7355; }
+.fm-page .h5-nav-bar form.h5-search__inner .h5-search__btn {
+    background: #e8722a; color: #fff; border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; font-weight: 500;
+    transition: all .2s ease;
+}
+.fm-page .h5-nav-bar form.h5-search__inner .h5-search__btn:active { transform: scale(0.95); }
+
+/* Hero 区块 */
+.fm-hero { padding: 20px 16px 4px; }
+.fm-hero__title { margin: 0; font-size: 26px; font-weight: 700; color: #2d5016; letter-spacing: 1px; }
+.fm-hero__sub { margin: 6px 0 0; font-size: 13px; color: #8b7355; }
+
+/* 分类药丸 */
+.fm-pills {
+    display: flex; gap: 8px; padding: 14px 16px 6px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.fm-pills::-webkit-scrollbar { display: none; }
+.fm-pill {
+    flex-shrink: 0; padding: 7px 15px; border-radius: 999px;
+    background: #d4e4bc; color: #2d5016; font-size: 13px; font-weight: 500;
+    text-decoration: none; line-height: 1.4;
+    transition: all .2s ease;
+}
+.fm-pill:active { transform: scale(0.95); }
+.fm-pill.is-active { background: #e8722a; color: #fff; }
+
+/* 搜索提示 */
+.fm-page .h5-search-tip { color: #8b7355; padding: 10px 16px; }
+
+/* 商品卡片：白底大圆角 + 柔和小阴影 */
+.fm-page .fm-goods { display: flex; flex-direction: column; gap: 12px; padding: 10px 12px 16px; margin-top: 4px; }
+.fm-page .h5-goods__item--list {
+    background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(139, 69, 19, 0.08);
+    padding: 12px; border-bottom: none; gap: 12px; cursor: pointer;
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+.fm-page .h5-goods__item--list:active { transform: scale(0.98); box-shadow: 0 2px 6px rgba(139, 69, 19, 0.12); }
+.fm-page .h5-goods__item--list .h5-goods__img {
+    width: 96px; height: 96px; border-radius: 12px; background: #fef5e6;
+}
+.fm-page .h5-goods__item--list .h5-goods__name { color: #2d5016; font-weight: 600; }
+.fm-page .h5-goods__point { color: #8b7355; }
+
+/* 价格标签：黄底棕字圆角色块 */
+.fm-price-tag {
+    display: inline-flex; align-items: baseline;
+    background: #f5c542; color: #8b4513;
+    border-radius: 8px; padding: 2px 8px;
+    font-size: 15px; font-weight: 600; line-height: 1.5;
+}
+.fm-page .h5-goods__sales { color: #8b7355; }
+
+/* 空状态 */
+.fm-page .h5-empty { color: #8b7355; }
+.fm-page .h5-empty__btn { background: #e8722a; border-radius: 999px; font-weight: 500; }
+

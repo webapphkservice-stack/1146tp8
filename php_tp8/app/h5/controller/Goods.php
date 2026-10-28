@@ -4,6 +4,7 @@ namespace app\h5\controller;
 
 use app\api\model\Goods as GoodsModel;
 use app\api\model\Cart as CartModel;
+use app\api\model\Category as CategoryModel;
 use think\facade\Db;
 
 /**
@@ -21,10 +22,24 @@ class Goods extends Controller
             'category_id'  => $categoryId,
             'pagesize'     => 20,
         ]);
-        return $this->fetch('list', [
-            'list'      => $list,
-            'keyword'   => $keyword,
-            'storeName' => $this->storeName(),
+
+        // 顶级分类（页面分类药丸筛选）
+        $categoryList = [];
+        try {
+            foreach ((new CategoryModel)->getTree() as $c) {
+                $categoryList[] = ['category_id' => (int)$c['category_id'], 'name' => $c['name']];
+            }
+        } catch (\Throwable $e) {
+        }
+
+        // 模板名用完整路径（goods/list）：旧链接 s=/home/index/goods 经 Index::goods
+        // 委托进来时，短名 'list' 会按 Index 控制器解析成 view/index/list.php 而找不到
+        return $this->fetch('goods/list', [
+            'list'         => $list,
+            'keyword'      => $keyword,
+            'storeName'    => $this->storeName(),
+            'categoryList' => $categoryList,
+            'categoryId'   => $categoryId,
         ]);
     }
 

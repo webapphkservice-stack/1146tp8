@@ -72,7 +72,7 @@
 (function(){
     function getToken(){var url=new URL(location.href),query=url.searchParams.get('token');if(query){try{localStorage.setItem('h5_token',query)}catch(e){}url.searchParams.delete('token');history.replaceState(null,'',url.pathname+(url.searchParams.toString()?'?'+url.searchParams.toString():''));return query}try{return localStorage.getItem('h5_token')||''}catch(e){return''}}
     var userToken=getToken();
-    function login(){location.href='/h5/passport/login.html?redirect='+encodeURIComponent(location.pathname+location.search)}
+    function login(){location.href='/index/passport/login.html?redirect='+encodeURIComponent(location.pathname+location.search)}
     function showGuest(){document.getElementById('loading').hidden=true;document.getElementById('account').hidden=true;document.getElementById('guest').hidden=false}
     function text(id,value){document.getElementById(id).textContent=value}
     function dateText(timestamp){var d=new Date(Number(timestamp)*1000);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}

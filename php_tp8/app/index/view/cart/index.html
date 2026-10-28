@@ -59,7 +59,7 @@
     var listBox=document.getElementById('cartList'),summary=document.getElementById('summary'),busy=false;
     function getToken(){var url=new URL(location.href),query=url.searchParams.get('token');if(query){try{localStorage.setItem('h5_token',query)}catch(e){}url.searchParams.delete('token');history.replaceState(null,'',url.pathname+(url.searchParams.toString()?'?'+url.searchParams.toString():''));return query}try{return localStorage.getItem('h5_token')||''}catch(e){return''}}
     var userToken=getToken();
-    function login(){location.href='/h5/passport/login.html?redirect='+encodeURIComponent(location.pathname+location.search)}
+    function login(){location.href='/index/passport/login.html?redirect='+encodeURIComponent(location.pathname+location.search)}
     function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
     function request(path,options){options=options||{};options.credentials='same-origin';options.headers=Object.assign({'Content-Type':'application/x-www-form-urlencoded'},options.headers||{});return fetch('/api/'+path+(path.indexOf('?')>=0?'&':'?')+'wxapp_id=10001&token='+encodeURIComponent(userToken),options).then(function(r){return r.json()})}
     function node(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n}

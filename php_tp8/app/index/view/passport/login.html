@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>登录 · 大料优选</title>
+    <meta name="description" content="登录大料优选，管理账户资料、资产与购物车。"/>
+    <link rel="stylesheet" href="/assets/pc/css/common.css"/>
+    <style>
+        .login-page{padding:64px 0 80px;display:flex;justify-content:center}
+        .login-card{width:100%;max-width:460px;padding:38px 36px 34px;background:#fff;border-radius:24px;box-shadow:0 4px 18px rgba(139,69,19,.10)}
+        .login-head{text-align:center;margin-bottom:26px}
+        .login-head .mark{width:60px;height:60px;margin:0 auto 14px;border-radius:18px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800}
+        .login-head h1{font-size:26px;margin:0 0 6px}
+        .login-head p{color:var(--muted);margin:0;font-size:14px}
+        .field{margin-bottom:16px}
+        .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+        .field input{width:100%;height:48px;padding:0 15px;border:1px solid var(--pill);border-radius:14px;background:var(--cream);color:var(--green);font-size:15px;outline:none;transition:.2s}
+        .field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,114,42,.12);background:#fff}
+        .field input::placeholder{color:var(--muted)}
+        .login-card .btn{width:100%;height:50px;margin-top:8px;font-size:16px;letter-spacing:1px}
+        .login-card .btn:disabled{opacity:.65;cursor:not-allowed}
+        .agree{display:flex;align-items:flex-start;gap:8px;margin-top:16px;font-size:12px;color:var(--muted);line-height:1.6}
+        .agree input{width:16px;height:16px;margin-top:2px;accent-color:var(--orange)}
+        .agree a{color:var(--orange)}
+        .login-foot{margin-top:20px;text-align:center;font-size:13px;color:var(--muted)}
+        .login-foot a{color:var(--orange);font-weight:600}
+        .toast{position:fixed;left:50%;bottom:36px;z-index:50;transform:translate(-50%,16px);padding:12px 22px;border-radius:999px;background:var(--green);color:#fff;box-shadow:0 5px 20px rgba(45,80,22,.2);opacity:0;visibility:hidden;transition:.2s;font-size:14px}
+        .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+        @media(max-width:520px){.login-page{padding:36px 0 56px}.login-card{padding:30px 22px 28px}}
+    </style>
+</head>
+<body>
+{include file="common/header" /}
+<main class="wrap login-page">
+    <section class="login-card" aria-labelledby="loginTitle">
+        <div class="login-head">
+            <div class="mark">大</div>
+            <h1 id="loginTitle">欢迎回来</h1>
+            <p>登录后管理账户、资产与购物车</p>
+        </div>
+        <form id="loginForm" autocomplete="off">
+            <div class="field">
+                <label for="account">手机号</label>
+                <input type="text" id="account" name="account" placeholder="请输入 11 位手机号" maxlength="11" inputmode="numeric" autocomplete="username"/>
+            </div>
+            <div class="field">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" placeholder="请输入密码（未设密码可留空）" maxlength="32" autocomplete="current-password"/>
+            </div>
+            <button class="btn" id="btnLogin" type="submit">登 录</button>
+            <label class="agree"><input type="checkbox" id="agreeBox"/>我已阅读并同意<a href="/h5/passport/agreement">《用户协议》</a>和<a href="/h5/passport/privacy">《隐私政策》</a></label>
+        </form>
+        <div class="login-foot">还没有账号？<a href="/index/passport/login.html" id="registerTip">直接登录即自动注册</a></div>
+    </section>
+</main>
+{include file="common/footer" /}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+    var params=new URLSearchParams(location.search);
+    var redirect=params.get('redirect')||'/index/user/index.html';
+    function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove('show')},2200)}
+    document.getElementById('loginForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        var btn=document.getElementById('btnLogin');
+        var account=document.getElementById('account').value.trim();
+        var password=document.getElementById('password').value.trim();
+        if(!account){toast('请输入手机号');return}
+        if(!/^1\d{10}$/.test(account)){toast('请输入正确的 11 位手机号');return}
+        if(!document.getElementById('agreeBox').checked){toast('请先同意用户协议和隐私政策');return}
+        btn.disabled=true;btn.textContent='登录中...';
+        var fd=new FormData();
+        fd.append('account',account);
+        fd.append('password',password);
+        fd.append('redirect',redirect);
+        fetch('/h5/passport/doLogin',{method:'POST',body:fd,credentials:'same-origin'})
+            .then(function(r){return r.json()})
+            .then(function(d){
+                btn.disabled=false;btn.textContent='登 录';
+                if(d.code===1){
+                    try{localStorage.setItem('h5_token',d.data.token)}catch(err){}
+                    toast('登录成功');
+                    var target=d.data.redirect||redirect;
+                    var sep=target.indexOf('?')>=0?'&':'?';
+                    if(!/[?&]token=/.test(target))target+=sep+'token='+encodeURIComponent(d.data.token);
+                    setTimeout(function(){location.href=target},500);
+                }else{toast(d.msg||'登录失败')}
+            })
+            .catch(function(){btn.disabled=false;btn.textContent='登 录';toast('网络异常，请稍后重试')});
+    });
+    document.getElementById('registerTip').addEventListener('click',function(e){e.preventDefault();toast('输入手机号登录即可，未注册将自动创建账号')});
+})();
+</script>
+</body>
+</html>

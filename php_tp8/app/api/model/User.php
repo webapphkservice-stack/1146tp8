@@ -26,7 +26,13 @@ class User extends UserModel
         if (empty($token)) {
             return false;
         }
+        // 兼容两套登录体系：
+        //   - api 原生小程序/RN 登录：直接用 token 做 cache key
+        //   - h5/PC 登录 (h5/Passport::doLogin)：cache key 前缀为 h5_user_token_{token}
         $session = Cache::get($token);
+        if (!$session) {
+            $session = Cache::get('h5_user_token_' . $token);
+        }
         if (!$session || !isset($session['user_id']) || empty($session['user_id'])) {
             return false;
         }

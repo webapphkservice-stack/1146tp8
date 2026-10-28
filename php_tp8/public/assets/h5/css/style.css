@@ -1187,3 +1187,64 @@ body.h5-body {
 
 /* 导航购物车图标 */
 .fm-page .h5-nav-cart { margin-left: 8px; font-size: 18px; text-decoration: none; }
+
+/* ============================================================
+   Fresh Market · 桌面端（PC web）布局，≥900px 生效
+   移动端保持原样；桌面：全宽容器、横向导航、四列商品网格
+   ============================================================ */
+
+/* 桌面导航（移动端默认隐藏） */
+.fm-desktop-header { display: none; }
+
+@media (min-width: 900px) {
+    .fm-page .h5-shell { max-width: 1200px; }
+
+    /* 桌面导航 */
+    .fm-page .fm-nav-mobile { display: none; }
+    .fm-desktop-header {
+        display: flex; align-items: center; justify-content: space-between;
+        position: sticky; top: 0; z-index: 50;
+        height: 64px; padding: 0 24px; background: #fef9f0;
+        box-shadow: 0 1px 0 rgba(45, 80, 22, 0.08);
+    }
+    .fm-desktop-header__brand { font-size: 20px; font-weight: 700; color: #2d5016; text-decoration: none; }
+    .fm-desktop-header__nav { display: flex; align-items: center; gap: 28px; }
+    .fm-desktop-header__nav a {
+        font-size: 14px; color: #2d5016; text-decoration: none;
+        transition: color .2s ease;
+    }
+    .fm-desktop-header__nav a:hover { color: #e8722a; }
+
+    /* Hero 放大 */
+    .fm-page .fm-hero { padding: 64px 24px 40px; text-align: center; }
+    .fm-page .fm-hero__title { font-size: 42px; }
+    .fm-page .fm-hero__sub { font-size: 16px; }
+    .fm-page .fm-hero__btn { padding: 12px 40px; font-size: 15px; }
+
+    /* 服务卡片 */
+    .fm-page .fm-service { margin: 0 24px 24px; gap: 16px; }
+    .fm-page .fm-service__card { padding: 20px 22px; }
+
+    /* 分类药丸 / 区块 */
+    .fm-page .fm-pills { margin: 0 24px 18px; }
+    .fm-page .fm-home__sec { margin: 0 24px 14px; font-size: 20px; }
+
+    /* 推荐商品四列网格 */
+    .fm-page .fm-home-goods { grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 24px; }
+    .fm-page .fm-home-goods__name { white-space: normal; }
+    .fm-page .fm-home-goods__card { transition: transform .2s ease, box-shadow .2s ease; }
+    .fm-page .fm-home-goods__card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(139, 69, 19, 0.14); }
+    .fm-page .fm-home__more { margin: 20px 24px 32px; font-size: 14px; }
+
+    /* 页脚 */
+    .fm-page .fm-footer {
+        margin-top: 24px; padding: 28px 24px; text-align: center;
+        font-size: 13px; color: #8b7355; background: rgba(212, 228, 188, 0.35);
+    }
+}
+
+/* 页脚（移动端也显示） */
+.fm-page .fm-footer {
+    margin-top: 24px; padding: 20px 14px; text-align: center;
+    font-size: 12px; color: #8b7355;
+}

@@ -1,6 +1,18 @@
 <div class="h5-shell fm-page">
-    <!-- 顶部导航 -->
-    <div class="h5-nav-bar">
+    <!-- 桌面端导航（≥900px 显示） -->
+    <header class="fm-desktop-header">
+        <a class="fm-desktop-header__brand" href="/h5/index/index.html">🌿 <?= htmlspecialchars($storeName ?? '') ?></a>
+        <nav class="fm-desktop-header__nav">
+            <a href="/h5/index/index.html">首页</a>
+            <a href="/h5/goods/list.html">全部商品</a>
+            <a href="/pages/flight/index">航班查询</a>
+            <a href="/pages/taxi/index">出租车预约</a>
+            <a href="/h5/cart/index.html">购物车</a>
+        </nav>
+    </header>
+
+    <!-- 移动端导航（<900px 显示） -->
+    <div class="h5-nav-bar fm-nav-mobile">
         <div class="h5-search" style="flex:1; background: transparent; padding: 0;">
             <span class="h5-search__inner" style="justify-content:center; font-weight:600; color:#2d5016;"><?= htmlspecialchars($storeName ?? '') ?></span>
         </div>
@@ -62,4 +74,7 @@
             <p class="h5-empty__text">商品即将上架，敬请期待</p>
         </div>
     <?php endif; ?>
+
+    <!-- 页脚 -->
+    <footer class="fm-footer">© <?= date('Y') ?> <?= htmlspecialchars($storeName ?? '') ?> · 产地直供 · 每日新鲜到家</footer>
 </div>

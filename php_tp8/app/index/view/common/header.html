@@ -22,7 +22,7 @@ try {
             <?php if ($weixinUrl !== ''): ?>
             <a href="<?= htmlspecialchars($weixinUrl, ENT_QUOTES) ?>">微信</a>
             <?php endif; ?>
-            <a<?= $active === 'user' ? ' class="active"' : '' ?> href="/index/user/index.html">个人中心</a>
+            <a<?= $active === 'user' ? ' class="active"' : '' ?> href="/index/user/index.html">我的</a>
             <a class="btn<?= $active === 'cart' ? ' active' : '' ?>" href="/index/cart/index.html">购物车</a>
         </div>
     </div>

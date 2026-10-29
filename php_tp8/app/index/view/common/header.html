@@ -32,7 +32,7 @@ try {
     <div class="wrap nav-inner">
         <a class="brand" href="/" aria-label="<?= htmlspecialchars($siteName) ?>">
             <?php if ($siteLogo !== ''): ?>
-            <img class="brand-logo" src="<?= htmlspecialchars($siteLogo) ?>" alt="<?= htmlspecialchars($siteName) ?>" style="width:36px;height:36px;max-width:36px;max-height:36px;object-fit:cover;border-radius:50%;display:block;flex:none;">
+            <img class="brand-logo" src="<?= htmlspecialchars($siteLogo) ?>" alt="<?= htmlspecialchars($siteName) ?>" style="width:36px;height:36px;max-width:36px;max-height:36px;object-fit:contain;display:block;flex:none;">
             <?php else: ?>
             <span class="brand-mark"><?= htmlspecialchars(mb_substr($siteName, 0, 1)) ?></span>
             <?php endif; ?>

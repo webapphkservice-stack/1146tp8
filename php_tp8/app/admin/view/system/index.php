@@ -105,6 +105,22 @@
     <div class="panel">
         <h3>📇 网站信息 <span class="sub">POST /admin/setting.web/index</span></h3>
         <form id="site-form">
+            <div style="margin-bottom:14px; display:flex; align-items:flex-start; gap:16px;">
+                <div style="min-width:96px;">
+                    <div style="font-size:13px; opacity:0.8; margin-bottom:6px;">网站 logo</div>
+                    <img id="s-logo-preview" alt="logo 预览" style="width:72px;height:72px;border-radius:10px;object-fit:contain;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);display:none;">
+                    <div id="s-logo-empty" style="width:72px;height:72px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px dashed rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:11px;opacity:0.6;">无 logo</div>
+                </div>
+                <div>
+                    <input type="file" id="logo-file" accept="image/*" style="color:#fff;font-size:13px;">
+                    <input type="hidden" name="site_info[logo]" id="s-logo">
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <button type="button" class="btn btn-ghost" id="logo-upload">上传 logo</button>
+                        <button type="button" class="btn btn-ghost" id="logo-clear">清除</button>
+                    </div>
+                    <div style="font-size:11px; opacity:0.55; margin-top:6px;">上传后点击「保存网站信息」，显示在首页网站名称左侧</div>
+                </div>
+            </div>
             <div class="form-grid">
                 <div class="fld">
                     <label>网站名称</label>
@@ -200,8 +216,54 @@ function showMsg(el, text, type) {
             $('#s-name').val(res.data.values.name || '');
             $('#s-beian').val(res.data.values.beian || '');
             $('#s-contact').val(res.data.values.contact || '');
+            var logo = res.data.values.logo || '';
+            $('#s-logo').val(logo);
+            if (logo) {
+                $('#s-logo-preview').attr('src', logo).show();
+                $('#s-logo-empty').hide();
+            } else {
+                $('#s-logo-preview').hide();
+                $('#s-logo-empty').show();
+            }
         }
     });
+
+    // 网站 logo 上传
+    $('#logo-upload').click(function () {
+        var f = $('#logo-file')[0].files[0];
+        if (!f) { showMsg('#site-msg', '❌ 请先选择图片', 'error'); return; }
+        if (f.size > 5 * 1024 * 1024) { showMsg('#site-msg', '❌ 图片不能超过 5MB', 'error'); return; }
+        var fd = new FormData();
+        fd.append('iFile', f);
+        $.ajax({
+            url: '/admin/setting.upload/image?token=' + encodeURIComponent(TOKEN),
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1 && res.data && res.data.file_path) {
+                    var url = res.data.file_path;
+                    $('#s-logo').val(url);
+                    $('#s-logo-preview').attr('src', url).show();
+                    $('#s-logo-empty').hide();
+                    $('#logo-file').val('');
+                    showMsg('#site-msg', '✅ logo 上传成功，点击「保存网站信息」生效', 'success');
+                } else {
+                    showMsg('#site-msg', '❌ ' + (res.msg || '上传失败'), 'error');
+                }
+            },
+            error: function () { showMsg('#site-msg', '❌ 网络错误', 'error'); }
+        });
+    });
+    $('#logo-clear').click(function () {
+        $('#s-logo').val('');
+        $('#s-logo-preview').hide().attr('src', '');
+        $('#s-logo-empty').show();
+        $('#logo-file').val('');
+    });
+
     $('#site-save').click(function () {
         var data = $('#site-form').serialize();
         api('/admin/setting.web/index', data, function (res) {

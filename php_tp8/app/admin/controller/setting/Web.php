@@ -20,7 +20,7 @@ class Web extends Controller
     const SETTING_DESCRIBE = '网站信息';
 
     /** @var array 默认值，与 TP5 视图初值一致 */
-    const DEFAULT_VALUES = ['name' => '', 'beian' => '', 'contact' => ''];
+    const DEFAULT_VALUES = ['name' => '', 'logo' => '', 'beian' => '', 'contact' => ''];
 
     public function index()
     {
@@ -58,6 +58,7 @@ class Web extends Controller
         $data = $this->request->param('site_info/a', []);
         $values = [
             'name'    => trim((string)($data['name'] ?? '')),
+            'logo'    => trim((string)($data['logo'] ?? '')),
             'beian'   => trim((string)($data['beian'] ?? '')),
             'contact' => trim((string)($data['contact'] ?? '')),
         ];

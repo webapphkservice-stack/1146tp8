@@ -1,6 +1,8 @@
 <?php
 $active = $active ?? '';
 $weixinUrl = '';
+$siteName = '大料优选';
+$siteLogo = '';
 try {
     $__wxapp = \app\common\model\Wxapp::getWxappCache(10001);
     if (!empty($__wxapp['weixin_url'])) {
@@ -9,10 +11,33 @@ try {
 } catch (\Throwable $e) {
     $weixinUrl = '';
 }
+try {
+    $__si = \think\facade\Db::name('setting')
+        ->where('key', 'site_info')
+        ->where('wxapp_id', 10001)
+        ->find();
+    if ($__si && !empty($__si['values'])) {
+        $__v = is_array($__si['values']) ? $__si['values'] : json_decode($__si['values'], true);
+        if (is_array($__v)) {
+            if (!empty($__v['name'])) $siteName = trim((string)$__v['name']);
+            if (!empty($__v['logo'])) $siteLogo = trim((string)$__v['logo']);
+        }
+    }
+} catch (\Throwable $e) {
+    $siteName = '大料优选';
+    $siteLogo = '';
+}
 ?>
 <nav class="nav" aria-label="主导航">
     <div class="wrap nav-inner">
-        <a class="brand" href="/" aria-label="大料优选首页"><span class="brand-mark">大</span>大料优选</a>
+        <a class="brand" href="/" aria-label="<?= htmlspecialchars($siteName) ?>">
+            <?php if ($siteLogo !== ''): ?>
+            <img class="brand-logo" src="<?= htmlspecialchars($siteLogo) ?>" alt="<?= htmlspecialchars($siteName) ?>">
+            <?php else: ?>
+            <span class="brand-mark"><?= htmlspecialchars(mb_substr($siteName, 0, 1)) ?></span>
+            <?php endif; ?>
+            <?= htmlspecialchars($siteName) ?>
+        </a>
         <div class="nav-links">
             <a<?= $active === 'home' ? ' class="active"' : '' ?> href="/">首页</a>
             <a<?= $active === 'shop' ? ' class="active"' : '' ?> href="/index/shop/index.html">市集</a>

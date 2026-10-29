@@ -33,6 +33,9 @@ Route::group(function () {
     Route::get('setting.web/index', 'setting.Web/index');
     Route::post('setting.web/index', 'setting.Web/index');
 
+    // 网站信息 logo 上传
+    Route::post('setting.upload/image', 'setting.Upload/image');
+
     // 航班管理（后台维护 + Bright Data 配置 + 拉取调试）
     Route::get('flight/index', 'Flight/index');
     Route::post('flight/add', 'Flight/add');

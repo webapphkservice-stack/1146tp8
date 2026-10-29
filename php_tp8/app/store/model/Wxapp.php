@@ -22,7 +22,7 @@ class Wxapp extends BaseModel
 
     /** wxapp 表可写字段（与 wxapp/setting 视图表单字段一致） */
     private const EDITABLE_FIELDS = [
-        'app_id', 'app_secret', 'mchid', 'apikey', 'cert_pem', 'key_pem',
+        'app_id', 'app_secret', 'weixin_url', 'mchid', 'apikey', 'cert_pem', 'key_pem',
         'alipay_app_id', 'alipay_sign_type', 'alipay_private_key', 'alipay_public_key',
     ];
 

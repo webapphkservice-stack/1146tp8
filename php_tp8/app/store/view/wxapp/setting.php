@@ -29,6 +29,17 @@
                                            value="<?= $model['app_secret'] ?>" required>
                                 </div>
                             </div>
+                            <div class="mb-4 flex flex-wrap items-start gap-x-2">
+                                <label class="sm:w-1/4 text-sm text-gray-600 shrink-0">
+                                    微信小程序url地址 <span class="tpl-form-line-small-title">weixin://协议打开小程序</span>
+                                </label>
+                                <div class="sm:w-3/4">
+                                    <input type="text" class="tpl-form-input" name="wxapp[weixin_url]"
+                                           value="<?= $model['weixin_url'] ?>"
+                                           placeholder="weixin://dl/business/?appid=xxx&path=pages/index/index&env_version=release">
+                                    <small>用于 PC 顶部「微信」入口跳转微信小程序，格式示例：weixin://dl/business/?appid=xxx&path=pages/index/index&env_version=release</small>
+                                </div>
+                            </div>
 
                             <!-- ===== 支付配置 Tab（微信 / 支付宝）===== -->
                             <div class="widget-head mt-6">

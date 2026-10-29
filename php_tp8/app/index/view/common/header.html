@@ -1,4 +1,15 @@
-<?php $active = $active ?? ''; ?>
+<?php
+$active = $active ?? '';
+$weixinUrl = '';
+try {
+    $__wxapp = \app\common\model\Wxapp::getWxappCache(10001);
+    if (!empty($__wxapp['weixin_url'])) {
+        $weixinUrl = (string)$__wxapp['weixin_url'];
+    }
+} catch (\Throwable $e) {
+    $weixinUrl = '';
+}
+?>
 <nav class="nav" aria-label="主导航">
     <div class="wrap nav-inner">
         <a class="brand" href="/" aria-label="大料优选首页"><span class="brand-mark">大</span>大料优选</a>
@@ -8,6 +19,9 @@
             <a<?= $active === 'dealer' ? ' class="active"' : '' ?> href="/index/dealer/index.html">分销</a>
             <a<?= $active === 'sharing' ? ' class="active"' : '' ?> href="/index/sharing/index.html">拼团</a>
             <a<?= $active === 'bargain' ? ' class="active"' : '' ?> href="/index/bargain/index.html">砍价</a>
+            <?php if ($weixinUrl !== ''): ?>
+            <a href="<?= htmlspecialchars($weixinUrl, ENT_QUOTES) ?>">微信</a>
+            <?php endif; ?>
             <a<?= $active === 'user' ? ' class="active"' : '' ?> href="/index/user/index.html">个人中心</a>
             <a class="btn<?= $active === 'cart' ? ' active' : '' ?>" href="/index/cart/index.html">购物车</a>
         </div>
